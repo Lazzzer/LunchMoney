@@ -39,11 +39,12 @@ module.exports = {
     model: 'App/Models/User',
     token: 'App/Models/Token',
     scheme: 'jwt',
-    uid: 'email',
+    uid: 'name',
     password: 'password',
     expiry: '20m',
     options: {
-      secret: 'self::app.appKey'
+      secret: 'self::app.appKey',
+      expiresIn: '60000'
     }
   },
 

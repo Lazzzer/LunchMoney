@@ -18,4 +18,10 @@ const Route = use('Route')
 
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
-})
+}).middleware(['auth'])
+
+//USER ROUTES
+Route.post('/login', 'UserController.login')
+Route.post('/register', 'UserController.register')
+Route.post('/refresh', 'UserController.refresh')
+Route.get('/show/:id', 'UserController.show').middleware(['auth'])
