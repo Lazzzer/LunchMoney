@@ -4,7 +4,7 @@ export const axios = axiosHttp
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 axios.defaults.headers.common['Content-Type'] = 'application/json'
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3333/' : ''
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://192.168.0.65:3333/' : ''
 
 export default {
     install(Vue) {

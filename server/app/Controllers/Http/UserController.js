@@ -31,11 +31,11 @@ class UserController {
 
     //POST
     async refresh({ request, response, auth }) {
-        const refreshToken = request.input('refreshToken')
+        const refreshToken = request.header('refreshToken')
         try {
             return response.created(await auth.generateForRefreshToken(refreshToken))
         } catch (error) {
-            return response.unauthorized('Missing or invalid refresh token.')
+            return response.unauthorized({message: 'Missing or invalid refresh token.'})
         }
     }
 
