@@ -16,7 +16,13 @@ module.exports = {
   | Function - Receives the current origin and should return one of the above values.
   |
   */
-  origin: false,
+  origin: (origin) => {
+    if (process.env.NODE_ENV === 'development') {
+      return true
+    }
+
+    return false
+  },
 
   /*
   |--------------------------------------------------------------------------

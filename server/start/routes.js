@@ -18,6 +18,10 @@ const Route = use('Route')
 
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
+})
+
+Route.get('/dashboard', () => {
+  return { message: 'Hit the dashboard endpoint' }
 }).middleware(['auth'])
 
 //USER ROUTES

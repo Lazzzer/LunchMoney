@@ -3,7 +3,6 @@
 const User = use('App/Models/User')
 
 class UserController {
-
     //POST
     async register({ request, response }) {
         // TODO Add verification
