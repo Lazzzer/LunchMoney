@@ -41,6 +41,7 @@ export default {
               this.$router.go()
             })
             .catch(err => {
+              console.log('erasing cookies...')
               this.$cookies.isKey('refresh_token') ? this.$cookies.remove('refresh_token') : null
               this.$cookies.isKey('token') ? this.$cookies.remove('token') : null
               this.$router.push('/login')

@@ -1,6 +1,8 @@
 'use strict'
 
+const Encryption = use('Encryption')
 const User = use('App/Models/User')
+
 
 class UserController {
     //POST
@@ -27,6 +29,14 @@ class UserController {
         let user = await User.query().where('name', name).fetch()
 
         return response.accepted({ token, user })
+    }
+
+    async logout({ request, response, auth }) {
+        //TODO Add verification via middleware??
+        const refreshToken = Encryption.decrypt(request.header('refresh_Token'))
+
+        await auth.user.tokens().where('token', refreshToken).delete()
+        return response.accepted('Logged Out!')
     }
 
     //POST
