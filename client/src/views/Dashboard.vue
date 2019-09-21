@@ -1,13 +1,19 @@
 <template>
   <div v-if="authorized" class="login">
     <h1 class="text-4xl font-black mb-10">Dashboard Page</h1>
+    <user-settings></user-settings>
     <form @submit.prevent="onSubmit">
       <input class="border border-black" type="submit" name="submit" value="Logout">
     </form>
   </div>
 </template>
 <script>
+import UserSettings from '../components/UserSettings.vue'
+
 export default {
+  components: {
+    UserSettings
+  },
   data() {
     return {
       authorized: false

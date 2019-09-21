@@ -25,8 +25,8 @@ class UserController {
     async login({ request, response, auth }) {
         //TODO Add verification via middleware??
         const { name, password } = request.all()
-        let token = await auth.withRefreshToken().attempt(name, password)
-        let user = await User.query().where('name', name).fetch()
+        const token = await auth.withRefreshToken().attempt(name, password)
+        const user = await User.query().setVisible(['name', 'email']).where('name', name).fetch()
 
         return response.accepted({ token, user })
     }
@@ -45,15 +45,15 @@ class UserController {
         try {
             return response.created(await auth.generateForRefreshToken(refreshToken))
         } catch (error) {
-            return response.unauthorized({message: 'Missing or invalid refresh token.'})
+            return response.unauthorized({ message: 'Missing or invalid refresh token.' })
         }
     }
 
     //GET
     async show({ response, auth, params }) {
-        const user = await User.find(params.id)
+        const user = await User.query().where('name', params.name).first()
 
-        return user._id.equals(auth.user._id) ? response.accepted([user.name, user.email]) : response.unauthorized({ message: 'Wrong credentials!' })
+        return user._id.equals(auth.user._id) ? response.accepted([user.name, user.email]) : response.forbidden({ message: 'Wrong credentials!' })
     }
 
     //TODO LOGOUT AND REVOKE REFRESH TOKEN
