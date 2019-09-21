@@ -31,7 +31,7 @@ class UserController {
 
     //POST
     async refresh({ request, response, auth }) {
-        const refreshToken = request.header('refreshToken')
+        const refreshToken = request.header('refresh_Token')
         try {
             return response.created(await auth.generateForRefreshToken(refreshToken))
         } catch (error) {

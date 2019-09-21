@@ -11,7 +11,14 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      beforeEnter: (to, from, next) => {
+        if (window.$cookies.isKey('refresh_token') && window.$cookies.isKey('token')) {
+          next('dashboard')
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/register',
@@ -20,19 +27,44 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "register" */ './views/Register.vue')
+        import(/* webpackChunkName: "register" */ './views/Register.vue'),
+      beforeEnter: (to, from, next) => {
+        if (window.$cookies.isKey('refresh_token') && window.$cookies.isKey('token')) {
+          next('dashboard')
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/login',
       name: 'login',
       component: () =>
-        import(/* webpackChunkName: "login" */ './views/Login.vue')
+        import(/* webpackChunkName: "login" */ './views/Login.vue'),
+      beforeEnter: (to, from, next) => {
+        if (window.$cookies.isKey('refresh_token') && window.$cookies.isKey('token')) {
+          next('dashboard')
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/dashboard',
       name: 'dashboard',
       component: () =>
-        import(/* webpackChunkName: "login" */ './views/Dashboard.vue')
+        import(/* webpackChunkName: "login" */ './views/Dashboard.vue'),
+      beforeEnter: (to, from, next) => {
+        if (window.$cookies.isKey('refresh_token') && window.$cookies.isKey('token')) {
+          next()
+        } else {
+          next('login')
+        }
+      }
     },
+    {
+      path: '*',
+      redirect: '/'
+    }
   ]
 })

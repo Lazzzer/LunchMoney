@@ -18,7 +18,6 @@ export default {
     return {
       name: '',
       password: '',
-      isLogged: null,
       hasError: false
     }
   },
@@ -34,7 +33,6 @@ export default {
             this.$cookies.set('refresh_token', res.data.token.refreshToken)
             this.$cookies.set('token', res.data.token.token)
             this.$router.push('dashboard')
-            this.isLogged = true
           } else {
             this.hasError = true
           }
