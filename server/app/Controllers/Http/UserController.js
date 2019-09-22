@@ -21,9 +21,6 @@ class UserController {
 
     //POST
     async login({ request, response, auth }) {
-
-        //TODO Add verification via middleware??
-
         const { name, password } = request.all()
         const token = await auth.withRefreshToken().attempt(name, password)
         //Wont need const user after Dashboard modification
@@ -33,9 +30,7 @@ class UserController {
     }
 
     async logout({ request, response, auth }) {
-        //TODO Add verification via middleware??
         const refreshToken = Encryption.decrypt(request.header('refresh_Token'))
-
         const deletedToken = await auth.user.tokens().where('token', refreshToken).delete()
         if (!deletedToken)
             return response.notFound('Token not Found')
@@ -56,7 +51,6 @@ class UserController {
     //GET
     async show({ response, auth, params }) {
         const name = params.name.toLowerCase()
-
         const user = await User.query().where('name', name).first()
         if (!user)
             return response.notFound('User not found')
