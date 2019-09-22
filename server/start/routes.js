@@ -26,7 +26,7 @@ Route.get('/dashboard', () => {
 
 //USER ROUTES
 Route.post('/login', 'UserController.login')
-Route.post('/register', 'UserController.register')
+Route.post('/register', 'UserController.register').validator('RegisterUser')
 Route.post('/refresh', 'UserController.refresh')
 Route.post('/logout', 'UserController.logout').middleware(['auth'])
 Route.get('/user/:name', 'UserController.show').middleware(['auth'])

@@ -24,12 +24,13 @@ export default {
   methods: {
     onSubmit() {
       this.$axios.post('/login', {
-        name: this.name,
+        name: this.name.toLowerCase(),
         password: this.password
       })
         .then((res) => {
           console.log(res)
           if (res.status === 202) {
+            //Change store commit
             this.$store.commit('setName', res.data.user[0].name)
             this.$store.commit('setEmail', res.data.user[0].email)
             this.$cookies.set('refresh_token', res.data.token.refreshToken)

@@ -14,7 +14,7 @@ export default {
   },
   beforeCreate() {
     // this.$axios.get(`/user/${this.$store.state.currentUserName}`)
-    this.$axios.get('/user/Lazar')
+    this.$axios.get('/user/lazar')
       .then(res => {
         console.log(res)
         this.authorized = true

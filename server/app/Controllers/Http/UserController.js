@@ -3,11 +3,9 @@
 const Encryption = use('Encryption')
 const User = use('App/Models/User')
 
-
 class UserController {
     //POST
     async register({ request, response }) {
-        // TODO Add verification
         const { name, email, password } = request.only([
             'name', 'email', 'password'
         ])
@@ -18,14 +16,17 @@ class UserController {
         })
         await user.save()
 
-        return response.created('User created')
+        return response.created('User created!')
     }
 
     //POST
     async login({ request, response, auth }) {
+
         //TODO Add verification via middleware??
+
         const { name, password } = request.all()
         const token = await auth.withRefreshToken().attempt(name, password)
+        //Wont need const user after Dashboard modification
         const user = await User.query().setVisible(['name', 'email']).where('name', name).fetch()
 
         return response.accepted({ token, user })
@@ -35,7 +36,10 @@ class UserController {
         //TODO Add verification via middleware??
         const refreshToken = Encryption.decrypt(request.header('refresh_Token'))
 
-        await auth.user.tokens().where('token', refreshToken).delete()
+        const deletedToken = await auth.user.tokens().where('token', refreshToken).delete()
+        if (!deletedToken)
+            return response.notFound('Token not Found')
+
         return response.accepted('Logged Out!')
     }
 
@@ -51,13 +55,14 @@ class UserController {
 
     //GET
     async show({ response, auth, params }) {
-        const user = await User.query().where('name', params.name).first()
+        const name = params.name.toLowerCase()
+
+        const user = await User.query().where('name', name).first()
+        if (!user)
+            return response.notFound('User not found')
 
         return user._id.equals(auth.user._id) ? response.accepted([user.name, user.email]) : response.forbidden({ message: 'Wrong credentials!' })
     }
-
-    //TODO LOGOUT AND REVOKE REFRESH TOKEN
-
 }
 
 module.exports = UserController

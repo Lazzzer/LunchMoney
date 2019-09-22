@@ -15,7 +15,7 @@
         <input class="border border-black" type="submit" name="submit" value="Register">
       </form>
       <div v-if="hasError">
-        <h1 class="text-2xl text-red-500">There is an error...</h1>
+        <h1 class="text-2xl text-red-500"><strong class="text-red-800 uppercase">{{ errorField }} : </strong>{{ errorMessage }}</h1>
       </div>
     </div>
   </div>
@@ -29,14 +29,16 @@ export default {
       email: '',
       password: '',
       userCreated: null,
-      hasError: false
+      hasError: false,
+      errorMessage: null,
+      errorField: null
     }
   },
   methods: {
     onSubmit() {
       this.$axios.post('/register', {
-        name: this.name,
-        email: this.email,
+        name: this.name.toLowerCase(),
+        email: this.email.toLowerCase(),
         password: this.password
       })
         .then(res => {
@@ -44,7 +46,9 @@ export default {
           res.status === 201 ? this.userCreated = true : this.hasError = true
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response)
+          this.errorMessage = err.response.data[0].message
+          this.errorField = err.response.data[0].field
           this.hasError = true
         })
     }
