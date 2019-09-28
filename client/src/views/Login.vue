@@ -32,9 +32,6 @@ export default {
         .then((res) => {
           console.log(res)
           if (res.status === 202) {
-            //Change store commit
-            this.$store.commit('setName', res.data.user[0].name)
-            this.$store.commit('setEmail', res.data.user[0].email)
             this.$cookies.set('refresh_token', res.data.token.refreshToken)
             this.$cookies.set('token', res.data.token.token)
             this.$router.push('dashboard')

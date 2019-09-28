@@ -20,9 +20,12 @@ export default {
     }
   },
   beforeCreate() {
-    this.$axios.get('/dashboard')
+    this.$axios.get('/user')
       .then(res => {
         console.log(res)
+        this.$store.commit('setName', res.data[0])
+        this.$store.commit('setEmail', res.data[1])
+        this.$store.commit('setCurrency', res.data[2])
         this.authorized = true
       })
       .catch()

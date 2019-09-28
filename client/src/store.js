@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentUserName: null,
-    currentUserEmail: null
+    currentUserEmail: null,
+    currentCurrency: null
   },
   mutations: {
     setName(state, name) {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     setEmail(state, email) {
       state.currentUserEmail = email
+    },
+    setCurrency(state, currency) {
+      state.currentCurrency = currency
     }
   },
   actions: {}

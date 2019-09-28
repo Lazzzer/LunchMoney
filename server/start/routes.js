@@ -20,13 +20,28 @@ Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
 
-Route.get('/dashboard', () => {
-  return { message: 'Hit the dashboard endpoint' }
-}).middleware(['auth'])
+//Token Refresh Route
+Route.post('/refresh', 'UserController.refresh')
 
-//USER ROUTES
+//User Routes
 Route.post('/login', 'UserController.login').validator('LoginUser')
 Route.post('/register', 'UserController.register').validator('RegisterUser')
-Route.post('/refresh', 'UserController.refresh')
 Route.post('/logout', 'UserController.logout').middleware(['auth'])
-Route.get('/user/:name', 'UserController.show').middleware(['auth'])
+Route.get('/user', 'UserController.show').middleware(['auth'])
+// Route.put('/user').middleware(['auth'])
+// Route.delete('/user').middleware(['auth'])
+
+// //Budget Routes
+// Route.get('/budget/current').middleware(['auth'])
+// Route.get('/budget/all').middleware(['auth'])
+// Route.get('/budget/show/:id).middleware(['auth])
+// Route.post('/bugdet/create').middleware(['auth'])
+// Route.put('/budget/edit/:id').middleware(['auth'])
+// Route.delete('/budget/delete/:id').middleware(['auth'])
+
+// //Expense Routes
+// Route.get('/expense/all').middleware(['auth'])
+// Route.get('/expense/show/:id).middleware(['auth])
+// Route.post('/expense/create').middleware(['auth'])
+// Route.put('/expense/edit/:id').middleware(['auth'])
+// Route.delete('/expense/delete/:id').middleware(['auth'])

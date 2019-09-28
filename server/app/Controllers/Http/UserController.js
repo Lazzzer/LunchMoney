@@ -15,13 +15,12 @@ class UserController {
             password,
             currency,
             defaultBudget: false,
-            defaultValue: 0,
+            defaultValue: 0
         })
         await user.save()
 
         return response.created('User created!')
     }
-
     //POST
     async login({ request, response, auth }) {
         const { name, password } = request.all()
@@ -32,6 +31,7 @@ class UserController {
         return response.accepted({ token, user })
     }
 
+    //POST
     async logout({ request, response, auth }) {
         const refreshToken = Encryption.decrypt(request.header('refresh_Token'))
         const deletedToken = await auth.user.tokens().where('token', refreshToken).delete()
@@ -40,7 +40,6 @@ class UserController {
 
         return response.accepted('Logged Out!')
     }
-
     //POST
     async refresh({ request, response, auth }) {
         const refreshToken = request.header('refresh_Token')
@@ -50,15 +49,9 @@ class UserController {
             return response.unauthorized({ message: 'Missing or invalid refresh token.' })
         }
     }
-
     //GET
-    async show({ response, auth, params }) {
-        const name = params.name.toLowerCase()
-        const user = await User.query().where('name', name).first()
-        if (!user)
-            return response.notFound('User not found')
-
-        return user._id.equals(auth.user._id) ? response.accepted([user.name, user.email]) : response.forbidden({ message: 'Wrong credentials!' })
+    async show({ response, auth }) {
+        return response.accepted([auth.user.name, auth.user.email, auth.user.currency])
     }
 }
 

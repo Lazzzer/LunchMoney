@@ -1,6 +1,6 @@
 <template>
   <div>
-    UserSettings! {{ name }} {{ email }}
+    UserSettings! {{ name }} {{ email }} {{ currency }}
   </div>
 </template>
 
@@ -9,15 +9,15 @@ export default {
   data() {
     return {
       name: this.$store.state.currentUserName,
-      email: this.$store.state.currentUserEmail
+      email: this.$store.state.currentUserEmail,
+      currency: this.$store.state.currentCurrency
     }
   },
   beforeCreate() {
     // this.$axios.get(`/user/${this.$store.state.currentUserName}`)
-    this.$axios.get('/user/lazar')
+    this.$axios.get('/user')
       .then(res => {
         console.log(res)
-        this.authorized = true
       })
       .catch()
   },
