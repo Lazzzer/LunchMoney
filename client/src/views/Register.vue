@@ -12,6 +12,12 @@
         <input v-model="name" class="border border-black" type="name" name="name" placeholder="Type here...">
         <input v-model="email" class="border border-black" type="email" name="email" placeholder="Type here...">
         <input v-model="password" class="border border-black" type="password" name="password" placeholder="Type here...">
+        <select v-model="currency" id="currency" class="border border-black">
+          <option hidden disabled>CURRENCY</option>
+          <option>CHF</option>
+          <option>EUR</option>
+          <option>USD</option>
+        </select>
         <input class="border border-black" type="submit" name="submit" value="Register">
       </form>
       <div v-if="hasError">
@@ -28,6 +34,7 @@ export default {
       name: '',
       email: '',
       password: '',
+      currency: 'CURRENCY',
       userCreated: null,
       hasError: false,
       errorMessage: null,
@@ -39,7 +46,8 @@ export default {
       this.$axios.post('/register', {
         name: this.name.toLowerCase(),
         email: this.email.toLowerCase(),
-        password: this.password
+        password: this.password,
+        currency: this.currency
       })
         .then(res => {
           console.log(res)

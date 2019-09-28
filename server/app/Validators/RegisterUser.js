@@ -5,7 +5,8 @@ class RegisterUser {
     return {
       name: 'required|alpha_numeric|unique:users,name',
       email: 'email|unique:users,email',
-      password: 'required'
+      password: 'required',
+      currency: 'required|in:CHF,EUR,USD'
     }
   }
 
@@ -15,6 +16,7 @@ class RegisterUser {
       required: "Field can't be empty",
       alpha_numeric: 'Field has invalid character(s)',
       email: 'Enter valid email address',
+      currency: 'The {{filed}} is not valid.',
     }
   }
   async fails(errorMessages) {

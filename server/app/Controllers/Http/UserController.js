@@ -6,13 +6,16 @@ const User = use('App/Models/User')
 class UserController {
     //POST
     async register({ request, response }) {
-        const { name, email, password } = request.only([
-            'name', 'email', 'password'
+        const { name, email, password, currency } = request.only([
+            'name', 'email', 'password', 'currency'
         ])
         const user = new User({
             name,
             email,
-            password
+            password,
+            currency,
+            defaultBudget: false,
+            defaultValue: 0,
         })
         await user.save()
 
