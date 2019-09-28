@@ -32,10 +32,10 @@ Route.get('/user', 'UserController.show').middleware(['auth'])
 // Route.delete('/user').middleware(['auth'])
 
 // //Budget Routes
-// Route.get('/budget/current').middleware(['auth'])
+Route.get('/budget/current', 'BudgetController.current').middleware(['auth'])
 // Route.get('/budget/all').middleware(['auth'])
 // Route.get('/budget/show/:id).middleware(['auth])
-// Route.post('/bugdet/create').middleware(['auth'])
+Route.post('/budget/create', 'BudgetController.create').middleware(['auth'])
 // Route.put('/budget/edit/:id').middleware(['auth'])
 // Route.delete('/budget/delete/:id').middleware(['auth'])
 
