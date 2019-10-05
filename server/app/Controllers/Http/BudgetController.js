@@ -72,7 +72,7 @@ class BudgetController {
             .where('_id', params.id)
             .update({ limit: limit })
 
-        return query.result.n === 1 ? response.accepted('Budget updated') : response.noContent('Budget not updated')
+        return query.result.n === 1 ? response.accepted('Budget updated') : response.noContent()
     }
 
     //DELETE
@@ -82,7 +82,7 @@ class BudgetController {
             .where('_id', params.id)
             .delete()
 
-        return query.result.n === 1 ? response.accepted('Budget deleted') : response.noContent('Budget not deleted')
+        return query.result.n === 1 ? response.accepted('Budget deleted') : response.noContent()
     }
 }
 

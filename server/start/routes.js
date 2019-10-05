@@ -42,6 +42,6 @@ Route.delete('/budget/delete/:id', 'BudgetController.delete').middleware(['auth'
 // //Expense Routes
 // Route.get('/expense/all').middleware(['auth'])
 // Route.get('/expense/show/:id).middleware(['auth])
-// Route.post('/expense/create').middleware(['auth'])
+Route.post('/expense/create', 'ExpenseController.create').middleware(['auth'])
 // Route.put('/expense/edit/:id').middleware(['auth'])
 // Route.delete('/expense/delete/:id').middleware(['auth'])

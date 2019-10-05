@@ -1,6 +1,6 @@
 'use strict'
 
-/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
+/** @type {typeof import('lucid-mongo/src/LucidMongo/Model')} */
 const Model = use('Model')
 
 /** @type {import('@adonisjs/framework/src/Hash')} */
@@ -39,7 +39,10 @@ class User extends Model {
     return this.hasMany('App/Models/Token')
   }
   budgets() {
-    return this.hasMany('App/Models/Token')
+    return this.hasMany('App/Models/Budget')
+  }
+  expenses() {
+    return this.hasMany('App/Models/Expense')
   }
 }
 
