@@ -6,23 +6,16 @@ const Budget = use('App/Models/Budget')
 class BudgetController {
     //GET
     async current({ response, auth }) {
-        const query = await Budget.with('user').setVisible(['_id', 'limit', 'currentBalance', 'expenses', 'created_at']).where('current', true).fetch()
-        const queryJSON = query.toJSON()
-        const currentBudget = {
-            _id: queryJSON[0]._id,
-            currentBalance: queryJSON[0].currentBalance,
-            limit: queryJSON[0].limit,
-            expenses: queryJSON[0].expenses,
-            created_at: queryJSON[0].created_at,
-        }
-        return response.accepted(currentBudget)
+        const query = await Budget.with('user').setVisible(['_id', 'limit', 'currentBalance', 'expenses', 'created_at']).where('current', true).where('user_id', auth.user._id).fetch()
+
+        return response.accepted(query)
+
     }
 
     //POST
     async create({ request, response, auth }) {
         //Dans la vérification, checkez que limit soit bien un nombre.
-
-        await Budget.where('current', true).update({ current: false })
+        await Budget.with('user').where('current', true).where('user_id', auth.user._id).update({ current: false })
 
         const { limit } = request.only([
             'limit'

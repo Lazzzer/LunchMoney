@@ -5,7 +5,7 @@ const Model = use('Model')
 
 class Budget extends Model {
     user() {
-        return this.belongsTo('App/Models/User')
+        return this.embedsOne('App/Models/User', '_id', 'user_id')
     }
 }
 

@@ -14,7 +14,6 @@ export default {
     }
   },
   beforeCreate() {
-    // this.$axios.get(`/user/${this.$store.state.currentUserName}`)
     this.$axios.get('/user')
       .then(res => {
         console.log(res)

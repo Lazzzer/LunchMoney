@@ -1,18 +1,22 @@
 <template>
   <div v-if="authorized" class="login">
     <h1 class="text-4xl font-black mb-10">Dashboard Page</h1>
-    <user-settings></user-settings>
     <form @submit.prevent="onSubmit">
       <input class="border border-black" type="submit" name="submit" value="Logout">
     </form>
+    <user-settings></user-settings>
+    <current-budget></current-budget>
   </div>
 </template>
 <script>
 import UserSettings from '../components/UserSettings.vue'
+import CurrentBudget from '../components/CurrentBudget.vue'
+
 
 export default {
   components: {
-    UserSettings
+    UserSettings,
+    CurrentBudget
   },
   data() {
     return {
