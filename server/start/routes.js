@@ -34,10 +34,10 @@ Route.get('/user', 'UserController.show').middleware(['auth'])
 // //Budget Routes
 Route.get('/budget/current', 'BudgetController.current').middleware(['auth'])
 Route.get('/budget/all', 'BudgetController.all').middleware(['auth'])
-// Route.get('/budget/show/:id).middleware(['auth])
+Route.get('/budget/show/:id', 'BudgetController.show').middleware(['auth'])
 Route.post('/budget/create', 'BudgetController.create').middleware(['auth'])
-// Route.put('/budget/edit/:id').middleware(['auth'])
-// Route.delete('/budget/delete/:id').middleware(['auth'])
+Route.put('/budget/edit/:id', 'BudgetController.edit').middleware(['auth'])
+Route.delete('/budget/delete/:id', 'BudgetController.delete').middleware(['auth'])
 
 // //Expense Routes
 // Route.get('/expense/all').middleware(['auth'])
