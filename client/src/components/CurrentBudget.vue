@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4">
     <div v-if="!noCurrentBudget">
-      Current budget for {{ month }}
+      <strong>Current budget for {{ month }}</strong>
       <br>
       {{ currentBalance }}/{{ limit }} {{ currency }}
     </div>
@@ -17,7 +17,7 @@
 
     </div>
   </div>
-  </divclass="mt-4"></template>
+</template>
 
 <script>
 export default {

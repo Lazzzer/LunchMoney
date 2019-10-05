@@ -44,7 +44,7 @@ module.exports = {
     expiry: '20m',
     options: {
       secret: 'self::app.appKey',
-      expiresIn: '60000'
+      expiresIn: '3200000'
     }
   },
 

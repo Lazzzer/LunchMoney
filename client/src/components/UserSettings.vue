@@ -1,6 +1,8 @@
 <template>
   <div>
-    UserSettings! {{ name }} {{ email }} {{ currency }}
+    <strong>UserSettings</strong> 
+    <br>
+    {{ name }} {{ email }} {{ currency }}
   </div>
 </template>
 

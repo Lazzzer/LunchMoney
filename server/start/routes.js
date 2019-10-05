@@ -33,7 +33,7 @@ Route.get('/user', 'UserController.show').middleware(['auth'])
 
 // //Budget Routes
 Route.get('/budget/current', 'BudgetController.current').middleware(['auth'])
-// Route.get('/budget/all').middleware(['auth'])
+Route.get('/budget/all', 'BudgetController.all').middleware(['auth'])
 // Route.get('/budget/show/:id).middleware(['auth])
 Route.post('/budget/create', 'BudgetController.create').middleware(['auth'])
 // Route.put('/budget/edit/:id').middleware(['auth'])

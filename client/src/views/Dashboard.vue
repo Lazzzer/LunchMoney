@@ -6,17 +6,19 @@
     </form>
     <user-settings></user-settings>
     <current-budget></current-budget>
+    <budget-historic></budget-historic>
   </div>
 </template>
 <script>
 import UserSettings from '../components/UserSettings.vue'
 import CurrentBudget from '../components/CurrentBudget.vue'
-
+import BudgetHistoric from '../components/BudgetHistoric.vue'
 
 export default {
   components: {
     UserSettings,
-    CurrentBudget
+    CurrentBudget,
+    BudgetHistoric
   },
   data() {
     return {

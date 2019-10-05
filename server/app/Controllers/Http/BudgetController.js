@@ -6,16 +6,22 @@ const Budget = use('App/Models/Budget')
 class BudgetController {
     //GET
     async current({ response, auth }) {
-        const query = await Budget.with('user').setVisible(['_id', 'limit', 'currentBalance', 'expenses', 'created_at']).where('current', true).where('user_id', auth.user._id).fetch()
+        const query = await Budget.with('user')
+                                .setVisible(['_id', 'limit', 'currentBalance', 'expenses', 'created_at'])
+                                .where('current', true)
+                                .where('user_id', auth.user._id)
+                                .fetch()
 
         return response.accepted(query)
-
     }
 
     //POST
     async create({ request, response, auth }) {
         //Dans la vérification, checkez que limit soit bien un nombre.
-        await Budget.with('user').where('current', true).where('user_id', auth.user._id).update({ current: false })
+        await Budget.with('user')
+                .where('current', true)
+                .where('user_id', auth.user._id)
+                .update({ current: false })
 
         const { limit } = request.only([
             'limit'
@@ -30,6 +36,17 @@ class BudgetController {
         await budget.save()
 
         return response.created('Budget created!')
+    }
+
+    //GET
+    async all({response, auth }) {
+       const query = await Budget.with('user').setVisible(['_id', 'limit', 'currentBalance', 'expenses', 'created_at'])
+                .where('current', false)
+                .where('user_id', auth.user._id)
+                .sort({created_at: -1})
+                .fetch()
+
+        return response.accepted(query)
     }
 }
 
