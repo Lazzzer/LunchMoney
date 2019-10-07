@@ -7,6 +7,7 @@ class BudgetController {
 
     //GET
     async all({ response, auth }) {
+        //can remove 'expenses' from setVisible ??
         const query = await Budget.with('user').setVisible(['_id', 'limit', 'currentBalance', 'expenses', 'created_at'])
             .where('current', false)
             .where('user_id', auth.user._id)
@@ -38,6 +39,18 @@ class BudgetController {
         return response.accepted(query)
     }
 
+    //GET
+    async expenses({ response, auth, params }) {
+        const query = await Budget.with('user')
+            .with('expenses')
+            .setVisible(['_id', 'limit', 'currentBalance', 'created_at'])
+            .where('_id', params.id)
+            .where('user_id', auth.user._id)
+            .first()
+
+        return response.accepted(query)
+    }
+
     //POST
     async create({ request, response, auth }) {
         //Dans la vérification, checkez que limit soit bien un nombre.
@@ -53,8 +66,7 @@ class BudgetController {
             user_id: auth.user._id,
             currentBalance: 0,
             limit,
-            current: true,
-            expenses: []
+            current: true
         })
         await budget.save()
 

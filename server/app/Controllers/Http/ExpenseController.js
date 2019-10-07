@@ -8,20 +8,19 @@ class ExpenseController {
     //POST
     async create({ request, response, auth }) {
 
-        const queryBudget = await Budget.with('user')
+        let queryBudget = await Budget.with('user')
             .where('current', true)
             .where('user_id', auth.user._id)
-            .fetch()
-        const currentBudget = queryBudget.toJSON()
+            .first()
 
-        return response.accepted(queryBudget)
+        if(queryBudget === null)
+            return response.notFound('Budget not found, cant create the expense')
 
-        const { type, product, price, description, location } = request.only([
-            'type', 'product', 'price', 'description', 'location'
-        ])
+        const { type, product, price, description, location } = request.all()
+
         const expense = new Expense({
             user_id: auth.user._id,
-            budget_id: currentBudget[0]._id,
+            budget_id: queryBudget._id,
             type: type,
             product: product,
             price: price,
@@ -30,7 +29,9 @@ class ExpenseController {
         })
         await expense.save()
 
-        return response.created('Expense created!')
+        queryBudget.currentBalance = parseFloat(queryBudget.currentBalance) + parseFloat(expense.price)
+
+        return await queryBudget.save() ? response.created('Expense created') : response.noContent()
     }
 }
 

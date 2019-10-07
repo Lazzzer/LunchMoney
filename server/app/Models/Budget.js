@@ -9,7 +9,7 @@ class Budget extends Model {
     }
 
     expenses() {
-        return this.embedsMany('App/Model/Expense', '_id', 'expenses')
+        return this.hasMany('App/Models/Expense', '_id')
     }
 }
 
