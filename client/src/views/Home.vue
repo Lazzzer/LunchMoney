@@ -7,8 +7,8 @@
         <path fill-rule="evenodd" clip-rule="evenodd" d="M188.237 66.6932C187.08 72.9518 181.594 77.6923 175 77.6923C167.565 77.6923 161.538 71.6654 161.538 64.2308C161.538 56.7961 167.565 50.7692 175 50.7692C178.716 50.7692 182.08 52.2748 184.516 54.7092C184.516 54.7092 181.648 58.6491 186.328 60.7012C186.328 60.7012 184.516 64.3949 188.237 66.6932Z" fill="#FFA800" />
         <path d="M174.022 73.8898L176.422 73.8885L176.42 71.6269C179.697 71.3251 181.865 69.593 181.864 66.7776V66.7315C181.862 63.8699 180.015 62.5556 176.345 61.7039L176.344 59.027C177.382 59.2802 178.49 59.7412 179.437 60.4098L181.327 57.3164C179.942 56.3711 178.349 55.7259 176.457 55.5192L176.456 54.1346L174.056 54.136L174.057 55.4514C170.526 55.7073 168.543 57.6008 168.545 60.3238V60.37C168.546 63.2315 170.439 64.4996 174.155 65.3513L174.157 68.1205C172.725 67.8906 171.341 67.2684 169.863 66.2308L167.788 69.3012C169.519 70.5463 171.758 71.3527 174.02 71.5822L174.022 73.8898ZM174.175 61.3129C172.929 60.9675 172.606 60.6215 172.606 60.0215L172.605 59.9753C172.605 59.3753 173.044 58.9135 174.175 58.8205L174.175 61.3129ZM176.326 68.2578L176.325 65.7193C177.525 66.0648 177.871 66.4107 177.872 67.0338V67.0799C177.872 67.7492 177.388 68.1418 176.326 68.2578Z" fill="white" />
       </svg>
-      <router-link to="/register" class="mt-16 block py-3 px-2 rounded-full bg-lunchPink-600 text-center font-black uppercase text-lg">Get started</router-link>
-      <router-link to="/login" class="mt-6 block py-3 px-2 rounded-full bg-white text-center font-extrabold uppercase text-lg">Log In</router-link>
+      <router-link to="/register" class="mt-16 block py-3 px-2 rounded-full text-lunchPurple-700 bg-lunchPink-600 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">Get started</router-link>
+      <router-link to="/login" class="mt-6 block py-3 px-2 rounded-full text-lunchPurple-700 bg-white text-center font-extrabold uppercase text-lg focus:bg-gray-200 hover:bg-gray-200">Log In</router-link>
     </div>
   </div>
 </template>

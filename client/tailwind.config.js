@@ -19,6 +19,7 @@ module.exports = {
         100: '#BAAED0'
       },
       lunchPink: {
+        700: '#9E0D2B',
         600: '#F71140'
       },
       transparent: 'transparent',
