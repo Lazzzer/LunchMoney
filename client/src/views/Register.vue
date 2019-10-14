@@ -8,13 +8,18 @@
         <path d="M90.4912 37.8686L91.7392 37.8679L91.7384 36.7088C93.4424 36.5541 94.57 35.6664 94.5692 34.2236V34.1999C94.568 32.7334 93.6076 32.0598 91.6996 31.6233L91.6988 30.2514C92.2388 30.3811 92.8148 30.6174 93.3072 30.9601L94.29 29.3747C93.57 28.8902 92.7416 28.5595 91.7576 28.4536L91.7572 27.744L90.5092 27.7447L90.5096 28.4189C88.6736 28.55 87.6424 29.5204 87.6432 30.916V30.9397C87.644 32.4062 88.6284 33.0561 90.5608 33.4926L90.5616 34.9118C89.8172 34.794 89.0972 34.4751 88.3288 33.9433L87.25 35.5169C88.15 36.155 89.3144 36.5683 90.4904 36.6859L90.4912 37.8686ZM90.5712 31.4229C89.9232 31.2459 89.7552 31.0685 89.7552 30.761L89.7548 30.7374C89.7548 30.4299 89.9828 30.1932 90.5708 30.1456L90.5712 31.4229ZM91.6896 34.9821L91.6888 33.6812C92.3128 33.8582 92.4928 34.0355 92.4932 34.3548V34.3785C92.4932 34.7215 92.2416 34.9227 91.6896 34.9821Z" fill="white" />
       </svg>
     </router-link>
-    <div v-if="userCreated">
-      <h1 class="text-2xl text-green-500 mb-10">User created!</h1>
-      <router-link to="/login" class="p-4 border border-black">Log In</router-link>
-      <router-link to="/" class="p-2">Go back</router-link>
+    <div v-if="userCreated" class="w-2/3">
+      <svg class="mx-auto" width="147" height="147" viewBox="0 0 147 147" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M59.9216 103.763L32.4014 76.3057C30.748 74.6561 30.748 71.9815 32.4014 70.3318L38.3889 64.3579C40.0422 62.7082 42.7231 62.7082 44.3765 64.3579L62.9154 82.8541L102.624 43.2372C104.277 41.5876 106.958 41.5876 108.611 43.2372L114.599 49.2111C116.252 50.8606 116.252 53.5352 114.599 55.1849L65.9092 103.763C64.2557 105.412 61.5749 105.412 59.9216 103.763Z" fill="#68D391" />
+        <circle cx="73.5" cy="73.5" r="70.5" stroke="#68D391" stroke-width="6" />
+      </svg>
+      <h1 class="mt-4 text-lg italic text-green-500 mb-10 text-center">Successfully created!</h1>
+      <router-link to="/login" class="mt-8 block py-3 px-2 rounded-full text-lunchPurple-700 bg-lunchPink-600 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">LOG IN</router-link>
+      <div class="w-full text-center">
+        <router-link to="/" class="mt-4 text-white font-bold text-sm inline-block">Go Back</router-link>
+      </div>
     </div>
     <div v-else class="w-full h-full flex items-center justify-center">
-
       <div class="mt-10 w-3/4">
         <h2 class="text-white font-bold text-xl text-center">SIGN UP</h2>
         <form @submit.prevent="onSubmit" class="mt-8">
@@ -23,55 +28,45 @@
                  type="name" name="name" placeholder="USERNAME" required
           >
           <i class="fas fa-user-alt text-xl text-lunchPink-600 absolute -mt-8"></i>
-          <span v-if="hasError && errorField === 'name'" class="text-red-400 text-xs">{{ errorMessage }}</span>
-          
-          <input v-model="email" 
-                 :class="[errorField === 'email' ? 'border-red-400' : 'border-lunchPink-600','mt-8 relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
-                 type="email" name="name" placeholder="EMAIL (optional)"
-          >
-          <i class="fas fa-at text-xl text-lunchPink-600 absolute -mt-8"></i>
-          <span v-if="hasError && errorField === 'email'" class="text-red-400 text-xs">{{ errorMessage }}</span>
+          <span v-if="hasError && errorField === 'name'" class="text-red-400 text-xs absolute">{{ errorMessage }}</span>
+          <div class="relative">
+            <input v-model="email" 
+                   :class="[errorField === 'email' ? 'border-red-400' : 'border-lunchPink-600','mt-8 relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
+                   type="email" name="name" placeholder="EMAIL"
+            >
+            <i class="fas fa-at text-xl text-lunchPink-600 absolute -mt-8"></i>
+            <span class="text-xs  text-lunchPink-600 absolute top-0 right-0 mt-3">Optional </span>
+            <span v-if="hasError && errorField === 'email'" class="text-red-400 text-xs absolute">{{ errorMessage }}</span>
+          </div>
           
           <input v-model="password" 
                  :class="[errorField === 'password' ? 'border-red-400' : 'border-lunchPink-600','mt-8 relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
                  type="password" name="password" placeholder="PASSWORD" required
           >
           <i class="fas fa-lock text-xl text-lunchPink-600 absolute -mt-8"></i>
-          <span v-if="hasError && errorField === 'password'" class="text-red-400 text-xs">{{ errorMessage }}</span>
+          <span v-if="hasError && errorField === 'password'" class="text-red-400 text-xs absolute">{{ errorMessage }}</span>
+          <div class="relative w-2/3">
+            <select v-model="currency" id="currency" 
+                    :class="[errorField === 'currency' ? 'border-red-400' : ' border-lunchPink-600','mt-8 appearance-none relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']"
+            >
+              <option hidden disabled>CURRENCY</option>
+              <option class="text-gray-700">CHF</option>
+              <option class="text-gray-700">EUR</option>
+              <option class="text-gray-700">USD</option>
+            </select>
+            <i class="fas fa-dollar-sign text-xl text-lunchPink-600 absolute -mt-8 ml-1"></i>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-lunchPink-600">
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+            </div>
+            <span v-if="hasError && errorField === 'currency'" class="text-red-400 text-xs absolute">Please pick a valid option.</span>
+          </div>
           
-          <select v-model="currency" id="currency" 
-                  :class="[errorField === 'currency' ? 'border-red-400' : ' border-lunchPink-600','mt-8 relative px-8 h-10 w-2/3 block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']"
-          >
-            <option hidden disabled>CURRENCY</option>
-            <option class="text-gray-700">CHF</option>
-            <option class="text-gray-700">EUR</option>
-            <option class="text-gray-700">USD</option>
-          </select>
-          <i class="fas fa-dollar-sign text-xl text-lunchPink-600 absolute -mt-8 ml-1"></i>
-          <span v-if="hasError && errorField === 'currency'" class="text-red-400 text-xs">Please pick a valid option.</span>
-
-          <input class="w-full mt-16 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:bg-lunchPink-700 hover:bg-lunchPink-700" type="submit" name="submit" value="JOIN">
+          <input class="w-full mt-16 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700" type="submit" name="submit" value="JOIN">
         </form>
         <div class="w-full text-center">
           <router-link to="/login" class="mt-6 text-white font-bold text-sm inline-block">Or Log In</router-link>
         </div>
       </div>
-
-      <!-- <form @submit.prevent="onSubmit">
-        <input v-model="name" class="border border-black" type="name" name="name" placeholder="Type here...">
-        <input v-model="email" class="border border-black" type="email" name="email" placeholder="Type here...">
-        <input v-model="password" class="border border-black" type="password" name="password" placeholder="Type here...">
-        <select v-model="currency" id="currency" class="border border-black">
-          <option hidden disabled>CURRENCY</option>
-          <option>CHF</option>
-          <option>EUR</option>
-          <option>USD</option>
-        </select>
-        <input class="border border-black" type="submit" name="submit" value="Register">
-      </form> -->
-      <!-- <div v-if="hasError">
-        <h1 class="text-2xl text-red-500"><strong class="text-red-800 uppercase">{{ errorField }} : </strong>{{ errorMessage }}</h1>
-      </div> -->
     </div>
   </div>
 </template>
