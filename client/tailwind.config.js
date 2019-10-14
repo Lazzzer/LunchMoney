@@ -10,6 +10,17 @@ module.exports = {
       xl: '1280px',
     },
     colors: {
+      lunchPurple: {
+        900: '#05000D',
+        800: '#0E0125',
+        700: '#12012F',
+        500: '#1A0B35',
+        200: '#6A5989',
+        100: '#BAAED0'
+      },
+      lunchPink: {
+        600: '#F71140'
+      },
       transparent: 'transparent',
 
       black: '#000',
@@ -221,6 +232,7 @@ module.exports = {
     },
     fontFamily: {
       sans: [
+        'Open Sans',
         '-apple-system',
         'BlinkMacSystemFont',
         '"Segoe UI"',

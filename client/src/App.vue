@@ -1,12 +1,8 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-    </div>
+  <div id="app" class="w-full h-screen bg-lunchPurple-700 font-sans">
     <router-view />
   </div>
 </template>
-
 <style src="./assets/tailwind.css"></style>
 
 <script>
