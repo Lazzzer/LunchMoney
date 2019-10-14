@@ -55,11 +55,11 @@ export default {
       this.$axios.get('/budget/current')
         .then(res => {
           console.log(res)
-          if (res.data[0] !== undefined) {
-            this.limit = res.data[0].limit
-            this.currentBalance = res.data[0].currentBalance
-            this.expenses = res.data[0].expenses
-            this.month = this.fullDate(res.data[0].created_at)
+          if (res.data !== undefined) {
+            this.limit = res.data.limit
+            this.currentBalance = res.data.currentBalance
+            this.expenses = res.data.expenses
+            this.month = this.fullDate(res.data.created_at)
             this.noCurrentBudget = false
           } else {
             this.noCurrentBudget = true

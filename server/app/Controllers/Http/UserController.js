@@ -6,9 +6,8 @@ const User = use('App/Models/User')
 class UserController {
     //POST
     async register({ request, response }) {
-        const { name, email, password, currency } = request.only([
-            'name', 'email', 'password', 'currency'
-        ])
+        const { name, email, password, currency } = request.all()
+
         const user = new User({
             name,
             email,

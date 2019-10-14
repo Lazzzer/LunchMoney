@@ -23,7 +23,7 @@ class BudgetController {
             .setVisible(['_id', 'limit', 'currentBalance', 'expenses', 'created_at'])
             .where('user_id', auth.user._id)
             .where('_id', params.id)
-            .fetch()
+            .first()
 
         return response.accepted(query)
     }
@@ -34,7 +34,7 @@ class BudgetController {
             .setVisible(['_id', 'limit', 'currentBalance', 'expenses', 'created_at'])
             .where('current', true)
             .where('user_id', auth.user._id)
-            .fetch()
+            .first()
 
         return response.accepted(query)
     }
@@ -59,9 +59,8 @@ class BudgetController {
             .where('user_id', auth.user._id)
             .update({ current: false })
 
-        const { limit } = request.only([
-            'limit'
-        ])
+        const { limit } = request.all()
+
         const budget = new Budget({
             user_id: auth.user._id,
             currentBalance: 0,
@@ -75,9 +74,7 @@ class BudgetController {
 
     //PUT
     async edit({ request, response, auth, params }) {
-        const { limit } = request.only([
-            'limit'
-        ])
+        const { limit } = request.all()
 
         const query = await Budget.with('user')
             .where('user_id', auth.user._id)
