@@ -6,9 +6,9 @@
       <div v-for="(budget, index) in budgets" :key="`budget-${index}`" class="border mb-4">
         {{ fullDate(budget.created_at) }}
         <br>
-        {{ budgetDifference(budget.currentBalance, budget.limit) }} {{ currency }}
+        {{ budgetDifference(getCurrentBalance(budget.expenses), budget.limit) }} {{ currency }}
         <br>
-        {{ budget.currentBalance }}/{{ budget.limit }} {{ currency }}
+        {{ getCurrentBalance(budget.expenses) }}/{{ budget.limit }} {{ currency }}
       </div>
       <br>
     </div>
@@ -34,6 +34,11 @@ export default {
     fullDate: (dateToParse) => {
       let date = new Date(dateToParse)
       return new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date) + ' ' + date.getFullYear()
+    },
+    getCurrentBalance(expenses) {
+      return expenses.reduce((currentTotal, expense) => {
+        return parseFloat(expense.price) + currentTotal
+      }, 0)
     },
     budgetDifference(currentBalance, limit) {
       return parseFloat(limit) - parseFloat(currentBalance) > 0 ? '+' + (parseFloat(limit) - parseFloat(currentBalance)) : (parseFloat(limit) - parseFloat(currentBalance))

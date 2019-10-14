@@ -1,6 +1,5 @@
 'use strict'
 
-const User = use('App/Models/User')
 const Budget = use('App/Models/Budget')
 
 class BudgetController {
@@ -8,7 +7,9 @@ class BudgetController {
     //GET
     async all({ response, auth }) {
         //can remove 'expenses' from setVisible ??
-        const query = await Budget.with('user').setVisible(['_id', 'limit', 'currentBalance', 'expenses', 'created_at'])
+        const query = await Budget.with('user')
+            .with('expenses')
+            .setVisible(['_id', 'limit', 'created_at'])
             .where('current', false)
             .where('user_id', auth.user._id)
             .sort({ created_at: -1 })
@@ -20,7 +21,7 @@ class BudgetController {
     //GET
     async show({ response, auth, params }) {
         const query = await Budget.with('user')
-            .setVisible(['_id', 'limit', 'currentBalance', 'expenses', 'created_at'])
+            .setVisible(['_id', 'limit', 'created_at'])
             .where('user_id', auth.user._id)
             .where('_id', params.id)
             .first()
@@ -31,7 +32,8 @@ class BudgetController {
     //GET
     async current({ response, auth }) {
         const query = await Budget.with('user')
-            .setVisible(['_id', 'limit', 'currentBalance', 'expenses', 'created_at'])
+            .with('expenses')
+            .setVisible(['_id', 'limit', 'created_at'])
             .where('current', true)
             .where('user_id', auth.user._id)
             .first()
@@ -43,7 +45,7 @@ class BudgetController {
     async expenses({ response, auth, params }) {
         const query = await Budget.with('user')
             .with('expenses')
-            .setVisible(['_id', 'limit', 'currentBalance', 'created_at'])
+            .setVisible(['_id', 'limit', 'created_at'])
             .where('_id', params.id)
             .where('user_id', auth.user._id)
             .first()
@@ -63,7 +65,6 @@ class BudgetController {
 
         const budget = new Budget({
             user_id: auth.user._id,
-            currentBalance: 0,
             limit,
             current: true
         })

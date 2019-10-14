@@ -40,6 +40,11 @@ export default {
       console.log(date)
       return new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date) + ' ' + date.getFullYear()
     },
+    getCurrentBalance() {
+      return this.expenses.reduce((currentTotal, expense) => {
+        return parseFloat(expense.price) + currentTotal
+      }, 0)
+    },
     onSubmit() {
       this.$axios.post('/budget/create', {
         limit: this.limit
@@ -55,10 +60,10 @@ export default {
       this.$axios.get('/budget/current')
         .then(res => {
           console.log(res)
-          if (res.data !== undefined) {
+          if (res.data !== '') {
             this.limit = res.data.limit
-            this.currentBalance = res.data.currentBalance
             this.expenses = res.data.expenses
+            this.currentBalance = this.getCurrentBalance()
             this.month = this.fullDate(res.data.created_at)
             this.noCurrentBudget = false
           } else {

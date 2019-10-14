@@ -1,6 +1,5 @@
 'use strict'
 
-const User = use('App/Models/User')
 const Budget = use('App/Models/Budget')
 const Expense = use('App/Models/Expense')
 
@@ -13,7 +12,7 @@ class ExpenseController {
             .where('user_id', auth.user._id)
             .first()
 
-        if(queryBudget === null)
+        if (queryBudget === null)
             return response.notFound('Budget not found, cant create the expense')
 
         const { type, product, price, description, location } = request.all()
@@ -29,9 +28,57 @@ class ExpenseController {
         })
         await expense.save()
 
-        queryBudget.currentBalance = parseFloat(queryBudget.currentBalance) + parseFloat(expense.price)
+        return await expense.save() ? response.created('Expense created') : response.noContent()
+    }
 
-        return await queryBudget.save() ? response.created('Expense created') : response.noContent()
+    //GET
+    async all({ response, auth }) {
+        let query = await Expense.with('user')
+            .where('user_id', auth.user._id)
+            .sort({ created_at: -1 })
+            .fetch()
+        query = query.toJSON();
+
+        return Object.keys(query).length > 0 ? response.accepted(query) : response.noContent()
+    }
+
+    //GET
+    async show({ response, auth, params }) {
+        const query = await Expense.with('user')
+            .where('user_id', auth.user._id)
+            .where('_id', params.id)
+            .first()
+
+        return response.accepted(query)
+    }
+
+    //PUT
+    async edit({ request, response, auth, params }) {
+
+        const { type, product, price, description, location } = request.all()
+
+        const query = await Expense.with('user')
+            .where('user_id', auth.user._id)
+            .where('_id', params.id)
+            .update({
+                type: type,
+                product: product,
+                price: price,
+                description: description,
+                location: location
+            })
+
+        return query.result.n === 1 ? response.accepted('Expense updated') : response.noContent()
+    }
+
+    //DELETE
+    async delete({ response, auth, params }) {
+        const query = await Expense.with('user')
+            .where('user_id', auth.user._id)
+            .where('_id', params.id)
+            .delete()
+
+        return query.result.n === 1 ? response.accepted('Expense deleted') : response.noContent()
     }
 }
 
