@@ -153,6 +153,7 @@ module.exports = {
             '16': '4rem',
             '20': '5rem',
             '24': '6rem',
+            '26': '7rem',
             '32': '8rem',
             '40': '10rem',
             '48': '12rem',
@@ -185,6 +186,7 @@ module.exports = {
             sm: '0.125rem',
             default: '0.25rem',
             lg: '0.5rem',
+            lunch: '1.1rem',
             full: '9999px',
         },
         borderWidth: {
