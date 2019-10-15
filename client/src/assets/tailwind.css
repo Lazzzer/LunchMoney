@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media (max-width:500px) and (max-height:300px){
+    .android {
+        height: 620px;
+        min-height: 620px;
+    }
+} 
