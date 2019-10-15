@@ -28,9 +28,29 @@
         </div>
       </div>
     </div>
-    <!-- <user-settings></user-settings> -->
-    <div class="dashboard w-5/6 mx-auto h-full">
+    <div class="dashboard w-5/6 mx-auto h-5/6">
       <current-budget></current-budget>
+      <div class="flex items-center justify-center mt-4 ">
+        <div class="relative w-1/3 flex items-center mr-2">
+          <div class="w-full inline-block  py-2 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">
+            <i class="fas fa-tags text-xs text-lunchPurple-700 mr-1"></i>EXPENSES
+          </div>
+        </div>
+
+        <div class="relative w-1/3 flex items-center mr-2">
+          <div class="w-full inline-block  py-2 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">
+            <i class="fas fa-list text-xs text-lunchPurple-700 mr-1"></i>BUDGETS
+          </div>
+        </div>
+        <div class="relative w-1/3 flex items-center">
+          <div class="w-full inline-block  py-2 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">
+            <i class="fas fa-chart-pie text-xs text-lunchPurple-700 mr-1"></i>STATISTICS
+          </div>
+        </div>
+
+      </div>
+      
+
       <budget-historic></budget-historic>
     </div>
     
