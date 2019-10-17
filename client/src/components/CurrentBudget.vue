@@ -10,7 +10,7 @@
         </svg>
         <span>{{ currentBalance }}</span>
         <span class="text-lunchPurple-100 italic font-bold text-2xl">/</span>
-        <span class="text-lunchPink-600">{{ limit }}</span>
+        <span class="text-lunchPink-600">{{ parseFloat(limit).toFixed(2) }}</span>
         <span class="ml-1 text-lg not-italic">{{ currency }}</span>
       </div>
     </div>

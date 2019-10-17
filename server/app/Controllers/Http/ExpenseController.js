@@ -15,13 +15,12 @@ class ExpenseController {
         if (queryBudget === null)
             return response.notFound('Budget not found, cant create the expense')
 
-        const { type, product, price, description, location } = request.all()
+        const { type, price, description, location } = request.all()
 
         const expense = new Expense({
             user_id: auth.user._id,
             budget_id: queryBudget._id,
             type: type,
-            product: product,
             price: price,
             description: description,
             location: location
@@ -31,14 +30,15 @@ class ExpenseController {
     }
 
     //GET
-    async all({ response, auth }) {
+    async all({ response, auth, params }) {
+
         let query = await Expense.with('user')
             .where('user_id', auth.user._id)
             .sort({ created_at: -1 })
-            .fetch()
+            .paginate(params.page, 10)
         query = query.toJSON();
 
-        return Object.keys(query).length > 0 ? response.accepted(query) : response.noContent()
+        return query.total > 0 ? response.accepted(query) : response.noContent()
     }
 
     //GET
@@ -54,14 +54,13 @@ class ExpenseController {
     //PUT
     async edit({ request, response, auth, params }) {
 
-        const { type, product, price, description, location } = request.all()
+        const { type, price, description, location } = request.all()
 
         const query = await Expense.with('user')
             .where('user_id', auth.user._id)
             .where('_id', params.id)
             .update({
                 type: type,
-                product: product,
                 price: price,
                 description: description,
                 location: location

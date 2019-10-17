@@ -25,12 +25,12 @@
         <div class="ml-2 w-3/4">
           <div class="flex justify-between">
             <h4 class="text-white text-sm font-bold"><span class="text-lunchPink-600 text-base font-bold overflow-x-hidden">-{{ parseFloat(expense.price).toFixed(2) }}</span> {{ $store.state.currentCurrency }}</h4>
-            <span class="text-lunchPink-600 text-xs font-bold italic">03/10/19</span>
+            <span class="text-lunchPink-600 text-xs font-bold italic">{{ formatDate(expense.created_at) }}</span>
           </div>
           <p class="text-lunchPurple-100 text-xs -mt-1 ">{{ truncateDesc(expense.description, 25) }}</p>
         </div>
       </div>
-      <svg class="mx-auto" width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg v-if="expenses.length >= 10" @click="fetchMoreExpenses" :class="['mx-auto', counter === lastPage ? 'hidden': '']" width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M23 11.5C23 17.8528 17.8528 23 11.5 23C5.14718 23 0 17.8528 0 11.5C0 5.14718 5.14718 0 11.5 0C17.8528 0 23 5.14718 23 11.5ZM12.2883 16.7817L18.5716 10.4984C19.0075 10.0625 19.0075 9.35766 18.5716 8.92641L17.7833 8.13811C17.3474 7.70222 16.6425 7.70222 16.2113 8.13811L11.5 12.8494L6.78871 8.13811C6.35282 7.70222 5.64798 7.70222 5.21673 8.13811L4.42843 8.92641C3.99254 9.3623 3.99254 10.0671 4.42843 10.4984L10.7117 16.7817C11.1476 17.2175 11.8524 17.2175 12.2883 16.7817Z" fill="#F71140" />
       </svg>
     </div>
@@ -42,24 +42,53 @@ export default {
   data() {
     return {
       expenses: [],
-      noExpenses: null
+      noExpenses: null,
+      counter: 1,
+      currentPage: null,
+      lastPage: null
     }
   },
-  beforeCreate() {
-    this.$axios.get('/expense/all')
-      .then(res => {
-        console.log(res)
-        this.expenses = res.data
-        res.status === 204 ? this.noExpenses = true : this.noExpenses = false
-      })
-      .catch(err => {
-        console.log(err)
-      })
+  beforeMount() {
+    this.getExpenses()
   },
   methods: {
+    getExpenses() {
+      this.$axios.get(`/expense/all/${this.counter}`)
+        .then(res => {
+          console.log(res)
+
+          if (res.status === 204) {
+            this.noExpenses = true
+          }
+          else {
+            if (this.counter > 1) {
+              this.expenses.push(...res.data.data)
+            } else {
+              this.expenses = res.data.data
+              this.noExpenses = false
+            }
+            this.currentPage = res.data.page
+            this.lastPage = res.data.lastPage
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    fetchMoreExpenses() {
+      if (this.counter < this.lastPage) {
+        this.counter++
+        this.getExpenses()
+        this.expenses.push()
+      }
+    },
     truncateDesc(str, num) {
       return str.length <= num ? str : str.slice(0, num) + '...'
-    }
+    },
+    formatDate(dateToParse) {
+      let date = new Date(dateToParse)
+      return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'numeric', year: '2-digit' })
+    },
   },
 }
 </script>
