@@ -1,6 +1,6 @@
 <template>
   <div v-if="authorized" class="main-dashboard w-full h-full">
-    <div class="header flex justify-end pt-8 w-5/6 mx-auto">
+    <div class="header flex justify-end pt-4 w-5/6 mx-auto">
       <!-- <router-link to="/" class="">
         <svg width="69" height="28" viewBox="0 0 69 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.59009 15.6934H11.9826L12.8997 12.3455H7.48166L9.75759 3.97567H5.78319L2.59009 15.6934ZM19.4145 15.9278C21.2998 15.9278 22.9983 15.4925 24.1193 14.3877C24.9515 13.5675 25.563 12.4292 25.9876 10.8724L27.873 3.97567H23.8305L22.1151 10.2698C21.8603 11.1737 21.6225 11.6257 21.2659 11.9772C20.9432 12.2953 20.4846 12.4627 19.992 12.4627C18.939 12.4627 18.3615 11.9605 18.3615 10.9896C18.3615 10.7218 18.4124 10.4037 18.4974 10.0689L20.1619 3.97567H16.1195L14.523 9.81781C14.3531 10.4539 14.2682 11.1068 14.2682 11.7094C14.2682 14.3543 16.0686 15.9278 19.4145 15.9278ZM26.8006 15.6934H30.741L32.3376 9.86803L35.157 15.6934H38.6898L41.8829 3.97567H37.9425L36.4139 9.56672L33.7133 3.97567H29.9937L26.8006 15.6934ZM47.7487 15.9445C50.2794 15.9445 52.0119 14.9234 53.2008 13.3834L50.4493 11.2407C49.8039 12.0274 49.0565 12.4627 48.1394 12.4627C47.0863 12.4627 46.2711 11.7429 46.2711 10.4539C46.2711 8.84691 47.426 7.2399 49.2094 7.2399C50.1096 7.2399 50.806 7.70861 51.0607 8.66277L54.6105 7.13947C54.118 5.06375 52.3006 3.72458 49.7359 3.72458C44.6066 3.72458 42.1098 7.60818 42.1098 10.8054C42.1098 13.9525 44.4197 15.9445 47.7487 15.9445ZM54.1954 15.6934H58.1698L59.3078 11.4918H62.9425L61.8045 15.6934H65.7789L68.9721 3.97567H64.9977L63.8597 8.11037H60.225L61.3629 3.97567H57.3885L54.1954 15.6934Z" fill="#F71140" />
@@ -11,7 +11,7 @@
       </router-link> -->
       <div class="relative">
         <span @click="optionToggled = !optionToggled"
-              class="cursor-pointer flex items-center block py-1 px-5 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black focus:bg-lunchPink-700 "
+              :class="[optionToggled ? 'bg-white' : 'bg-lunchPink-600','cursor-pointer flex items-center block py-1 px-5 rounded-full text-lunchPurple-700 text-center font-black focus:bg-lunchPink-700']"
         >
           <svg class="mr-2" width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.223448 4.91581L4.54156 0.242268C4.84002 -0.080756 5.32263 -0.080756 5.61791 0.242268L6.33548 1.0189C6.63394 1.34192 6.63394 1.86426 6.33548 2.18385L3.27788 5.5L6.33866 8.81271C6.63712 9.13574 6.63712 9.65807 6.33866 9.97766L5.62109 10.7577C5.32263 11.0808 4.84002 11.0808 4.54474 10.7577L0.226623 6.08419C-0.0750098 5.76117 -0.0750097 5.23883 0.223448 4.91581Z" fill="#12012F" />
@@ -28,30 +28,25 @@
         </div>
       </div>
     </div>
-    <div class="dashboard w-5/6 mx-auto h-5/6">
+    <div class="dashboard w-5/6 mx-auto" style="height:89%;">
       <current-budget></current-budget>
       <div class="flex items-center justify-center mt-4 ">
         <div class="relative w-1/3 flex items-center mr-2">
-          <div class="w-full inline-block  py-2 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">
-            <i class="fas fa-tags text-xs text-lunchPurple-700 mr-1"></i>EXPENSES
-          </div>
+          <div @click="currentTab = 1" :class="[currentTab === 1 ? 'bg-lunchPink-600 ': 'bg-lunchPurple-200', 'w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']">
+            <i class="fas fa-tags text-xs text-lunchPurple-700 mr-1"></i>EXPENSES</div>
         </div>
 
         <div class="relative w-1/3 flex items-center mr-2">
-          <div class="w-full inline-block  py-2 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">
-            <i class="fas fa-list text-xs text-lunchPurple-700 mr-1"></i>BUDGETS
-          </div>
+          <div @click="currentTab = 2" :class="[currentTab === 2 ? 'bg-lunchPink-600 ': 'bg-lunchPurple-200', 'w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']">
+            <i class="fas fa-list text-xs text-lunchPurple-700 mr-1"></i>BUDGETS</div>
         </div>
         <div class="relative w-1/3 flex items-center">
-          <div class="w-full inline-block  py-2 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">
-            <i class="fas fa-chart-pie text-xs text-lunchPurple-700 mr-1"></i>STATISTICS
-          </div>
+          <div @click="currentTab = 3" :class="[currentTab === 3 ? 'bg-lunchPink-600 ': 'bg-lunchPurple-200', 'w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']">
+            <i class="fas fa-chart-pie text-xs text-lunchPurple-700 mr-1"></i>STATISTICS</div>
         </div>
-
       </div>
-      
-
-      <budget-historic></budget-historic>
+      <expenses-tab v-if="currentTab === 1"></expenses-tab>
+      <budget-historic v-if="currentTab === 2"></budget-historic>
     </div>
     
     
@@ -60,18 +55,21 @@
 <script>
 import UserSettings from '../components/UserSettings.vue'
 import CurrentBudget from '../components/CurrentBudget.vue'
+import ExpensesTab from '../components/ExpensesTab.vue'
 import BudgetHistoric from '../components/BudgetHistoric.vue'
 
 export default {
   components: {
     UserSettings,
     CurrentBudget,
+    ExpensesTab,
     BudgetHistoric
   },
   data() {
     return {
       authorized: false,
-      optionToggled: false
+      optionToggled: false,
+      currentTab: 1
     }
   },
   beforeCreate() {

@@ -26,7 +26,6 @@ class ExpenseController {
             description: description,
             location: location
         })
-        await expense.save()
 
         return await expense.save() ? response.created('Expense created') : response.noContent()
     }

@@ -1,5 +1,5 @@
 <template>
-  <div :class="['mt-6 border border-lunchPink-600 rounded-lunch h-26', noCurrentBudget ? 'bg-lunchPurple-900' : 'bg-lunchPurple-800' ]">
+  <div :class="['mt-4 border border-lunchPink-600 rounded-lunch h-26', noCurrentBudget ? 'bg-lunchPurple-900' : 'bg-lunchPurple-800' ]">
     <div v-if="!noCurrentBudget && noCurrentBudget !== null">
       <h2 class="mt-2 ml-4 text-lunchPink-600 text-xl italic font-black uppercase">Current budget </h2>
       <h3 class="-mt-1 ml-4 text-white text-xs italic font-bold uppercase">{{ month }}</h3>
