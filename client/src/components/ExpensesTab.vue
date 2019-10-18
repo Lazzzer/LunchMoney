@@ -40,6 +40,8 @@
 
 <script>
 import ModalAddExpense from '../components/ModalAddExpense.vue'
+import { EventBus } from './../eventBus.js'
+
 export default {
   components: {
     ModalAddExpense
@@ -53,6 +55,10 @@ export default {
       lastPage: null,
       openModalExpense: false,
     }
+  }, created() {
+    EventBus.$on('expense-added', () => {
+      this.getExpenses()
+    })
   },
   beforeMount() {
     this.getExpenses()

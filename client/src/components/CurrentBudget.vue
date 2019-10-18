@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import ModalAddBudget from '../components/ModalAddBudget.vue'
+import { EventBus } from './../eventBus.js'
 export default {
   data() {
     return {
@@ -67,6 +67,9 @@ export default {
     }
   },
   created() {
+    EventBus.$on('expense-added', () => {
+      this.getCurrentBudget()
+    })
     this.getCurrentBudget()
   },
   methods: {
@@ -91,7 +94,7 @@ export default {
             this.getCurrentBudget()
           }
         }).catch((err) => {
-          console.log(err.response)
+          console.log(err)
         })
     },
     getCurrentBudget() {
