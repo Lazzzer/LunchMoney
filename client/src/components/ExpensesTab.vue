@@ -12,7 +12,7 @@
       <svg width="70" height="46" viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M69.0202 21.5515L56.1762 2.56043C55.6435 1.77282 54.9217 1.12703 54.075 0.680376C53.2283 0.233721 52.2828 1.49722e-05 51.3225 0H18.6775C17.7172 3.03184e-06 16.7717 0.233705 15.925 0.680362C15.0783 1.12702 14.3566 1.77281 13.8239 2.56043L0.979757 21.5515C0.340895 22.496 -1.40647e-05 23.6058 4.35203e-10 24.7409L4.35204e-10 40.25C4.35204e-10 43.4257 2.61163 46 5.83333 46H64.1667C67.3884 46 70 43.4257 70 40.25V24.7409C70 23.6058 69.6591 22.496 69.0202 21.5515ZM19.7181 7.66667H50.282L60.6523 23H45.6944L41.8056 30.6667H28.1944L24.3056 23H9.34767L19.7181 7.66667Z" fill="#F71140" />
       </svg>
-      <h3 class="text-lunchPurple-100 mt-4 italic text-xs">EXPENSES NOT FOUND</h3>
+      <h3 class="text-lunchPurple-100 mt-4 italic text-xs">NO EXPENSES</h3>
     </div>
     <div v-else class="w-17/20 mx-auto overflow-y-scroll" style="height:calc(100% - 130px);">
       <div v-for="(expense, index) in expenses" :key="`expense-${index}`"

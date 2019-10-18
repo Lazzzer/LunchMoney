@@ -46,7 +46,8 @@
         </div>
       </div>
       <expenses-tab v-if="currentTab === 1"></expenses-tab>
-      <budget-historic v-if="currentTab === 2"></budget-historic>
+      <budget-tab v-if="currentTab === 2"></budget-tab>
+      <stat-tab v-if="currentTab === 3"></stat-tab>
     </div>
     
     
@@ -56,14 +57,17 @@
 import UserSettings from '../components/UserSettings.vue'
 import CurrentBudget from '../components/CurrentBudget.vue'
 import ExpensesTab from '../components/ExpensesTab.vue'
-import BudgetHistoric from '../components/BudgetHistoric.vue'
+import BudgetTab from '../components/BudgetTab.vue'
+import StatTab from '../components/StatTab.vue'
+
 
 export default {
   components: {
     UserSettings,
     CurrentBudget,
     ExpensesTab,
-    BudgetHistoric
+    BudgetTab,
+    StatTab
   },
   data() {
     return {
