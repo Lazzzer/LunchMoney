@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import ModalAddBudget from '../components/ModalAddBudget.vue'
 export default {
   data() {
     return {

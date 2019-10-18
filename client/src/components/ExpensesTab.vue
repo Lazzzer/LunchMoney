@@ -1,11 +1,12 @@
 <template>
   <div class="mt-4 expenseTab border border-lunchPink-600 rounded-lunch" style="height:calc(100% - 194px);">
-    <div class="flex justify-center w-17/20 mx-auto mt-5 block py-3 px-3 rounded-full bg-lunchPurple-900 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700">
+    <div @click="openModalExpense = true" class="flex justify-center w-17/20 mx-auto mt-5 block py-3 px-3 rounded-full bg-lunchPurple-900 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700">
       <svg class="w-5 h-auto" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M10 0C4.47581 0 0 4.47581 0 10C0 15.5242 4.47581 20 10 20C15.5242 20 20 15.5242 20 10C20 4.47581 15.5242 0 10 0ZM15.8065 11.129C15.8065 11.3952 15.5887 11.6129 15.3226 11.6129H11.6129V15.3226C11.6129 15.5887 11.3952 15.8065 11.129 15.8065H8.87097C8.60484 15.8065 8.3871 15.5887 8.3871 15.3226V11.6129H4.67742C4.41129 11.6129 4.19355 11.3952 4.19355 11.129V8.87097C4.19355 8.60484 4.41129 8.3871 4.67742 8.3871H8.3871V4.67742C8.3871 4.41129 8.60484 4.19355 8.87097 4.19355H11.129C11.3952 4.19355 11.6129 4.41129 11.6129 4.67742V8.3871H15.3226C15.5887 8.3871 15.8065 8.60484 15.8065 8.87097V11.129Z" fill="#F71140" />
       </svg>
       <h2 class="ml-5 text-lunchPink-600 text-base italic font-black uppercase">CREATE NEW EXPENSE</h2>
     </div>
+    <modal-add-expense v-if="openModalExpense" @closing-modal="openModalExpense = false"></modal-add-expense>
     <h2 class=" w-17/20 my-2 mx-auto text-lunchPink-600 text-base italic font-black uppercase">LATEST EXPENSES</h2>
     <div v-if="noExpenses" class="w-17/20 mx-auto rounded-lunch bg-lunchPurple-500 flex flex-col items-center justify-center" style="height:calc(100% - 130px);">
       <svg width="70" height="46" viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,14 +39,19 @@
 </template>
 
 <script>
+import ModalAddExpense from '../components/ModalAddExpense.vue'
 export default {
+  components: {
+    ModalAddExpense
+  },
   data() {
     return {
       expenses: [],
       noExpenses: null,
       counter: 1,
       currentPage: null,
-      lastPage: null
+      lastPage: null,
+      openModalExpense: false,
     }
   },
   beforeMount() {
