@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.no-highlight-color {
+    -webkit-tap-highlight-color: transparent;
+    -moz-tap-highlight-color: transparent;
+    -o-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+}
+
 @media (max-width:500px) and (max-height:300px){
     .android {
         height: 620px;
