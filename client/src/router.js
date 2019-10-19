@@ -53,7 +53,20 @@ export default new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: () =>
-        import(/* webpackChunkName: "login" */ './views/Dashboard.vue'),
+        import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue'),
+      beforeEnter: (to, from, next) => {
+        if (window.$cookies.isKey('refresh_token') && window.$cookies.isKey('token')) {
+          next()
+        } else {
+          next('login')
+        }
+      }
+    },
+    {
+      path: '/budget/:id',
+      name: 'budget',
+      component: () =>
+        import(/* webpackChunkName: "budget" */ './views/Budget.vue'),
       beforeEnter: (to, from, next) => {
         if (window.$cookies.isKey('refresh_token') && window.$cookies.isKey('token')) {
           next()

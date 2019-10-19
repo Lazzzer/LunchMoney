@@ -2,10 +2,10 @@
   <div class="mt-4 expenseTab border border-lunchPink-600 rounded-lunch" style="height:calc(100% - 194px);">
     <h2 class=" w-17/20 mt-5 mb-2 mx-auto text-lunchPink-600 text-base italic font-black">BUDGET HISTORIC</h2>
     <div v-if="!noBudget" class="w-17/20 mx-auto overflow-y-scroll" style="height:calc(100% - 80px);">
-
       <div v-for="(budget, index) in budgets" :key="`budget-${index}`"
-           class="w-full bg-lunchPurple-500 mb-2 rounded-expenses h-13"
+           class="w-full bg-lunchPurple-500 mb-2 rounded-expenses h-13 relative"
       >
+        <router-link :to="{name: 'budget', params: {id: budget._id}}" class="w-full h-full absolute no-highlight-color"></router-link>
         <div class="flex justify-between">
           <h3 class="pt-2 ml-4 text-white italic text-sm uppercase">{{ fullDate(budget.created_at) }}</h3>
           <span :class="[budgetDifference(getCurrentBalance(budget.expenses), budget.limit) >= 0 ? 'text-green-400': 'text-red-400','text-xs font-bold italic mt-3 pr-4']">{{ budgetDifference(getCurrentBalance(budget.expenses), budget.limit) }}</span>

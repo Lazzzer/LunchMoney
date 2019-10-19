@@ -54,7 +54,6 @@
   </div>
 </template>
 <script>
-import UserSettings from '../components/UserSettings.vue'
 import CurrentBudget from '../components/CurrentBudget.vue'
 import ExpensesTab from '../components/ExpensesTab.vue'
 import BudgetTab from '../components/BudgetTab.vue'
@@ -63,7 +62,6 @@ import StatTab from '../components/StatTab.vue'
 
 export default {
   components: {
-    UserSettings,
     CurrentBudget,
     ExpensesTab,
     BudgetTab,

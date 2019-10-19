@@ -6,7 +6,6 @@ class BudgetController {
 
     //GET
     async all({ response, auth }) {
-        //can remove 'expenses' from setVisible ??
         const query = await Budget.with('user')
             .with('expenses')
             .setVisible(['_id', 'limit', 'created_at'])
@@ -45,7 +44,7 @@ class BudgetController {
     async expenses({ response, auth, params }) {
         const query = await Budget.with('user')
             .with('expenses')
-            .setVisible(['_id', 'limit', 'created_at'])
+            .setVisible(['_id', 'limit', 'created_at', 'current'])
             .where('_id', params.id)
             .where('user_id', auth.user._id)
             .first()
