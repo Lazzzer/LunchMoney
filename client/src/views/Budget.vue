@@ -56,6 +56,9 @@
         <h2 class=" w-17/20 mt-5 mb-2 mx-auto text-lunchPink-600 text-base italic font-black">EXPENSES IN THIS BUDGET</h2>
         <div v-if="expenses.length > 0" class="overflow-y-scroll w-ful" style="height:calc(100% - 80px);">
           <div v-for="(expense, index) in expenses.slice().reverse()" :key="`expense-${index}`"
+               v-touch:swipe.left="swipe(index)"
+               v-touch:swipe.right="swipe(index)"
+               :id="index"
                class=" mx-4 bg-lunchPurple-500 mb-2 rounded-expenses h-13 flex items-center"
           >
             <svg class="ml-4" width="19" height="15" viewBox="0 0 19 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -81,9 +84,9 @@
       <modal-edit-budget v-if="editBudget" @closing-modal="editBudget = false" :limit="limit" :budget-id="budgetID"></modal-edit-budget>
       <modal-archive-budget v-if="archiveBudget" @closing-modal="archiveBudget = false" :budget-id="budgetID"></modal-archive-budget>
       <modal-delete-budget v-if="deleteBudget" @closing-modal="deleteBudget = false" :budget-id="budgetID"></modal-delete-budget>
-      
+      <modal-delete-expense v-if="deleteExpense" @closing-modal="deleteExpense = false" :expense-id="expenses.slice().reverse()[selectedExpense]._id"></modal-delete-expense>
     </div>
-    <div v-else class="w-full text-center">
+    <div v-else-if="validParams = false" class="w-full text-center">
       <h1 class="text-xl text-white font-black mt-10">ACCES DENIED</h1>
     </div>
   </div></template>
@@ -92,6 +95,7 @@
 import ModalEditBudget from '../components/ModalEditBudget.vue'
 import ModalArchiveBudget from '../components/ModalArchiveBudget.vue'
 import ModalDeleteBudget from '../components/ModalDeleteBudget.vue'
+import ModalDeleteExpense from '../components/ModalDeleteExpense.vue'
 
 
 import { EventBus } from './../eventBus.js'
@@ -100,7 +104,8 @@ export default {
   components: {
     ModalEditBudget,
     ModalArchiveBudget,
-    ModalDeleteBudget
+    ModalDeleteBudget,
+    ModalDeleteExpense
   },
   data() {
     return {
@@ -113,12 +118,17 @@ export default {
       editBudget: false,
       archiveBudget: false,
       deleteBudget: false,
-      currentBalance: null
+      currentBalance: null,
+      selectedExpense: null,
+      deleteExpense: false
     }
   },
   created() {
     this.getBudget()
     EventBus.$on('budget-edited', () => {
+      this.getBudget()
+    })
+    EventBus.$on('expense-deleted', () => {
       this.getBudget()
     })
     EventBus.$on('budget-archived', () => {
@@ -129,6 +139,29 @@ export default {
     })
   },
   methods: {
+    swipe(param) {
+      return (direction, event) => {
+        console.log(direction, param)
+        if (direction === 'right') {
+          let expenseDiv = document.getElementById(param)
+          expenseDiv.className += ' swipe-right-delete'
+          setTimeout(() => {
+            this.selectedExpense = param
+            this.deleteExpense = true
+            expenseDiv.classList.remove('swipe-right-delete')
+          }, 400)
+        }
+        if (direction === 'left') {
+          let expenseDiv = document.getElementById(param)
+          expenseDiv.className += ' swipe-left-edit'
+          setTimeout(() => {
+            this.selectedExpense = param
+            this.deleteExpense = true
+            expenseDiv.classList.remove('swipe-left-edit')
+          }, 400)
+        }
+      }
+    },
     getBudget() {
       this.$axios.get(`/budget/expenses/${this.budgetID}`)
         .then(res => {

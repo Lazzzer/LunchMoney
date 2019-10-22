@@ -10,6 +10,14 @@
     tap-highlight-color: transparent;
 }
 
+.swipe-right-delete{
+    background-image: linear-gradient(to right, #860e55, #1a0b35);
+}
+.swipe-left-edit{
+    background-image: linear-gradient(to left, #c05621,#1a0b35);
+}
+
+
 @media (max-width:500px) and (max-height:300px){
     .android {
         height: 620px;
