@@ -44,7 +44,9 @@
             <i class="fas fa-archive text-xs text-lunchPurple-700 mr-1"></i>ARCHIVE</div>
         </div>
         <div class="relative w-1/3 flex items-center">
-          <div :class="['bg-lunchPurple-900 w-full inline-block  py-2 rounded-full text-lunchPink-600 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']">
+          <div @click="deleteBudget = !deleteBudget"  
+               :class="['bg-lunchPurple-900 w-full inline-block  py-2 rounded-full text-lunchPink-600 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']"
+          >
             <i class="fas fa-trash-alt text-xs text-lunchPink-600 mr-1"></i>DELETE</div>
         </div>
 
@@ -78,6 +80,7 @@
       </div>
       <modal-edit-budget v-if="editBudget" @closing-modal="editBudget = false" :limit="limit" :budget-id="budgetID"></modal-edit-budget>
       <modal-archive-budget v-if="archiveBudget" @closing-modal="archiveBudget = false" :budget-id="budgetID"></modal-archive-budget>
+      <modal-delete-budget v-if="deleteBudget" @closing-modal="deleteBudget = false" :budget-id="budgetID"></modal-delete-budget>
       
     </div>
     <div v-else class="w-full text-center">
@@ -88,13 +91,16 @@
 <script>
 import ModalEditBudget from '../components/ModalEditBudget.vue'
 import ModalArchiveBudget from '../components/ModalArchiveBudget.vue'
+import ModalDeleteBudget from '../components/ModalDeleteBudget.vue'
+
 
 import { EventBus } from './../eventBus.js'
 
 export default {
   components: {
     ModalEditBudget,
-    ModalArchiveBudget
+    ModalArchiveBudget,
+    ModalDeleteBudget
   },
   data() {
     return {
@@ -106,6 +112,7 @@ export default {
       isCurrentBudget: null,
       editBudget: false,
       archiveBudget: false,
+      deleteBudget: false,
       currentBalance: null
     }
   },
@@ -116,6 +123,9 @@ export default {
     })
     EventBus.$on('budget-archived', () => {
       this.isCurrentBudget = false
+    })
+    EventBus.$on('budget-deleted', () => {
+      this.$router.push('/dashboard')
     })
   },
   methods: {

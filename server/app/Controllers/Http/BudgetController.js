@@ -1,6 +1,8 @@
 'use strict'
 
 const Budget = use('App/Models/Budget')
+const Expense = use('App/Models/Expense')
+const ObjectID = require("mongodb").ObjectID
 
 class BudgetController {
 
@@ -97,6 +99,12 @@ class BudgetController {
 
     //DELETE
     async delete({ response, auth, params }) {
+
+        await Expense.with(['user','budget'])
+            .where('user_id', auth.user._id)
+            .where('budget_id', ObjectID(params.id) )
+            .delete()
+
         const query = await Budget.with('user')
             .where('user_id', auth.user._id)
             .where('_id', params.id)
