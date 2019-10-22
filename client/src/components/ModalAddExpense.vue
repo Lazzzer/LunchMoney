@@ -53,7 +53,9 @@
 
         </div>
       </div>
-    </div></div></template>
+    </div>
+  </div>
+</template>
 
 <script>
 import { EventBus } from './../eventBus.js'
