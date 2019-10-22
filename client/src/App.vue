@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="android w-full h-screen bg-lunchPurple-700 font-sans">
+  <div id="app" class="android w-full h-screen bg-lunchPurple-700 font-sans mx-auto" style="max-width:650px;">
     <router-view />
   </div>
 </template>
