@@ -85,6 +85,8 @@
       <modal-archive-budget v-if="archiveBudget" @closing-modal="archiveBudget = false" :budget-id="budgetID"></modal-archive-budget>
       <modal-delete-budget v-if="deleteBudget" @closing-modal="deleteBudget = false" :budget-id="budgetID"></modal-delete-budget>
       <modal-delete-expense v-if="deleteExpense" @closing-modal="deleteExpense = false" :expense-id="expenses.slice().reverse()[selectedExpense]._id"></modal-delete-expense>
+      <modal-edit-expense v-if="editExpense" @closing-modal="editExpense = false" :expense="expenses.slice().reverse()[selectedExpense]"></modal-edit-expense>
+
     </div>
     <div v-else-if="validParams = false" class="w-full text-center">
       <h1 class="text-xl text-white font-black mt-10">ACCES DENIED</h1>
@@ -96,7 +98,7 @@ import ModalEditBudget from '../components/ModalEditBudget.vue'
 import ModalArchiveBudget from '../components/ModalArchiveBudget.vue'
 import ModalDeleteBudget from '../components/ModalDeleteBudget.vue'
 import ModalDeleteExpense from '../components/ModalDeleteExpense.vue'
-
+import ModalEditExpense from '../components/ModalEditExpense.vue'
 
 import { EventBus } from './../eventBus.js'
 
@@ -105,7 +107,8 @@ export default {
     ModalEditBudget,
     ModalArchiveBudget,
     ModalDeleteBudget,
-    ModalDeleteExpense
+    ModalDeleteExpense,
+    ModalEditExpense
   },
   data() {
     return {
@@ -120,7 +123,8 @@ export default {
       deleteBudget: false,
       currentBalance: null,
       selectedExpense: null,
-      deleteExpense: false
+      deleteExpense: false,
+      editExpense: false
     }
   },
   created() {
@@ -129,6 +133,9 @@ export default {
       this.getBudget()
     })
     EventBus.$on('expense-deleted', () => {
+      this.getBudget()
+    })
+    EventBus.$on('expense-edited', () => {
       this.getBudget()
     })
     EventBus.$on('budget-archived', () => {
@@ -156,7 +163,7 @@ export default {
           expenseDiv.className += ' swipe-left-edit'
           setTimeout(() => {
             this.selectedExpense = param
-            this.deleteExpense = true
+            this.editExpense = true
             expenseDiv.classList.remove('swipe-left-edit')
           }, 400)
         }

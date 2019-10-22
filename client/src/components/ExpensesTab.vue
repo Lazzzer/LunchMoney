@@ -38,20 +38,23 @@
     </div>
     <modal-delete-expense v-if="openModalDelete" @closing-modal="openModalDelete = false" :expense-id="expenses[selectedExpense]._id"></modal-delete-expense>
     <modal-add-expense v-if="openModalAdd" @closing-modal="openModalAdd = false"></modal-add-expense>
-
+    <modal-edit-expense v-if="openModalEdit" @closing-modal="openModalEdit = false" :expense="expenses[selectedExpense]"></modal-edit-expense>
   </div>
 </template>
 
 <script>
 import ModalAddExpense from '../components/ModalAddExpense.vue'
 import ModalDeleteExpense from '../components/ModalDeleteExpense.vue'
+import ModalEditExpense from '../components/ModalEditExpense.vue'
+
 
 import { EventBus } from './../eventBus.js'
 
 export default {
   components: {
     ModalAddExpense,
-    ModalDeleteExpense
+    ModalDeleteExpense,
+    ModalEditExpense
   },
   data() {
     return {
@@ -63,12 +66,16 @@ export default {
       selectedExpense: null,
       openModalAdd: false,
       openModalDelete: false,
+      openModalEdit: false,
     }
   }, created() {
     EventBus.$on('expense-added', () => {
       this.getExpenses()
     })
     EventBus.$on('expense-deleted', () => {
+      this.getExpenses()
+    })
+    EventBus.$on('expense-edited', () => {
       this.getExpenses()
     })
   },
@@ -93,7 +100,7 @@ export default {
           expenseDiv.className += ' swipe-left-edit'
           setTimeout(() => {
             this.selectedExpense = param
-            this.openModalDelete = true
+            this.openModalEdit = true
             expenseDiv.classList.remove('swipe-left-edit')
           }, 400)
         }

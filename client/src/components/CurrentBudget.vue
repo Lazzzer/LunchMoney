@@ -74,6 +74,9 @@ export default {
     EventBus.$on('expense-added', () => {
       this.getCurrentBudget()
     })
+    EventBus.$on('expense-edited', () => {
+      this.getCurrentBudget()
+    })
     EventBus.$on('expense-deleted', () => {
       this.getCurrentBudget()
     })
