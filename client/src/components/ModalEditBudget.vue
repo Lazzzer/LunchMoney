@@ -44,7 +44,7 @@ import { EventBus } from './../eventBus.js'
 export default {
   props: {
     limit: String,
-    budgetId: String
+    budgetId: String,
   },
   data() {
     return {

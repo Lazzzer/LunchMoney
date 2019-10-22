@@ -84,6 +84,17 @@ class BudgetController {
         return query.result.n === 1 ? response.accepted('Budget updated') : response.noContent()
     }
 
+    //PUT
+    async archive({ response, auth, params }) {
+
+        const query = await Budget.with('user')
+            .where('user_id', auth.user._id)
+            .where('_id', params.id)
+            .update({ current: false })
+
+        return query.result.n === 1 ? response.accepted('Budget archived') : response.noContent()
+    }
+
     //DELETE
     async delete({ response, auth, params }) {
         const query = await Budget.with('user')

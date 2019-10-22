@@ -38,7 +38,9 @@
             <i class="fas fa-edit text-xs text-lunchPurple-700 mr-1"></i>EDIT</div>
         </div>
         <div v-if="isCurrentBudget" class="relative w-1/3 flex items-center mr-2">
-          <div :class="['bg-lunchPink-600 w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']">
+          <div @click="archiveBudget = !archiveBudget" 
+               :class="['bg-lunchPink-600 w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']"
+          >
             <i class="fas fa-archive text-xs text-lunchPurple-700 mr-1"></i>ARCHIVE</div>
         </div>
         <div class="relative w-1/3 flex items-center">
@@ -75,20 +77,24 @@
         </div>
       </div>
       <modal-edit-budget v-if="editBudget" @closing-modal="editBudget = false" :limit="limit" :budget-id="budgetID"></modal-edit-budget>
+      <modal-archive-budget v-if="archiveBudget" @closing-modal="archiveBudget = false" :budget-id="budgetID"></modal-archive-budget>
+      
     </div>
-    <div v-else>
-      ACCES DENIED
+    <div v-else class="w-full text-center">
+      <h1 class="text-xl text-white font-black mt-10">ACCES DENIED</h1>
     </div>
-  </div>
-</template>
+  </div></template>
 
 <script>
 import ModalEditBudget from '../components/ModalEditBudget.vue'
+import ModalArchiveBudget from '../components/ModalArchiveBudget.vue'
+
 import { EventBus } from './../eventBus.js'
 
 export default {
   components: {
-    ModalEditBudget
+    ModalEditBudget,
+    ModalArchiveBudget
   },
   data() {
     return {
@@ -99,6 +105,7 @@ export default {
       expenses: [],
       isCurrentBudget: null,
       editBudget: false,
+      archiveBudget: false,
       currentBalance: null
     }
   },
@@ -106,6 +113,9 @@ export default {
     this.getBudget()
     EventBus.$on('budget-edited', () => {
       this.getBudget()
+    })
+    EventBus.$on('budget-archived', () => {
+      this.isCurrentBudget = false
     })
   },
   methods: {
