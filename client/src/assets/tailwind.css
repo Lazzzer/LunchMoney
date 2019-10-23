@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html{
+    box-sizing: border-box !important;
+}
+
 body{
     margin: 0 !important;
 }
