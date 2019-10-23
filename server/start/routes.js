@@ -17,7 +17,7 @@
 const Route = use('Route')
 
 Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
+  return 'Welcome to the server of Lunch Money'
 })
 
 //Token Refresh Route
