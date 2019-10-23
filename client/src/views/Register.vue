@@ -20,9 +20,9 @@
       </div>
     </div>
     <div v-else class="w-full h-full flex items-center justify-center">
-      <div class="mt-10 w-3/4">
+      <div class="mt-10 w-full">
         <h2 class="text-white font-bold text-xl text-center">SIGN UP</h2>
-        <form @submit.prevent="onSubmit" class="mt-8">
+        <form @submit.prevent="onSubmit" class="mt-8 w-3/4 mx-auto">
           <input v-model="name" 
                  :class="[errorField === 'name' ? 'border-red-400' : 'border-lunchPink-600','relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
                  type="name" name="name" placeholder="USERNAME" required
