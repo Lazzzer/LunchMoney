@@ -32,15 +32,15 @@ class UserController {
 
     //POST
     async logout({ request, response, auth }) {
-        const refreshToken = Encryption.decrypt(request.header('refresh_Token'))
+        const refreshToken = Encryption.decrypt(request.header('refresh-token'))
 
         const deletedToken = await auth.user.tokens().where('token', refreshToken).delete()
 
-        return deletedToken.result.n === 1 ?  response.accepted('Logged out') : response.notFound('Token not Found')
+        return deletedToken.result.n === 1 ? response.accepted('Logged out') : response.notFound('Missing Token')
     }
     //POST
     async refresh({ request, response, auth }) {
-        const refreshToken = request.header('refresh_Token')
+        const refreshToken = request.header('refresh-token')
         try {
             return response.created(await auth.generateForRefreshToken(refreshToken))
         } catch (error) {

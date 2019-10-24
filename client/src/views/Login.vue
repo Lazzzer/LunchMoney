@@ -53,7 +53,7 @@ export default {
         .then((res) => {
           console.log(res)
           if (res.status === 202) {
-            this.$cookies.set('refresh_token', res.data.token.refreshToken)
+            this.$cookies.set('refresh-token', res.data.token.refreshToken)
             this.$cookies.set('token', res.data.token.token)
             this.$router.push('dashboard')
           } else {

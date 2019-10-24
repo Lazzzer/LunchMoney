@@ -13,7 +13,7 @@ export default new Router({
       name: 'home',
       component: Home,
       beforeEnter: (to, from, next) => {
-        if (window.$cookies.isKey('refresh_token') && window.$cookies.isKey('token')) {
+        if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
           next('dashboard')
         } else {
           next()
@@ -29,7 +29,7 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "register" */ './views/Register.vue'),
       beforeEnter: (to, from, next) => {
-        if (window.$cookies.isKey('refresh_token') && window.$cookies.isKey('token')) {
+        if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
           next('dashboard')
         } else {
           next()
@@ -42,7 +42,7 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "login" */ './views/Login.vue'),
       beforeEnter: (to, from, next) => {
-        if (window.$cookies.isKey('refresh_token') && window.$cookies.isKey('token')) {
+        if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
           next('dashboard')
         } else {
           next()
@@ -55,7 +55,7 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue'),
       beforeEnter: (to, from, next) => {
-        if (window.$cookies.isKey('refresh_token') && window.$cookies.isKey('token')) {
+        if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
           next()
         } else {
           next('login')
@@ -68,7 +68,7 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "budget" */ './views/Budget.vue'),
       beforeEnter: (to, from, next) => {
-        if (window.$cookies.isKey('refresh_token') && window.$cookies.isKey('token')) {
+        if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
           next()
         } else {
           next('login')

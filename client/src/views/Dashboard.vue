@@ -91,7 +91,7 @@ export default {
         .then(res => {
           console.log(res)
           res.status === 202 ? this.authorized = false : ''
-          this.$cookies.isKey('refresh_token') ? this.$cookies.remove('refresh_token') : null
+          this.$cookies.isKey('refresh-token') ? this.$cookies.remove('refresh-token') : null
           this.$cookies.isKey('token') ? this.$cookies.remove('token') : null
           this.$router.push('/login')
         })

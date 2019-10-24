@@ -11,9 +11,9 @@ export default {
     this.$axios.interceptors.request.use(config => {
       // Do something before request is sent
       if (config.url.includes('dashboard') || config.url.includes('refresh') || config.url.includes('user') || config.url.includes('logout') || config.url.includes('budget') || config.url.includes('expense')) {
-        if (this.$cookies.isKey('refresh_token')) {
+        if (this.$cookies.isKey('refresh-token')) {
           config.headers.Authorization = 'bearer ' + this.$cookies.get('token')
-          config.headers.refresh_token = this.$cookies.get('refresh_token')
+          config.headers.common['refresh-token'] = this.$cookies.get('refresh-token')
           //console.log(config)
         }
       }
@@ -38,7 +38,7 @@ export default {
             })
             .catch(err => {
               console.log('erasing cookies...')
-              this.$cookies.isKey('refresh_token') ? this.$cookies.remove('refresh_token') : null
+              this.$cookies.isKey('refresh-token') ? this.$cookies.remove('refresh-token') : null
               this.$cookies.isKey('token') ? this.$cookies.remove('token') : null
               this.$router.push('/login')
             })
