@@ -34,6 +34,7 @@ export default {
           this.$axios.post('/refresh')
             .then(res => {
               this.$cookies.set('token', res.data.token)
+              this.$cookies.set('refresh-token', res.data.refreshToken)
               this.$router.go()
             })
             .catch(err => {
