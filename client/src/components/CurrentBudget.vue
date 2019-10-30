@@ -10,7 +10,7 @@
           <svg class="inline-block mr-1 -mt-1" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10.1146 0L12 3.4375H9.89375L8.45208 0H10.1146ZM7.44792 0L8.88958 3.4375H3.11042L4.55208 0H7.44792ZM1.88542 0H3.54792L2.10625 3.4375H0L1.88542 0ZM0 4.125H2.09792L4.66042 9.53262C4.69167 9.59922 4.60417 9.65938 4.55625 9.60352L0 4.125ZM3.0875 4.125H8.9125L6.05833 10.9613C6.0375 11.0129 5.96458 11.0129 5.94375 10.9613L3.0875 4.125ZM7.33958 9.53262L9.90208 4.125H12L7.44375 9.60137C7.39583 9.65938 7.30833 9.59922 7.33958 9.53262Z" fill="#E2E8F0" />
           </svg>
-          <span>{{ currentBalance }}</span>
+          <span>{{ currentBalance.toFixed(2) }}</span>
           <span class="text-lunchPurple-100 italic font-bold text-2xl">/</span>
           <span class="text-lunchPink-600">{{ parseFloat(limit).toFixed(2) }}</span>
           <span class="ml-1 text-lg not-italic">{{ currency }}</span>
