@@ -13,18 +13,18 @@
       <h2 class="text-white font-bold text-xl text-center">LOGIN</h2>
       <form @submit.prevent="onSubmit" class="mt-8 w-3/4 mx-auto">
         <input v-model="name" 
-               :class="[errorField === 'name' ? 'border-red-400' : 'border-lunchPink-600','relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
+               :class="[errorName ? 'border-red-400' : 'border-lunchPink-600','relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
                type="name" name="name" placeholder="USERNAME" required
         >
         <i class="fas fa-user-alt text-xl text-lunchPink-600 absolute -mt-8"></i>
-        <span v-if="hasError && errorField === 'name'" class="text-red-400 text-xs absolute">{{ errorMessage }}</span>
+        <span v-if="hasError && errorName" class="text-red-400 text-xs absolute">{{ errorName.message }}</span>
         <input v-model="password" 
-               :class="[errorField === 'password' ? 'border-red-400' : 'border-lunchPink-600','mt-8 relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
+               :class="[errorPassword ? 'border-red-400' : 'border-lunchPink-600','mt-8 relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
                type="password" name="password" placeholder="PASSWORD" required
         >
         <i class="fas fa-lock text-xl text-lunchPink-600 absolute -mt-8"></i>
-        <span v-if="hasError && errorField === 'password'" class="text-red-400 text-xs absolute">{{ errorMessage }}</span>
-        <input class="w-full mt-16 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:bg-lunchPink-700 hover:bg-lunchPink-700" type="submit" name="submit" value="CONNECT">
+        <span v-if="hasError && errorPassword" class="text-red-400 text-xs absolute">{{ errorPassword.message }}</span>
+        <input class="no-highlight-color cursor-pointer w-full mt-16 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:bg-lunchPink-700 hover:bg-lunchPink-700" type="submit" name="submit" value="CONNECT">
       </form>
       <div class="w-full text-center">
         <router-link to="/register" class="mt-6 text-white font-bold text-sm inline-block">Or Sign Up</router-link>
@@ -40,14 +40,15 @@ export default {
       name: '',
       password: '',
       hasError: false,
-      errorMessage: null,
-      errorField: null
+      errorArray: [],
+      errorName: null,
+      errorPassword: null
     }
   },
   methods: {
     onSubmit() {
       this.$axios.post('/login', {
-        name: this.name.toLowerCase(),
+        name: this.name.toLowerCase().trim(),
         password: this.password
       })
         .then((res) => {
@@ -61,10 +62,17 @@ export default {
           }
         }).catch((err) => {
           console.log(err.response)
-          this.errorMessage = err.response.data[0].message
-          this.errorField = err.response.data[0].field
+          this.errorArray = err.response.data
+          this.errorName = this.hadError('name')
+          this.errorPassword = this.hadError('password')
           this.hasError = true
         })
+    },
+    hadError(field) {
+      let value = this.errorArray.find(obj => {
+        return obj.field === field
+      })
+      return value === undefined ? false : value
     }
   },
 }
