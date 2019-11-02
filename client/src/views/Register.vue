@@ -24,30 +24,30 @@
         <h2 class="text-white font-bold text-xl text-center">SIGN UP</h2>
         <form @submit.prevent="onSubmit" class="mt-8 w-3/4 mx-auto">
           <input v-model="name" 
-                 :class="[errorField === 'name' ? 'border-red-400' : 'border-lunchPink-600','relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
+                 :class="[errorName ? 'border-red-400' : 'border-lunchPink-600','relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
                  type="name" name="name" placeholder="USERNAME" required
           >
           <i class="fas fa-user-alt text-xl text-lunchPink-600 absolute -mt-8"></i>
-          <span v-if="hasError && errorField === 'name'" class="text-red-400 text-xs absolute">{{ errorMessage }}</span>
+          <span v-if="hasError && errorName" class="text-red-400 text-xs absolute">{{ errorName.message }}</span>
           <div class="relative">
             <input v-model="email" 
-                   :class="[errorField === 'email' ? 'border-red-400' : 'border-lunchPink-600','mt-8 relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
+                   :class="[errorEmail ? 'border-red-400' : 'border-lunchPink-600','mt-8 relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
                    type="email" name="name" placeholder="EMAIL"
             >
             <i class="fas fa-at text-xl text-lunchPink-600 absolute -mt-8"></i>
             <span class="text-xs  text-lunchPink-600 absolute top-0 right-0 mt-3">Optional </span>
-            <span v-if="hasError && errorField === 'email'" class="text-red-400 text-xs absolute">{{ errorMessage }}</span>
+            <span v-if="hasError && errorEmail" class="text-red-400 text-xs absolute">{{ errorEmail.message }}</span>
           </div>
           
           <input v-model="password" 
-                 :class="[errorField === 'password' ? 'border-red-400' : 'border-lunchPink-600','mt-8 relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
+                 :class="[errorPassword ? 'border-red-400' : 'border-lunchPink-600','mt-8 relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']" 
                  type="password" name="password" placeholder="PASSWORD" required
           >
           <i class="fas fa-lock text-xl text-lunchPink-600 absolute -mt-8"></i>
-          <span v-if="hasError && errorField === 'password'" class="text-red-400 text-xs absolute">{{ errorMessage }}</span>
+          <span v-if="hasError && errorPassword" class="text-red-400 text-xs absolute">{{ errorPassword.message }}</span>
           <div class="relative w-2/3">
             <select v-model="currency" id="currency" 
-                    :class="[errorField === 'currency' ? 'border-red-400' : ' border-lunchPink-600','mt-8 appearance-none relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']"
+                    :class="[errorCurrency ? 'border-red-400' : ' border-lunchPink-600','mt-8 appearance-none relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']"
             >
               <option hidden disabled>CURRENCY</option>
               <option class="text-gray-700">CHF</option>
@@ -58,10 +58,10 @@
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-lunchPink-600">
               <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
             </div>
-            <span v-if="hasError && errorField === 'currency'" class="text-red-400 text-xs absolute">Please pick a valid option.</span>
+            <span v-if="hasError && errorCurrency" class="text-red-400 text-xs absolute">Please pick a valid option.</span>
           </div>
           
-          <input class="w-full mt-16 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700" type="submit" name="submit" value="JOIN">
+          <input class="no-highlight-color cursor-pointer w-full mt-16 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700" type="submit" name="submit" value="JOIN">
         </form>
         <div class="w-full text-center">
           <router-link to="/login" class="mt-6 text-white font-bold text-sm inline-block">Or Log In</router-link>
@@ -81,15 +81,18 @@ export default {
       currency: 'CURRENCY',
       userCreated: null,
       hasError: false,
-      errorMessage: null,
-      errorField: null
+      errorArray: [],
+      errorName: null,
+      errorEmail: null,
+      errorPassword: null,
+      errorCurrency: null
     }
   },
   methods: {
     onSubmit() {
       this.$axios.post('/register', {
-        name: this.name.toLowerCase(),
-        email: this.email.toLowerCase(),
+        name: this.name.toLowerCase().trim(),
+        email: this.email.toLowerCase().trim(),
         password: this.password,
         currency: this.currency
       })
@@ -98,11 +101,20 @@ export default {
           res.status === 201 ? this.userCreated = true : this.hasError = true
         })
         .catch(err => {
-          console.log(err.response)
-          this.errorMessage = err.response.data[0].message
-          this.errorField = err.response.data[0].field
+          this.errorArray = err.response.data
+          this.errorName = this.hadError('name')
+          this.errorEmail = this.hadError('email')
+          this.errorPassword = this.hadError('password')
+          this.errorCurrency = this.hadError('currency')
           this.hasError = true
+
         })
+    },
+    hadError(field) {
+      let value = this.errorArray.find(obj => {
+        return obj.field === field
+      })
+      return value === undefined ? false : value
     }
   },
 }

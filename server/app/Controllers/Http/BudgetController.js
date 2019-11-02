@@ -3,6 +3,7 @@
 const Budget = use('App/Models/Budget')
 const Expense = use('App/Models/Expense')
 const ObjectID = require("mongodb").ObjectID
+const { validateAll } = use('Validator')
 
 class BudgetController {
 
@@ -56,34 +57,66 @@ class BudgetController {
 
     //POST
     async create({ request, response, auth }) {
-        //Dans la vérification, checkez que limit soit bien un nombre.
-        await Budget.with('user')
-            .where('current', true)
-            .where('user_id', auth.user._id)
-            .update({ current: false })
+        const rules = {
+            limit: 'required|number|range:0,10001',
+        }
 
-        const { limit } = request.all()
+        const messages = {
+            required: "The {{field}} can't be empty",
+            number: "The {{field}} should be a valid number",
+            range: "The {{field}} should be in a range of 1 to 10'000"
+        }
 
-        const budget = new Budget({
-            user_id: auth.user._id,
-            limit,
-            current: true
-        })
-        await budget.save()
+        const validation = await validateAll(request.all(), rules, messages)
 
-        return response.created('Budget created!')
+        if (validation.fails()) {
+            return response.badRequest(validation.messages())
+        } else {
+            await Budget.with('user')
+                .where('current', true)
+                .where('user_id', auth.user._id)
+                .update({ current: false })
+
+            const { limit } = request.all()
+
+            const budget = new Budget({
+                user_id: auth.user._id,
+                limit,
+                current: true
+            })
+            await budget.save()
+
+            return response.created('Budget created!')
+        }
     }
 
     //PUT
     async edit({ request, response, auth, params }) {
-        const { limit } = request.all()
 
-        const query = await Budget.with('user')
-            .where('user_id', auth.user._id)
-            .where('_id', params.id)
-            .update({ limit: limit })
+        const rules = {
+            limit: 'required|number|range:0,10001',
+        }
 
-        return query.result.n === 1 ? response.accepted('Budget updated') : response.noContent()
+        const messages = {
+            required: "The {{field}} can't be empty",
+            number: "The {{field}} should be a valid number",
+            range: "The {{field}} should be in a range of 1 to 10'000"
+        }
+        
+        const validation = await validateAll(request.all(), rules, messages)
+
+        if (validation.fails()) {
+            return response.badRequest(validation.messages())
+        } else {
+            const { limit } = request.all()
+
+            const query = await Budget.with('user')
+                .where('user_id', auth.user._id)
+                .where('_id', params.id)
+                .update({ limit: limit })
+
+            return query.result.n === 1 ? response.accepted('Budget updated') : response.noContent()
+        }
     }
 
     //PUT
@@ -100,9 +133,9 @@ class BudgetController {
     //DELETE
     async delete({ response, auth, params }) {
 
-        await Expense.with(['user','budget'])
+        await Expense.with(['user', 'budget'])
             .where('user_id', auth.user._id)
-            .where('budget_id', ObjectID(params.id) )
+            .where('budget_id', ObjectID(params.id))
             .delete()
 
         const query = await Budget.with('user')

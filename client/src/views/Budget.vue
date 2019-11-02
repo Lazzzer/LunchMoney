@@ -70,7 +70,8 @@
                 <h4 class="text-white text-sm font-bold"><span class="text-lunchPink-600 text-base font-bold overflow-x-hidden">-{{ parseFloat(expense.price).toFixed(2) }}</span> {{ $store.state.currentCurrency }}</h4>
                 <span class="text-lunchPink-600 text-xs font-bold italic">{{ formatDate(expense.created_at) }}</span>
               </div>
-              <p class="text-lunchPurple-100 text-xs -mt-1 ">{{ truncateDesc(expense.description, 25) }}</p>
+              <p v-if="expense.description === null" class="text-lunchPurple-100 text-xs -mt-1">No description</p>
+              <p v-else class="text-lunchPurple-100 text-xs -mt-1">{{ truncateDesc(expense.description, 25) }}</p>
             </div>
           </div>
         </div>

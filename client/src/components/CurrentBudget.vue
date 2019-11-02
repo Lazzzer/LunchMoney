@@ -1,5 +1,5 @@
 <template>
-  <div :class="['mt-4 border border-lunchPink-600 rounded-lunch h-26 no-highlight-color', noCurrentBudget ? 'bg-lunchPurple-900' : 'bg-lunchPurple-800' ]">
+  <div :class="['mt-4 border border-lunchPink-600 rounded-lunch h-26 no-highlight-color cursor-pointer', noCurrentBudget ? 'bg-lunchPurple-900' : 'bg-lunchPurple-800' ]">
     <div v-if="!noCurrentBudget && noCurrentBudget !== null">
       <router-link :to="{name: 'budget', params: {id: id}}">
         <h2 class="mt-2 ml-4 text-lunchPink-600 text-xl italic font-black uppercase">Current budget </h2>
@@ -17,7 +17,7 @@
         </div>
       </router-link>
     </div>
-    <div v-else @click="newBudgetModal = !newBudgetModal" class="w-full h-full flex flex-col items-center justify-center">
+    <div v-else @click="openModal" class="w-full h-full flex flex-col items-center justify-center">
       <h2 class="text-white text-xs italic font-black uppercase text-center">No budget for the current month</h2>
       <div class="flex items-center mt-2">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,7 +27,7 @@
       </div>
     </div>
     <div v-if="newBudgetModal" class="modal-new-budget w-screen h-screen absolute top-0 left-0 flex items-center justify-center">    
-      <div @click="newBudgetModal = !newBudgetModal" class="absolute w-screen h-screen top-0 left-0 z-10" style="background-color:rgba(0, 0, 0, 0.8);">
+      <div @click="openModal" class="absolute w-screen h-screen top-0 left-0 z-10" style="background-color:rgba(0, 0, 0, 0.8);">
       </div>
       <div class="w-5/6 h-66 bg-lunchPurple-800 rounded-lunch border border-lunchPink-600 z-10" style="max-width:600px;">
         <div v-if="budgetCreated" class="w-full">
@@ -36,17 +36,18 @@
             <circle cx="73.5" cy="73.5" r="70.5" stroke="#68D391" stroke-width="6" />
           </svg>
           <h1 class="mt-4 text-lg italic text-green-500  text-center">Successfully created!</h1>
-          <div @click="newBudgetModal = !newBudgetModal" class="w-3/5 mx-auto mt-4 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">EXIT</div>
+          <div @click="openModal" class="no-highlight-color cursor-pointer w-3/5 mx-auto mt-4 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none ">EXIT</div>
         </div>
         <div v-else>
           <h2 class="mt-2 ml-4 text-lunchPink-600 text-2xl italic font-black uppercase">NEW BUDGET</h2>
-          <div class="relative w-2/5 mx-auto mt-10">
+          <div class="relative w-3/5 mx-auto mt-10">
             <input v-model="limit" 
-                   :class="['relative pl-12 pr-2 h-12 w-full block bg-transparent text-white placeholder-white font-bold text-2xl border-b-2 placeholder-gray-700 focus:outline-none focus:border-white']" 
+                   :class="[errorLimit ? 'border-red-400' : 'border-lunchPink-600','relative pl-12 pr-2 h-12 w-full block bg-transparent text-white placeholder-white font-bold text-2xl border-b-2 placeholder-gray-700 focus:outline-none focus:border-white']" 
                    type="number" name="number" placeholder="Limit" required
             >
+            <span v-if="hasError && errorLimit" class="text-red-400 text-xs bottom-2 left-0 absolute mt-2">{{ errorLimit.message }}</span>
             <span class="text-lg font-bold text-lunchPink-600 absolute top-0 left-0 mt-3 mr-2">{{ currency }}</span>
-            <div @click="createBudget" class="w-full mt-10 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">CREATE</div>
+            <div @click="createBudget" class="no-highlight-color cursor-pointer w-full mt-16 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none">CREATE</div>
           </div>
         </div>
       </div>
@@ -67,7 +68,10 @@ export default {
       currentBalance: null,
       expenses: null,
       month: '',
-      currency: this.$store.state.currentCurrency
+      currency: this.$store.state.currentCurrency,
+      hasError: false,
+      errorArray: [],
+      errorLimit: null,
     }
   },
   created() {
@@ -83,6 +87,12 @@ export default {
     this.getCurrentBudget()
   },
   methods: {
+    openModal() {
+      this.limit = null
+      this.newBudgetModal = !this.newBudgetModal
+      this.errorArray = []
+      this.errorLimit = null
+    },
     fullDate: (dateToParse) => {
       let date = new Date(dateToParse)
       console.log(date)
@@ -105,6 +115,9 @@ export default {
           }
         }).catch((err) => {
           console.log(err)
+          this.hasError = true
+          this.errorArray = err.response.data
+          this.errorLimit = this.hadError('limit')
         })
     },
     getCurrentBudget() {
@@ -125,6 +138,12 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    hadError(field) {
+      let value = this.errorArray.find(obj => {
+        return obj.field === field
+      })
+      return value === undefined ? false : value
     }
   },
 }

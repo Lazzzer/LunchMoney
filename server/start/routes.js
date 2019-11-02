@@ -24,8 +24,8 @@ Route.get('/', () => {
 Route.post('/refresh', 'UserController.refresh')
 
 //User Routes
-Route.post('/login', 'UserController.login').validator('LoginUser')
-Route.post('/register', 'UserController.register').validator('RegisterUser')
+Route.post('/login', 'UserController.login')
+Route.post('/register', 'UserController.register')
 Route.post('/logout', 'UserController.logout').middleware(['auth'])
 Route.get('/user', 'UserController.show').middleware(['auth'])
 // Route.put('/user').middleware(['auth'])

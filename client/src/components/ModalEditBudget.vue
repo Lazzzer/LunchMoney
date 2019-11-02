@@ -21,19 +21,20 @@
               <circle cx="73.5" cy="73.5" r="70.5" stroke="#68D391" stroke-width="6" />
             </svg>
             <h1 class="mt-4 text-lg italic text-green-500  text-center">Successfully edited!</h1>
-            <div @click="$emit('closing-modal')" class="w-3/5 mx-auto mt-4 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">EXIT</div>
+            <div @click="$emit('closing-modal')" class="no-highlight-color cursor-pointer w-3/5 mx-auto mt-4 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none">EXIT</div>
           </div>
         </div>
         <div v-else>
           <h2 class="mt-2 ml-4 text-lunchPink-600 text-2xl italic font-black uppercase">EDIT BUDGET</h2>
-          <div class="relative w-2/5 mx-auto mt-10 h-full ">
+          <div class="relative w-3/5 mx-auto mt-10 h-full ">
             <input v-model="newLimit"
-                   :class="['relative pl-12 pr-2 h-12 w-full block bg-transparent text-white placeholder-white font-bold text-2xl border-b-2 placeholder-gray-700 focus:outline-none focus:border-white']" 
+                   :class="[errorLimit ? 'border-red-400' : 'border-lunchPink-600','relative pl-12 pr-2 h-12 w-full block bg-transparent text-white placeholder-white font-bold text-2xl border-b-2 placeholder-gray-700 focus:outline-none focus:border-white']" 
                    type="number" name="number" placeholder="Limit" required
             >
+            <span v-if="hasError && errorLimit" class="text-red-400 text-xs bottom-2 left-0 absolute mt-2">{{ errorLimit.message }}</span>            
             <span class="text-lg font-bold text-lunchPink-600 absolute top-0 left-0 mt-3 mr-2">{{ this.$store.state.currentCurrency }}</span>
           </div>
-          <div @click="editBudget" class="w-5/6 mx-auto mt-10 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">SAVE CHANGE</div>
+          <div @click="editBudget" class="no-highlight-color cursor-pointer w-5/6 mx-auto mt-16 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none">SAVE CHANGE</div>
         </div>
       </div>
     </div>
@@ -51,12 +52,14 @@ export default {
       newLimit: this.limit,
       oldLimit: this.limit,
       budgetEdited: false,
-      sameBudget: false
+      sameBudget: false,
+      hasError: false,
+      errorArray: [],
+      errorLimit: null
     }
   },
   methods: {
     editBudget() {
-
       if (this.newLimit !== this.oldLimit) {
         this.$axios.put(`/budget/edit/${this.budgetId}`, {
           limit: this.newLimit
@@ -69,6 +72,9 @@ export default {
           })
           .catch(err => {
             console.log(err)
+            this.errorArray = err.response.data
+            this.errorLimit = this.hadError('limit')
+            this.hasError = true
           })
       } else {
         this.sameBudget = true
@@ -77,6 +83,12 @@ export default {
     },
     emitGlobalCreationEvent() {
       EventBus.$emit('budget-edited')
+    },
+    hadError(field) {
+      let value = this.errorArray.find(obj => {
+        return obj.field === field
+      })
+      return value === undefined ? false : value
     }
   },
 }
