@@ -18,7 +18,13 @@ export default new Vuex.Store({
     },
     setCurrency(state, currency) {
       state.currentCurrency = currency
-    }
+    },
+    setDefaultBudget(state, defaultBudget) {
+      state.defaultBudget = defaultBudget
+    },
+    setDefaultValue(state, defaultValue) {
+      state.defaultValue = defaultValue
+    },
   },
   actions: {}
 })

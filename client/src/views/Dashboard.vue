@@ -81,6 +81,8 @@ export default {
         this.$store.commit('setName', res.data[0])
         this.$store.commit('setEmail', res.data[1])
         this.$store.commit('setCurrency', res.data[2])
+        this.$store.commit('setDefaultBudget', res.data[3])
+        this.$store.commit('setDefaultValue', res.data[4])
         this.authorized = true
       })
       .catch()

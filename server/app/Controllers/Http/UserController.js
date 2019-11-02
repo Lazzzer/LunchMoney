@@ -24,7 +24,6 @@ class UserController {
     async login({ request, response, auth }) {
         const { name, password } = request.all()
         const token = await auth.withRefreshToken().attempt(name, password)
-        //Wont need const user after Dashboard modification
         const user = await User.query().setVisible(['name', 'email']).where('name', name).fetch()
 
         return response.accepted({ token, user })
@@ -49,7 +48,7 @@ class UserController {
     }
     //GET
     async show({ response, auth }) {
-        return response.accepted([auth.user.name, auth.user.email, auth.user.currency])
+        return response.accepted([auth.user.name, auth.user.email, auth.user.currency, auth.user.defaultBudget, auth.user.defaultValue])
     }
 }
 
