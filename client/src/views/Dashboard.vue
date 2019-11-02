@@ -1,6 +1,6 @@
 <template>
   <div v-if="authorized" class="main-dashboard w-full h-full">
-    <div class="header flex justify-end pt-4 w-5/6 mx-auto">
+    <div class="header flex justify-end pt-4 w-5/6 mx-auto no-highlight-color">
       <!-- <router-link to="/" class="">
         <svg width="69" height="28" viewBox="0 0 69 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.59009 15.6934H11.9826L12.8997 12.3455H7.48166L9.75759 3.97567H5.78319L2.59009 15.6934ZM19.4145 15.9278C21.2998 15.9278 22.9983 15.4925 24.1193 14.3877C24.9515 13.5675 25.563 12.4292 25.9876 10.8724L27.873 3.97567H23.8305L22.1151 10.2698C21.8603 11.1737 21.6225 11.6257 21.2659 11.9772C20.9432 12.2953 20.4846 12.4627 19.992 12.4627C18.939 12.4627 18.3615 11.9605 18.3615 10.9896C18.3615 10.7218 18.4124 10.4037 18.4974 10.0689L20.1619 3.97567H16.1195L14.523 9.81781C14.3531 10.4539 14.2682 11.1068 14.2682 11.7094C14.2682 14.3543 16.0686 15.9278 19.4145 15.9278ZM26.8006 15.6934H30.741L32.3376 9.86803L35.157 15.6934H38.6898L41.8829 3.97567H37.9425L36.4139 9.56672L33.7133 3.97567H29.9937L26.8006 15.6934ZM47.7487 15.9445C50.2794 15.9445 52.0119 14.9234 53.2008 13.3834L50.4493 11.2407C49.8039 12.0274 49.0565 12.4627 48.1394 12.4627C47.0863 12.4627 46.2711 11.7429 46.2711 10.4539C46.2711 8.84691 47.426 7.2399 49.2094 7.2399C50.1096 7.2399 50.806 7.70861 51.0607 8.66277L54.6105 7.13947C54.118 5.06375 52.3006 3.72458 49.7359 3.72458C44.6066 3.72458 42.1098 7.60818 42.1098 10.8054C42.1098 13.9525 44.4197 15.9445 47.7487 15.9445ZM54.1954 15.6934H58.1698L59.3078 11.4918H62.9425L61.8045 15.6934H65.7789L68.9721 3.97567H64.9977L63.8597 8.11037H60.225L61.3629 3.97567H57.3885L54.1954 15.6934Z" fill="#F71140" />
@@ -9,7 +9,7 @@
           <path d="M60.0374 25.1243L60.8654 25.1239L60.8648 24.3549C61.9954 24.2522 62.7435 23.6633 62.743 22.706V22.6903C62.7422 21.7173 62.105 21.2704 60.8391 20.9808L60.8386 20.0706C61.1968 20.1567 61.579 20.3134 61.9057 20.5408L62.5577 19.489C62.08 19.1675 61.5304 18.9481 60.8776 18.8779L60.8773 18.4071L60.0493 18.4075L60.0496 18.8548C58.8315 18.9418 58.1473 19.5856 58.1478 20.5116V20.5273C58.1484 21.5002 58.8015 21.9314 60.0835 22.221L60.0841 23.1626C59.5902 23.0844 59.1125 22.8729 58.6027 22.5201L57.887 23.5641C58.4841 23.9874 59.2566 24.2616 60.0368 24.3397L60.0374 25.1243ZM60.0904 20.8478C59.6605 20.7304 59.5491 20.6128 59.5491 20.4087L59.5488 20.3931C59.5488 20.189 59.7001 20.032 60.0902 20.0004L60.0904 20.8478ZM60.8325 23.2093L60.8319 22.3461C61.2459 22.4636 61.3654 22.5812 61.3656 22.7931V22.8088C61.3656 23.0363 61.1987 23.1698 60.8325 23.2093Z" fill="white" />
         </svg>
       </router-link> -->
-      <div class="relative focus:outline-none">
+      <div class="relative focus:outline-none cursor-pointer no-highlight-color">
         <span @click="optionToggled = !optionToggled"
               :class="[optionToggled ? 'bg-white' : 'bg-lunchPink-600',' flex items-center block py-1 px-5 rounded-full text-lunchPurple-700 text-center font-black focus:bg-lunchPink-700 focus:outline-none']"
         >
@@ -32,16 +32,16 @@
       <current-budget></current-budget>
       <div class="flex items-center justify-center mt-4 ">
         <div class="relative w-1/3 flex items-center mr-2">
-          <div @click="currentTab = 1" :class="[currentTab === 1 ? 'bg-lunchPink-600 ': 'bg-lunchPurple-200', 'w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']">
+          <div @click="currentTab = 1" :class="[currentTab === 1 ? 'bg-lunchPink-600 ': 'bg-lunchPurple-200', 'no-highlight-color cursor-pointer w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']">
             <i class="fas fa-tags text-xs text-lunchPurple-700 mr-1"></i>EXPENSES</div>
         </div>
 
         <div class="relative w-1/3 flex items-center mr-2">
-          <div @click="currentTab = 2" :class="[currentTab === 2 ? 'bg-lunchPink-600 ': 'bg-lunchPurple-200', 'w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']">
+          <div @click="currentTab = 2" :class="[currentTab === 2 ? 'bg-lunchPink-600 ': 'bg-lunchPurple-200', 'no-highlight-color cursor-pointer w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']">
             <i class="fas fa-list text-xs text-lunchPurple-700 mr-1"></i>BUDGETS</div>
         </div>
         <div class="relative w-1/3 flex items-center">
-          <div @click="currentTab = 3" :class="[currentTab === 3 ? 'bg-lunchPink-600 ': 'bg-lunchPurple-200', 'w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']">
+          <div @click="currentTab = 3" :class="[currentTab === 3 ? 'bg-lunchPink-600 ': 'bg-lunchPurple-200', 'no-highlight-color cursor-pointer w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']">
             <i class="fas fa-chart-pie text-xs text-lunchPurple-700 mr-1"></i>STATISTICS</div>
         </div>
       </div>

@@ -4,7 +4,7 @@
       <div class="header flex justify-end pt-4 w-5/6 mx-auto">
         <div class="relative focus:outline-none">
           <router-link to="/dashboard"
-                       :class="['bg-lunchPink-600 flex items-center block py-1 px-5 rounded-full text-lunchPurple-700 text-center font-black focus:bg-lunchPink-700 focus:outline-none']"
+                       :class="['cursor-pointer no-highlight-color bg-lunchPink-600 flex items-center block py-1 px-5 rounded-full text-lunchPurple-700 text-center font-black focus:outline-none']"
           >
             <svg class="mr-2" width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M0.223448 4.91581L4.54156 0.242268C4.84002 -0.080756 5.32263 -0.080756 5.61791 0.242268L6.33548 1.0189C6.63394 1.34192 6.63394 1.86426 6.33548 2.18385L3.27788 5.5L6.33866 8.81271C6.63712 9.13574 6.63712 9.65807 6.33866 9.97766L5.62109 10.7577C5.32263 11.0808 4.84002 11.0808 4.54474 10.7577L0.226623 6.08419C-0.0750098 5.76117 -0.0750097 5.23883 0.223448 4.91581Z" fill="#12012F" />
@@ -33,19 +33,19 @@
       <div class="flex items-center justify-center mt-4 ">
         <div class="relative w-1/3 flex items-center mr-2">
           <div @click="editBudget = !editBudget"
-               :class="['bg-lunchPink-600 w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']"
+               :class="['cursor-pointer no-highlight-color bg-lunchPink-600 w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']"
           >
             <i class="fas fa-edit text-xs text-lunchPurple-700 mr-1"></i>EDIT</div>
         </div>
         <div v-if="isCurrentBudget" class="relative w-1/3 flex items-center mr-2">
           <div @click="archiveBudget = !archiveBudget" 
-               :class="['bg-lunchPink-600 w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']"
+               :class="['cursor-pointer no-highlight-color bg-lunchPink-600 w-full inline-block  py-2 rounded-full text-lunchPurple-700 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']"
           >
             <i class="fas fa-archive text-xs text-lunchPurple-700 mr-1"></i>ARCHIVE</div>
         </div>
         <div class="relative w-1/3 flex items-center">
           <div @click="deleteBudget = !deleteBudget"  
-               :class="['bg-lunchPurple-900 w-full inline-block  py-2 rounded-full text-lunchPink-600 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']"
+               :class="['cursor-pointer no-highlight-color bg-lunchPurple-900 w-full inline-block  py-2 rounded-full text-lunchPink-600 text-center font-black uppercase text-xs focus:outline-none focus:bg-lunchPink-700']"
           >
             <i class="fas fa-trash-alt text-xs text-lunchPink-600 mr-1"></i>DELETE</div>
         </div>

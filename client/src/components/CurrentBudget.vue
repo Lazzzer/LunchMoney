@@ -1,6 +1,5 @@
 <template>
-  <div :class="['mt-4 border border-lunchPink-600 rounded-lunch h-26', noCurrentBudget ? 'bg-lunchPurple-900' : 'bg-lunchPurple-800' ]">
-    
+  <div :class="['mt-4 border border-lunchPink-600 rounded-lunch h-26 no-highlight-color', noCurrentBudget ? 'bg-lunchPurple-900' : 'bg-lunchPurple-800' ]">
     <div v-if="!noCurrentBudget && noCurrentBudget !== null">
       <router-link :to="{name: 'budget', params: {id: id}}">
         <h2 class="mt-2 ml-4 text-lunchPink-600 text-xl italic font-black uppercase">Current budget </h2>

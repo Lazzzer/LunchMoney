@@ -11,7 +11,7 @@
           <span :class="[budgetDifference(getCurrentBalance(budget.expenses), budget.limit) >= 0 ? 'text-green-400': 'text-red-400','text-xs font-bold italic mt-3 pr-4']">{{ budgetDifference(getCurrentBalance(budget.expenses), budget.limit) }}</span>
         </div>
         <div class="flex justify-end mr-4 -mt-1">
-          <span class="text-white font-bold text-sm">{{ getCurrentBalance(budget.expenses) }} / <span class="text-lunchPink-600">{{ parseFloat(budget.limit).toFixed(2) }}</span><span class="text-xs"> {{ currency }}</span></span>
+          <span class="text-white font-bold text-sm">{{ getCurrentBalance(budget.expenses).toFixed(2) }} / <span class="text-lunchPink-600">{{ parseFloat(budget.limit).toFixed(2) }}</span><span class="text-xs"> {{ currency }}</span></span>
         </div>
       </div>
       <br>
