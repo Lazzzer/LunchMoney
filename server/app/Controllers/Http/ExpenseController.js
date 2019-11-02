@@ -2,30 +2,50 @@
 
 const Budget = use('App/Models/Budget')
 const Expense = use('App/Models/Expense')
+const { validateAll } = use('Validator')
 
 class ExpenseController {
+
     //POST
     async create({ request, response, auth }) {
 
-        let queryBudget = await Budget.with('user')
-            .where('current', true)
-            .where('user_id', auth.user._id)
-            .first()
+        const rules = {
+            price: 'required|number|range:0,10001',
+            type: 'required|in:Food,Other'
+        }
 
-        if (queryBudget === null)
-            return response.notFound('Budget not found, cant create the expense')
+        const messages = {
+            required: "The {{field}} can't be empty",
+            number: "The {{field}} should be a valid number",
+            range: "Valid range: 1-10'000",
+            in: 'The {{field}} is not valid.',
+        }
 
-        const { type, price, description } = request.all()
+        const validation = await validateAll(request.all(), rules, messages)
 
-        const expense = new Expense({
-            user_id: auth.user._id,
-            budget_id: queryBudget._id,
-            type: type,
-            price: price,
-            description: description
-        })
+        if (validation.fails()) {
+            return response.badRequest(validation.messages())
+        } else {
+            let queryBudget = await Budget.with('user')
+                .where('current', true)
+                .where('user_id', auth.user._id)
+                .first()
 
-        return await expense.save() ? response.created('Expense created') : response.noContent()
+            if (queryBudget === null)
+                return response.notFound('Budget not found, cant create the expense')
+
+            const { type, price, description } = request.all()
+
+            const expense = new Expense({
+                user_id: auth.user._id,
+                budget_id: queryBudget._id,
+                type: type,
+                price: price,
+                description: description
+            })
+
+            return await expense.save() ? response.created('Expense created') : response.noContent()
+        }
     }
 
     //GET
@@ -53,18 +73,36 @@ class ExpenseController {
     //PUT
     async edit({ request, response, auth, params }) {
 
-        const { type, price, description } = request.all()
+        const rules = {
+            price: 'required|number|range:0,10001',
+            type: 'required|in:Food,Other'
+        }
 
-        const query = await Expense.with('user')
-            .where('user_id', auth.user._id)
-            .where('_id', params.id)
-            .update({
-                type: type,
-                price: price,
-                description: description
-            })
+        const messages = {
+            required: "The {{field}} can't be empty",
+            number: "The {{field}} should be a valid number",
+            range: "Valid range: 1-10'000",
+            in: 'The {{field}} is not valid.',
+        }
+        
+        const validation = await validateAll(request.all(), rules, messages)
 
-        return query.result.n === 1 ? response.accepted('Expense updated') : response.noContent()
+        if (validation.fails()) {
+            return response.badRequest(validation.messages())
+        } else {
+            const { type, price, description } = request.all()
+
+            const query = await Expense.with('user')
+                .where('user_id', auth.user._id)
+                .where('_id', params.id)
+                .update({
+                    type: type,
+                    price: price,
+                    description: description
+                })
+
+            return query.result.n === 1 ? response.accepted('Expense updated') : response.noContent()
+        }
     }
 
     //DELETE

@@ -11,7 +11,7 @@
               <circle cx="73.5" cy="73.5" r="70.5" stroke="#68D391" stroke-width="6" />
             </svg>
             <h1 class="mt-4 text-lg italic text-green-500  text-center">Successfully created!</h1>
-            <div @click="$emit('closing-modal')" class="w-3/5 mx-auto mt-4 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">EXIT</div>
+            <div @click="$emit('closing-modal')" class="no-highlight-color cursor-pointer w-3/5 mx-auto mt-4 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none">EXIT</div>
           </div>
         </div>
         <div v-else-if="noBudget" class="flex items-center w-full h-full">
@@ -26,31 +26,30 @@
         </div>
         <div v-else>
           <h2 class="mt-2 ml-4 text-lunchPink-600 text-2xl italic font-black uppercase">NEW EXPENSE</h2>
-          <div class="relative w-2/5 mx-auto mt-4">
-            <input v-model="price" 
-                   :class="['relative pl-12 pr-2 h-12 w-full block bg-transparent text-white placeholder-white font-bold text-2xl border-b-2 placeholder-gray-700 focus:outline-none focus:border-white']" 
+          <div class="relative w-2/5 mx-auto mt-2">
+            <input v-model="price"
+                   :class="[errorPrice ? 'border-red-400' : 'border-lunchPink-600','relative pl-12 pr-2 h-12 w-full block bg-transparent text-white placeholder-white font-bold text-2xl border-b-2 placeholder-gray-700 focus:outline-none focus:border-white']" 
                    type="number" name="number" placeholder="Price"
             >
+            <span v-if="hasError && errorPrice" class="text-red-400 text-xs bottom-2 left-0 absolute mt-1 w-40">{{ errorPrice.message }}</span>
             <span class="text-lg font-bold text-lunchPink-600 absolute top-0 left-0 mt-3 mr-2">{{ this.$store.state.currentCurrency }}</span>
           </div>
-          <div class="relative w-2/5 mx-auto mt-2">
+          <div class="relative w-2/5 mx-auto mt-6">
             <select v-model="type" id="type"
-                    :class="['mt-4 appearance-none relative px-8 h-10 w-full block bg-transparent text-xl text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']"
+                    :class="[errorType ? 'border-red-400' : 'border-lunchPink-600','mt-4 appearance-none relative px-8 h-10 w-full block bg-transparent text-xl text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']"
             >
               <option hidden disabled>TYPE</option>
               <option class="text-gray-700">Food</option>
               <option class="text-gray-700">Other</option>
             </select>
             <i class="fas fa-tags text-lg text-lunchPink-600 absolute -mt-8 ml-1"></i>
+            <span v-if="hasError && errorType" class="text-red-400 text-xs bottom-2 left-0 absolute mt-1">{{ errorType.message }}</span>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-lunchPink-600">
               <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
             </div>
           </div>
-          <textarea v-model="description" class="form-textarea mt-6 mt-1 block w-3/4 mx-auto bg-transparent border border-lunchPink-600 placeholder-lunchPurple-200 text-white focus:outline-none focus:border-white focus:shadow-none" rows="3" placeholder="Description of the expense"></textarea>
-
-          
-          <div @click="createExpense" class="w-3/5 mx-auto mt-8 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">CREATE</div>
-
+          <textarea v-model="description" class="form-textarea mt-10 mt-1 block w-3/4 mx-auto bg-transparent border border-lunchPink-600 placeholder-lunchPurple-200 text-white focus:outline-none focus:border-white focus:shadow-none" rows="3" placeholder="Description of the expense"></textarea>
+          <div @click="createExpense" class="no-highlight-color cursor-pointer  w-3/5 mx-auto mt-6 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none">CREATE</div>
         </div>
       </div>
     </div>
@@ -66,7 +65,11 @@ export default {
       expenseCreated: false,
       price: null,
       type: 'TYPE',
-      description: null
+      description: null,
+      hasError: false,
+      errorArray: [],
+      errorPrice: null,
+      errorType: null
     }
   },
   methods: {
@@ -86,7 +89,19 @@ export default {
           if (err.response.status === 404) {
             this.noBudget = true
           }
+          if (err.response.status === 400) {
+            this.hasError = true
+            this.errorArray = err.response.data
+            this.errorPrice = this.hadError('price')
+            this.errorType = this.hadError('type')
+          }
         })
+    },
+    hadError(field) {
+      let value = this.errorArray.find(obj => {
+        return obj.field === field
+      })
+      return value === undefined ? false : value
     },
     emitGlobalCreationEvent() {
       EventBus.$emit('expense-added')

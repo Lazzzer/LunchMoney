@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     editBudget() {
-
       if (this.newLimit !== this.oldLimit) {
         this.$axios.put(`/budget/edit/${this.budgetId}`, {
           limit: this.newLimit

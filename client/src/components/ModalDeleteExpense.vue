@@ -11,15 +11,15 @@
               <circle cx="73.5" cy="73.5" r="70.5" stroke="#68D391" stroke-width="6" />
             </svg>
             <h1 class="mt-4 text-lg italic text-green-500  text-center">Successfully deleted!</h1>
-            <div @click="$emit('closing-modal')" class="w-3/5 mx-auto mt-4 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">EXIT</div>
+            <div @click="$emit('closing-modal')" class="no-highlight-color cursor-pointer w-3/5 mx-auto mt-4 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none">EXIT</div>
           </div>
         </div>
         <div v-else>
           <h2 class="mt-2 ml-4 text-lunchPink-600 text-2xl italic font-black uppercase">DELETE EXPENSE</h2>
           <h3 class="mt-2 text-base italic text-lunchPink-600  text-center">Are you sure ?</h3>
           <div class="flex mt-2">
-            <div @click="deleteBudget" class="w-1/2 ml-4 mr-2  mt-4 block py-3 px-3 rounded-full bg-lunchPurple-900 text-lunchPink-600 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">YES</div>
-            <div @click="$emit('closing-modal')" class="w-1/2 mr-4 ml-2 mt-4 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none focus:bg-lunchPink-700 hover:bg-lunchPink-700">NO</div>
+            <div @click="deleteBudget" class="no-highlight-color cursor-pointer w-1/2 ml-4 mr-2  mt-4 block py-3 px-3 rounded-full bg-lunchPurple-900 text-lunchPink-600 text-center font-black uppercase text-lg focus:outline-none">YES</div>
+            <div @click="$emit('closing-modal')" class="no-highlight-color cursor-pointer w-1/2 mr-4 ml-2 mt-4 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none">NO</div>
           </div>
         </div>
       </div>
