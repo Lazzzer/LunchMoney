@@ -41,7 +41,7 @@
         <div v-else>
           <h2 class="mt-2 ml-4 text-lunchPink-600 text-2xl italic font-black uppercase">NEW BUDGET</h2>
           <div class="relative w-3/5 mx-auto mt-10">
-            <input v-model="limit" 
+            <input v-model="newLimit" 
                    :class="[errorLimit ? 'border-red-400' : 'border-lunchPink-600','relative pl-12 pr-2 h-12 w-full block bg-transparent text-white placeholder-white font-bold text-2xl border-b-2 placeholder-gray-700 focus:outline-none focus:border-white']" 
                    type="number" name="number" placeholder="Limit" required
             >
@@ -65,6 +65,7 @@ export default {
       noCurrentBudget: null,
       id: null,
       limit: null,
+      newLimit: null,
       currentBalance: null,
       expenses: null,
       month: '',
@@ -88,7 +89,7 @@ export default {
   },
   methods: {
     openModal() {
-      this.limit = null
+      this.newLimit = null
       this.newBudgetModal = !this.newBudgetModal
       this.errorArray = []
       this.errorLimit = null
@@ -105,7 +106,7 @@ export default {
     },
     createBudget() {
       this.$axios.post('/budget/create', {
-        limit: this.limit
+        limit: this.newLimit
       })
         .then((res) => {
           console.log(res)
