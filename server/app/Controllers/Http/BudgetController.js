@@ -58,7 +58,7 @@ class BudgetController {
     //POST
     async create({ request, response, auth }) {
         const rules = {
-            limit: 'required|number|range:0,10001',
+            limit: 'required|number|range:0.9999,10000.0009',
         }
 
         const messages = {
@@ -94,7 +94,7 @@ class BudgetController {
     async edit({ request, response, auth, params }) {
 
         const rules = {
-            limit: 'required|number|range:0,10001',
+            limit: 'required|number|range:0.9999,10000.0009',
         }
 
         const messages = {
@@ -102,7 +102,7 @@ class BudgetController {
             number: "The {{field}} should be a valid number",
             range: "The {{field}} should be in a range of 1 to 10'000"
         }
-        
+
         const validation = await validateAll(request.all(), rules, messages)
 
         if (validation.fails()) {
