@@ -1,17 +1,15 @@
 <template>
   <div class="main-budget w-full h-full">
-    <div>
-      <div class="header flex justify-end pt-4 w-5/6 mx-auto">
-        <div class="relative focus:outline-none">
-          <router-link to="/dashboard"
-                       :class="['cursor-pointer no-highlight-color bg-lunchPink-600 flex items-center block py-1 px-5 rounded-full text-lunchPurple-700 text-center font-black focus:outline-none']"
-          >
-            <svg class="mr-2" width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.223448 4.91581L4.54156 0.242268C4.84002 -0.080756 5.32263 -0.080756 5.61791 0.242268L6.33548 1.0189C6.63394 1.34192 6.63394 1.86426 6.33548 2.18385L3.27788 5.5L6.33866 8.81271C6.63712 9.13574 6.63712 9.65807 6.33866 9.97766L5.62109 10.7577C5.32263 11.0808 4.84002 11.0808 4.54474 10.7577L0.226623 6.08419C-0.0750098 5.76117 -0.0750097 5.23883 0.223448 4.91581Z" fill="#12012F" />
-            </svg>
-            Dashboard
-          </router-link>
-        </div>
+    <div class="header flex justify-end pt-4 w-5/6 mx-auto">
+      <div class="relative focus:outline-none">
+        <router-link to="/dashboard"
+                     :class="['cursor-pointer no-highlight-color bg-lunchPink-600 flex items-center block py-1 px-5 rounded-full text-lunchPurple-700 text-center font-black focus:outline-none']"
+        >
+          <svg class="mr-2" width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.223448 4.91581L4.54156 0.242268C4.84002 -0.080756 5.32263 -0.080756 5.61791 0.242268L6.33548 1.0189C6.63394 1.34192 6.63394 1.86426 6.33548 2.18385L3.27788 5.5L6.33866 8.81271C6.63712 9.13574 6.63712 9.65807 6.33866 9.97766L5.62109 10.7577C5.32263 11.0808 4.84002 11.0808 4.54474 10.7577L0.226623 6.08419C-0.0750098 5.76117 -0.0750097 5.23883 0.223448 4.91581Z" fill="#12012F" />
+          </svg>
+          Dashboard
+        </router-link>
       </div>
     </div>
     <div v-if="validParams" class="dashboard w-5/6 mx-auto mt-4" style="height:88%;">
