@@ -29,7 +29,7 @@
             <h3 class="ml-4 text-lunchPink-600 text-base italic font-black">CURRENT CURRENCY</h3>
             <div class="relative w-1/3 ml-4">
               <select v-model="newCurrency" id="currency" 
-                      :class="[ 'border-lunchPink-600 mt-2 appearance-none relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']"
+                      :class="[ errorCurrency ? 'border-red-400' : 'border-lunchPink-600' , 'mt-2 appearance-none relative px-8 h-10 w-full block bg-transparent text-white placeholder-white font-bold border-b-2  focus:outline-none focus:border-white']"
               >
                 <option hidden disabled>CURRENCY</option>
                 <option class="text-gray-700">CHF</option>
@@ -40,6 +40,7 @@
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-lunchPink-600">
                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
               </div>
+              <span v-if="hasError && errorCurrency" style="width:250px;" class="text-red-400 text-xs absolute">Please pick a valid option.</span>
             </div>
             <div class="flex mt-4 mx-4 items-center justify-between">
               <h3 class=" text-lunchPink-600 text-base italic font-black">DEFAULT BUDGET</h3>
@@ -56,20 +57,26 @@
             <div v-if="newDefaultBudget">
               <div class="relative w-2/5 ml-4">
                 <input v-model="newDefaultValue"
-                       :class="['border-lunchPink-600','relative pl-12 pr-2 h-12 w-full block bg-transparent text-white placeholder-white font-bold text-lg border-b-2 placeholder-gray-700 focus:outline-none focus:border-white']" 
+                       :class="[errorDefaultValue ? 'border-red-400' : 'border-lunchPink-600', 'relative pl-12 pr-2 h-12 w-full block bg-transparent text-white placeholder-white font-bold text-lg border-b-2 placeholder-gray-700 focus:outline-none focus:border-white']" 
                        type="number" name="number" placeholder="Limit"
                 >
+                <span v-if="hasError && errorDefaultValue" style="width:250px;" class="text-red-400 text-xs bottom-2 left-0 absolute mt-1">{{ errorDefaultValue.message }}</span>
                 <span class="text-lg font-bold text-lunchPink-600 absolute top-0 left-0 mt-3 mr-2">{{ newCurrency }}</span>
               </div>
             </div>
           </div>
-          <div class="buttons-section mt-4">
-            <div @click="userEdited === false ? editUser() : null" id="editButton" :class="[newCurrency !== currency || newDefaultBudget !== defaultBudget || newDefaultValue !== defaultValue ? 'bg-lunchPink-600' : 'bg-gray-500', 'cursor-pointer no-highlight-color flex justify-center w-17/20 mx-auto block py-3 px-3 rounded-full bg-lunchPink-600  text-center font-black uppercase text-lg focus:outline-none']">
+          <div class="buttons-section mt-6">
+            <div v-if="userEdited === false" @click="userEdited === false ? editUser() : null" :class="[newCurrency !== currency || newDefaultBudget !== defaultBudget || newDefaultValue !== defaultValue ? 'bg-lunchPink-600' : 'bg-gray-500', 'cursor-pointer no-highlight-color flex justify-center w-17/20 mx-auto block py-3 px-3 rounded-full bg-lunchPink-600  text-center font-black uppercase text-lg focus:outline-none']">
               <svg class="w-5 h-auto fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16 8C16 12.4183 12.4183 16 8 16C3.58171 16 0 12.4183 0 8C0 3.58171 3.58171 0 8 0C12.4183 0 16 3.58171 16 8ZM7.07464 12.2359L13.0101 6.30045C13.2117 6.0989 13.2117 5.7721 13.0101 5.57055L12.2802 4.84064C12.0787 4.63906 11.7519 4.63906 11.5503 4.84064L6.70968 9.68123L4.44971 7.42126C4.24816 7.21971 3.92135 7.21971 3.71977 7.42126L2.98987 8.15116C2.78832 8.35271 2.78832 8.67952 2.98987 8.88106L6.34471 12.2359C6.54629 12.4375 6.87306 12.4375 7.07464 12.2359Z" fill="#0E0125" />
               </svg>
-              <h2 v-if="userEdited === false" class="ml-3 text-lunchPurple-700 text-base italic font-black uppercase">SAVE CHANGES</h2>
-              <h2 v-else class="ml-3 text-lunchPurple-700 text-base italic font-black uppercase">USER EDITED</h2>
+              <h2 class="ml-3 text-lunchPurple-700 text-base italic font-black uppercase">SAVE CHANGES</h2>
+            </div>
+            <div v-else :class="['bg-green-500 cursor-pointer no-highlight-color flex justify-center w-17/20 mx-auto block py-3 px-3 rounded-full bg-lunchPink-600  text-center font-black uppercase text-lg focus:outline-none']">
+              <svg class="w-5 h-auto fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 8C16 12.4183 12.4183 16 8 16C3.58171 16 0 12.4183 0 8C0 3.58171 3.58171 0 8 0C12.4183 0 16 3.58171 16 8ZM7.07464 12.2359L13.0101 6.30045C13.2117 6.0989 13.2117 5.7721 13.0101 5.57055L12.2802 4.84064C12.0787 4.63906 11.7519 4.63906 11.5503 4.84064L6.70968 9.68123L4.44971 7.42126C4.24816 7.21971 3.92135 7.21971 3.71977 7.42126L2.98987 8.15116C2.78832 8.35271 2.78832 8.67952 2.98987 8.88106L6.34471 12.2359C6.54629 12.4375 6.87306 12.4375 7.07464 12.2359Z" fill="#0E0125" />
+              </svg>
+              <h2 class="ml-3 text-lunchPurple-700 text-base italic font-black uppercase">USER EDITED</h2>
             </div>
             <div @click="deleteUser = !deleteUser" class="cursor-pointer no-highlight-color flex justify-center w-17/20 mx-auto mt-4 block py-3 px-3 rounded-full bg-lunchPurple-900 text-center font-black uppercase text-lg focus:outline-none">
               <svg class="w-4 h-auto" width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -118,7 +125,11 @@ export default {
       newDefaultValue: null,
       deleteUser: false,
       deletedPage: false,
-      userEdited: false
+      userEdited: false,
+      hasError: false,
+      errorArray: [],
+      errorDefaultValue: null,
+      errorCurrency: null
     }
   },
   beforeCreate() {
@@ -147,6 +158,7 @@ export default {
   methods: {
     editUser() {
       if (this.newCurrency !== this.currency || this.newDefaultBudget !== this.defaultBudget || this.newDefaultValue !== this.defaultValue) {
+        this.newDefaultBudget === false ? this.newDefaultValue = 1 : null
         this.$axios.put('/user', {
           currency: this.newCurrency,
           defaultBudget: this.newDefaultBudget,
@@ -155,25 +167,32 @@ export default {
           .then(res => {
             if (res.status === 202) {
               console.log(res)
+              this.hasError = false
+              this.errorDefaultValue = false
+              this.errorCurrency = false
               this.userEdited = true
-              this.changeButtonColor()
+              this.currency = this.newCurrency
+              this.defaultBudget = this.newDefaultBudget
+              this.defaultValue = this.newDefaultValue
               setTimeout(() => {
                 this.userEdited = false
-                this.currency = this.newCurrency
-                this.defaultBudget = this.newDefaultBudget
-                this.defaultValue = this.newDefaultValue
               }, 2000)
             }
           })
           .catch(err => {
             console.log(err)
+            this.errorArray = err.response.data
+            this.errorDefaultValue = this.hadError('defaultValue')
+            this.errorCurrency = this.hadError('currency')
+            this.hasError = true
           })
       }
     },
-    changeButtonColor() {
-      let editButton = document.getElementById('editButton')
-      editButton.className += ' changingColor'
-
+    hadError(field) {
+      let value = this.errorArray.find(obj => {
+        return obj.field === field
+      })
+      return value === undefined ? false : value
     }
   }
 }

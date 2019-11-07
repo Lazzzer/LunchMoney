@@ -33,12 +33,7 @@ transform: translateX(100%);
 background-color: #48bb78;
 }
 
-.changingColor{
-    background-color: #48bb78;
-    transition: background 0.3s ease-out;
-}
-
-@media (max-width:500px) and (max-height:350px){
+@media (max-width:500px) and (max-height:400px){
     .android {
         height: 620px;
         min-height: 620px;
