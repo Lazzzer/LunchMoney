@@ -2,6 +2,8 @@
 
 const Encryption = use('Encryption')
 const User = use('App/Models/User')
+const Budget = use('App/Models/Budget')
+const Expense = use('App/Models/Expense')
 const { validateAll } = use('Validator')
 
 class UserController {
@@ -48,26 +50,26 @@ class UserController {
   async login({ request, response, auth }) {
 
     const rules = {
-        name: 'required',
-        password: 'required'
-      }
-  
-      const messages = {
-        required: "The {{field}} can't be empty",
-      }
-  
-      const validation = await validateAll(request.all(), rules, messages)
+      name: 'required',
+      password: 'required'
+    }
 
-      if (validation.fails()) {
-        return response.badRequest(validation.messages())
-      } else {
-        const { name, password } = request.all()
+    const messages = {
+      required: "The {{field}} can't be empty",
+    }
 
-        const token = await auth.withRefreshToken().attempt(name, password)
-        const user = await User.query().setVisible(['name']).where('name', name).fetch()
+    const validation = await validateAll(request.all(), rules, messages)
 
-        return response.accepted({ token, user })
-      }
+    if (validation.fails()) {
+      return response.badRequest(validation.messages())
+    } else {
+      const { name, password } = request.all()
+
+      const token = await auth.withRefreshToken().attempt(name, password)
+      const user = await User.query().setVisible(['name']).where('name', name).fetch()
+
+      return response.accepted({ token, user })
+    }
   }
 
   //POST
@@ -91,6 +93,29 @@ class UserController {
   //GET
   async show({ response, auth }) {
     return response.accepted([auth.user.name, auth.user.email, auth.user.currency, auth.user.defaultBudget, auth.user.defaultValue])
+  }
+
+  //DELETE
+  async delete({ response, auth }) {
+
+    await Budget.with('user')
+      .where('user_id', auth.user._id)
+      .delete()
+
+    await Expense.with('user')
+      .where('user_id', auth.user._id)
+      .delete()
+
+    await auth.user
+      .tokens()
+      .where('user_id', auth.user._id)
+      .delete()
+
+    const userDelete = await User
+      .where('_id', auth.user._id)
+      .delete()
+
+    return userDelete.result.n === 1 ? response.accepted('User deleted') : response.noContent()
   }
 }
 

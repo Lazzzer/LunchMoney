@@ -29,7 +29,7 @@ Route.post('/register', 'UserController.register')
 Route.post('/logout', 'UserController.logout').middleware(['auth'])
 Route.get('/user', 'UserController.show').middleware(['auth'])
 //Route.put('/user', 'UserController.update').middleware(['auth'])
-//Route.delete('/user', 'UserController.delete').middleware(['auth'])
+Route.delete('/user', 'UserController.delete').middleware(['auth'])
 
 // //Budget Routes
 Route.get('/budget/current', 'BudgetController.current').middleware(['auth'])
