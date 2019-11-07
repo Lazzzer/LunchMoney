@@ -95,6 +95,43 @@ class UserController {
     return response.accepted([auth.user.name, auth.user.email, auth.user.currency, auth.user.defaultBudget, auth.user.defaultValue])
   }
 
+  //PUT
+  async update({ request, response, auth }) {
+
+    const rules = {
+      defaultValue: 'required|number|range:0.9999,10000.0009',
+      defaultBudget: 'required|boolean',
+      currency: 'required|in:CHF,EUR,USD'
+    }
+
+    const messages = {
+      required: "The {{field}} can't be empty",
+      boolean: "The checkbox value is not valid.",
+      number: "The limit should be a valid number",
+      range: "The limit should be in a range of 1 to 10'000",
+      in: 'The {{field}} is not valid.',
+    }
+
+    const validation = await validateAll(request.all(), rules, messages)
+
+    if (validation.fails()) {
+      return response.badRequest(validation.messages())
+    } else {
+      const { defaultValue, defaultBudget, currency } = request.all()
+
+      const query = await User
+        .where('_id', auth.user._id)
+        .update({
+          defaultValue: defaultValue,
+          defaultBudget: defaultBudget,
+          currency: currency
+        })
+
+      return query.result.n === 1 ? response.accepted('User updated') : response.noContent()
+    }
+  }
+
+
   //DELETE
   async delete({ response, auth }) {
 

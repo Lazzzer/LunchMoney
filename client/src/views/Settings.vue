@@ -64,11 +64,12 @@
             </div>
           </div>
           <div class="buttons-section mt-4">
-            <div :class="[newCurrency !== currency || newDefaultBudget !== defaultBudget || newDefaultValue !== defaultValue ? 'bg-lunchPink-600' : 'bg-gray-500', 'cursor-pointer no-highlight-color flex justify-center w-17/20 mx-auto block py-3 px-3 rounded-full bg-lunchPink-600  text-center font-black uppercase text-lg focus:outline-none']">
+            <div @click="userEdited === false ? editUser() : null" id="editButton" :class="[newCurrency !== currency || newDefaultBudget !== defaultBudget || newDefaultValue !== defaultValue ? 'bg-lunchPink-600' : 'bg-gray-500', 'cursor-pointer no-highlight-color flex justify-center w-17/20 mx-auto block py-3 px-3 rounded-full bg-lunchPink-600  text-center font-black uppercase text-lg focus:outline-none']">
               <svg class="w-5 h-auto fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M16 8C16 12.4183 12.4183 16 8 16C3.58171 16 0 12.4183 0 8C0 3.58171 3.58171 0 8 0C12.4183 0 16 3.58171 16 8ZM7.07464 12.2359L13.0101 6.30045C13.2117 6.0989 13.2117 5.7721 13.0101 5.57055L12.2802 4.84064C12.0787 4.63906 11.7519 4.63906 11.5503 4.84064L6.70968 9.68123L4.44971 7.42126C4.24816 7.21971 3.92135 7.21971 3.71977 7.42126L2.98987 8.15116C2.78832 8.35271 2.78832 8.67952 2.98987 8.88106L6.34471 12.2359C6.54629 12.4375 6.87306 12.4375 7.07464 12.2359Z" fill="#0E0125" />
               </svg>
-              <h2 class="ml-3 text-lunchPurple-700 text-base italic font-black uppercase">SAVE CHANGES</h2>
+              <h2 v-if="userEdited === false" class="ml-3 text-lunchPurple-700 text-base italic font-black uppercase">SAVE CHANGES</h2>
+              <h2 v-else class="ml-3 text-lunchPurple-700 text-base italic font-black uppercase">USER EDITED</h2>
             </div>
             <div @click="deleteUser = !deleteUser" class="cursor-pointer no-highlight-color flex justify-center w-17/20 mx-auto mt-4 block py-3 px-3 rounded-full bg-lunchPurple-900 text-center font-black uppercase text-lg focus:outline-none">
               <svg class="w-4 h-auto" width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -89,11 +90,12 @@
         <h1 class="mt-4 text-lg italic text-green-500 mb-10 text-center">Successfully deleted!</h1>
         <router-link to="/" class="cursor-pointer no-highlight-color mt-8 block py-3 px-2 rounded-full text-lunchPurple-700 bg-lunchPink-600 text-center font-black uppercase text-lg focus:outline-none">HOMEPAGE</router-link>
       </div>
-      
     </div>
     <modal-delete-user v-if="deleteUser" @closing-modal="deleteUser = false"></modal-delete-user>
   </div>
 </template>
+
+
 
 <script>
 import ModalDeleteUser from '../components/ModalDeleteUser.vue'
@@ -115,7 +117,8 @@ export default {
       defaultValue: null,
       newDefaultValue: null,
       deleteUser: false,
-      deletedPage: false
+      deletedPage: false,
+      userEdited: false
     }
   },
   beforeCreate() {
@@ -140,6 +143,38 @@ export default {
       this.$cookies.isKey('refresh-token') ? this.$cookies.remove('refresh-token') : null
       this.$cookies.isKey('token') ? this.$cookies.remove('token') : null
     })
+  },
+  methods: {
+    editUser() {
+      if (this.newCurrency !== this.currency || this.newDefaultBudget !== this.defaultBudget || this.newDefaultValue !== this.defaultValue) {
+        this.$axios.put('/user', {
+          currency: this.newCurrency,
+          defaultBudget: this.newDefaultBudget,
+          defaultValue: this.newDefaultValue
+        })
+          .then(res => {
+            if (res.status === 202) {
+              console.log(res)
+              this.userEdited = true
+              this.changeButtonColor()
+              setTimeout(() => {
+                this.userEdited = false
+                this.currency = this.newCurrency
+                this.defaultBudget = this.newDefaultBudget
+                this.defaultValue = this.newDefaultValue
+              }, 2000)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+    },
+    changeButtonColor() {
+      let editButton = document.getElementById('editButton')
+      editButton.className += ' changingColor'
+
+    }
   }
 }
 </script>
