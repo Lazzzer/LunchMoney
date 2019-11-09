@@ -10,7 +10,7 @@ export default {
   created() {
     this.$axios.interceptors.request.use(config => {
       // Do something before request is sent
-      if (config.url.includes('dashboard') || config.url.includes('refresh') || config.url.includes('user') || config.url.includes('logout') || config.url.includes('budget') || config.url.includes('expense')) {
+      if (config.url.includes('dashboard') || config.url.includes('settings') || config.url.includes('refresh') || config.url.includes('user') || config.url.includes('logout') || config.url.includes('budget') || config.url.includes('expense')) {
         if (this.$cookies.isKey('refresh-token')) {
           config.headers.Authorization = 'bearer ' + this.$cookies.get('token')
           config.headers.common['refresh-token'] = this.$cookies.get('refresh-token')

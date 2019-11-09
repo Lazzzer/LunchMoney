@@ -63,6 +63,19 @@ export default new Router({
       }
     },
     {
+      path: '/settings',
+      name: 'settings',
+      component: () =>
+        import(/* webpackChunkName: "settings" */ './views/Settings.vue'),
+      beforeEnter: (to, from, next) => {
+        if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
+          next()
+        } else {
+          next('login')
+        }
+      }
+    },
+    {
       path: '/budget/:id',
       name: 'budget',
       component: () =>

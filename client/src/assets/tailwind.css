@@ -24,8 +24,16 @@ body{
     background-image: linear-gradient(to left, #c05621,#1a0b35);
 }
 
+.toggleDot {
+    transition: all 0.3s ease-in-out;
+}
 
-@media (max-width:500px) and (max-height:300px){
+input:checked ~ .toggleDot {
+transform: translateX(100%);
+background-color: #48bb78;
+}
+
+@media (max-width:500px) and (max-height:400px){
     .android {
         height: 620px;
         min-height: 620px;
