@@ -46,7 +46,7 @@
               <h3 class=" text-lunchPink-600 text-base italic font-black">DEFAULT BUDGET</h3>
               <label for="toogleOn" class="flex items-center cursor-pointer inline no-highlight-color">
                 <div class="relative">
-                  <input v-model="newDefaultBudget" id="toogleOn" type="checkbox" class="hidden" />
+                  <input v-model="computedDefaultBudget" id="toogleOn" type="checkbox" class="hidden" />
                   <div class="w-16 h-8 bg-lunchPurple-900 rounded-full shadow-inner flex items-center">
                     <span class="text-xs text-green-400 font-bold ml-2">ON<span class="text-red-400 ml-2">OFF</span></span>
                   </div>
@@ -130,6 +130,17 @@ export default {
       errorArray: [],
       errorDefaultValue: null,
       errorCurrency: null
+    }
+  },
+  computed: {
+    computedDefaultBudget: {
+      get() {
+        return this.newDefaultBudget
+      },
+      set(newValue) {
+        !this.newDefaultBudget ? this.newDefaultValue = this.defaultValue : this.newDefaultValue = 1
+        this.newDefaultBudget = newValue
+      }
     }
   },
   beforeCreate() {
