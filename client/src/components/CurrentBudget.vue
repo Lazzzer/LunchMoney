@@ -4,7 +4,7 @@
       <router-link :to="{name: 'budget', params: {id: id}}">
         <h2 class="mt-2 ml-4 text-lunchPink-600 text-xl italic font-black uppercase">Current budget </h2>
         <h3 class="-mt-1 ml-4 text-white text-xs italic font-bold uppercase">{{ month }}</h3>
-        <span v-if="$store.state.defaultBudget" class="text-lunchPurple-100 text-xs italic block text-right mr-4 uppercase -mb-2">23 days remaining</span>
+        <span v-if="$store.state.defaultBudget" class="text-lunchPurple-100 text-xs italic block text-right mr-4 uppercase -mb-2">{{ getRemainingTime() }} {{ getRemainingTime() > 1 ? 'DAYS' : 'DAY ' }} REMAINING</span>
         <span v-else class="text-lunchPurple-100 text-xs italic block text-right mr-4 uppercase mt-2"></span>
         <div class="mr-4 text-right text-white italic font-bold text-2xl">
           <svg class="inline-block mr-1 -mt-1" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -98,6 +98,13 @@ export default {
       let date = new Date(dateToParse)
       console.log(date)
       return new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date) + ' ' + date.getFullYear()
+    },
+    getRemainingTime() {
+      const currentTime = new Date(Date.now())
+      const firstDay = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate())
+      const lastDay = new Date(currentTime.getFullYear(), currentTime.getMonth() + 1, 0)
+
+      return lastDay.getDate() - firstDay.getDate()
     },
     getCurrentBalance() {
       return this.expenses.reduce((currentTotal, expense) => {
