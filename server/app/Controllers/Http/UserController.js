@@ -66,9 +66,8 @@ class UserController {
       const { name, password } = request.all()
 
       const token = await auth.withRefreshToken().attempt(name, password)
-      const user = await User.query().setVisible(['name']).where('name', name).fetch()
 
-      return response.accepted({ token, user })
+      return response.accepted({ token })
     }
   }
 
