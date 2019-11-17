@@ -17,7 +17,7 @@
         </div>
       </router-link>
     </div>
-    <div v-else @click="openModal" class="w-full h-full flex flex-col items-center justify-center">
+    <div v-else-if="noCurrentBudget" @click="openModal" class="w-full h-full flex flex-col items-center justify-center">
       <h2 class="text-white text-xs italic font-black uppercase text-center">No budget for the current month</h2>
       <div class="flex items-center mt-2">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
