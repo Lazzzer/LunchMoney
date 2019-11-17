@@ -31,11 +31,13 @@ export default {
       if (error.response.status === 401) {
         console.log(error.response)
         if (!error.response.config.url.includes('refresh') && !error.response.config.url.includes('register') && !error.response.config.url.includes('login')) {
-          this.$axios.post('/refresh')
+          return this.$axios.post('/refresh')
             .then(res => {
               this.$cookies.set('token', res.data.token)
               this.$cookies.set('refresh-token', res.data.refreshToken)
-              this.$router.go()
+              console.log(error.config)
+
+              return this.$axios.request(error.config)
             })
             .catch(err => {
               console.log('erasing cookies...')
