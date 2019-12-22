@@ -17,9 +17,10 @@ module.exports = {
   |
   */
   origin: (origin) => {
-    if (process.env.NODE_ENV === 'development') {
-      return true
-    }
+    if (process.env.NODE_ENV === 'development') return true
+
+    if (origin.includes('lunch-money.netlify.com/')) return true
+
     return false
   },
 
