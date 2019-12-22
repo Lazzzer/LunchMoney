@@ -11,7 +11,7 @@ class ExpenseController {
 
         const rules = {
             price: 'required|number|range:0.009,10000.001',
-            type: 'required|in:Food,Other'
+            type: 'required|in:Food,Fast Food,Restaurant,Soft Drink,Alcohol,Shopping,Travel,Other'
         }
 
         const messages = {
@@ -75,7 +75,7 @@ class ExpenseController {
 
         const rules = {
             price: 'required|number|range:0.009,10000.001',
-            type: 'required|in:Food,Other'
+            type: 'required|in:Food,Fast Food,Restaurant,Soft Drink,Alcohol,Shopping,Travel,Other'
         }
 
         const messages = {
