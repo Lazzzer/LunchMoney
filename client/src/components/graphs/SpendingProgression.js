@@ -5,50 +5,83 @@ export default {
     props: ['data'],
     mounted() {
         this.renderChart({
-            labels: ['02.12.19', '9.12.19', '16.12.19', '23.12.19'],
+            labels: ['01.11.19', '10.11.19', '20.11.19', '30.11.19'],
             datasets: [{
-                data: [0, 400],
+                label: 'Current Budget',
+                data: [0, 50.3, 174.8, 348.2],
                 fill: false,
-                borderColor: '#FFF',
-                pointBorderWidth: 0
+                borderColor: '#F71140',
+                borderWidth: 2,
+                pointBorderWidth: 2,
+                pointRadius: 3,
+                pointHitRadius: 15,
+                lineTension: 0
 
-            }]
+            }, {
+                label: 'Projection',
+                data: [0, 50.3, 174.8, 287.35],
+                fill: false,
+                borderWidth: 1,
+                borderColor: '#BAAED0',
+                pointBorderWidth: 2,
+                pointRadius: 3,
+                pointHitRadius: 15,
+                lineTension: 0
+            }
+            ]
         }, {
             title: {
+                display: false,
+            },
+            legend: {
                 display: false,
             },
             scales: {
                 xAxes: [{
                     gridLines: {
                         display: true,
-                        borderDash: [6, 2],
-                        tickMarkLength: 10
+                        color: '#12012F',
+
                     },
                     ticks: {
-                        fontSize: 9,
                         labelOffset: 2,
-                        maxRotation: 0
+                        fontSize: 8,
+                        fontColor: '#BAAED0',
+                        fontFamily: 'Open Sans',
+                        fontStyle: 'italic'
                     }
                 }],
                 yAxes: [{
                     gridLines: {
-                        display: true
+                        display: true,
+                        color: '#12012F'
                     },
                     ticks: {
-                        beginAtZero: false,
-                        suggestedMax: 400,
-                        suggestedMin: 0,
-                        maxTicksLimit: 5,
+                        beginAtZero: true,
+                        max: 400,
+                        min: 0,
+                        maxTicksLimit: 8,
                         stepSize: 100,
-                        fontSize: 10
+                        fontSize: 8,
+                        fontColor: '#BAAED0',
+                        fontFamily: 'Open Sans',
+                        fontStyle: 'italic'
                     }
                 }]
             },
-            legend: {
-                display: true
-            },
             responsive: false,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        if (tooltipItem.datasetIndex === 0) {
+                            return data['datasets'][0]['label'] + ': ' + data['datasets'][0]['data'][tooltipItem['index']] + ' CHF'
+                        } else {
+                            return data['datasets'][1]['label'] + ': ' + data['datasets'][1]['data'][tooltipItem['index']] + ' CHF'
+                        }
+                    }
+                }
+            }
         })
     }
 }

@@ -28,9 +28,9 @@
         </div>
       </div>
     </div>
-    <p class="mt-2 ml-6 text-xs italic font-bold leading-none text-lunchPurple-200">SPENDING PROGRESSION</p>
-    <div class="flex justify-center h-40 mx-4 mt-1 SpendingProgress bg-lunchPurple-500 rounded-lunch">
-      <spending-progression :width="250" :height="160" :data="spendingProgressionGraphData"></spending-progression>
+    <p class="mt-4 ml-6 text-xs italic font-bold leading-none text-lunchPurple-200">SPENDING PROGRESSION EACH 10 DAYS</p>
+    <div class="flex items-center justify-center h-40 mx-4 mt-2 SpendingProgress bg-lunchPurple-500 rounded-lunch">
+      <spending-progression :width="240" :height="130" :data="spendingProgressionGraphData"></spending-progression>
     </div>
   </div>
 </template>
