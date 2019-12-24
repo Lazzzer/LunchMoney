@@ -1,32 +1,23 @@
-import { Line } from 'vue-chartjs'
+import { Bar } from 'vue-chartjs'
 
 export default {
-    extends: Line,
+    extends: Bar,
     props: ['data'],
     mounted() {
         this.renderChart({
-            labels: ['01.11.19', '10.11.19', '20.11.19', '30.11.19'],
+            labels: ['Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.', 'Sun.'],
             datasets: [{
-                label: 'Current Budget',
-                data: [0, 50.3, 174.8, 348.2],
-                fill: false,
-                borderColor: '#F71140',
-                borderWidth: 2,
-                pointBorderWidth: 2,
-                pointRadius: 3,
-                pointHitRadius: 15,
-                lineTension: 0
-
-            }, {
-                label: 'Projection',
-                data: [0, 50.3, 174.8, 287.35],
-                fill: false,
-                borderWidth: 1,
-                borderColor: '#BAAED0',
-                pointBorderWidth: 2,
-                pointRadius: 3,
-                pointHitRadius: 15,
-                lineTension: 0
+                label: 'Spendings by day',
+                data: [20, 50, 103, 40, 3, 30, 10],
+                backgroundColor: [
+                    '#9E0D2B',
+                    '#F71140',
+                    '#FC9B9B',
+                    '#46BFBD',
+                    '#FDB45C',
+                    '#949FB1',
+                    '#4D5360',
+                ]
             }
             ]
         }, {
@@ -51,15 +42,16 @@ export default {
                     }
                 }],
                 yAxes: [{
+                    position: 'right',
                     gridLines: {
                         display: true,
                     },
                     ticks: {
                         beginAtZero: true,
-                        max: 400,
+                        max: 125,
                         min: 0,
                         maxTicksLimit: 8,
-                        stepSize: 100,
+                        stepSize: 25,
                         fontSize: 8,
                         fontColor: '#BAAED0',
                         fontFamily: 'Open Sans',
@@ -72,11 +64,7 @@ export default {
             tooltips: {
                 callbacks: {
                     label: function (tooltipItem, data) {
-                        if (tooltipItem.datasetIndex === 0) {
-                            return data['datasets'][0]['label'] + ': ' + data['datasets'][0]['data'][tooltipItem['index']] + ' CHF'
-                        } else {
-                            return data['datasets'][1]['label'] + ': ' + data['datasets'][1]['data'][tooltipItem['index']] + ' CHF'
-                        }
+                        return 'Average: ' + data['datasets'][0]['data'][tooltipItem['index']] + ' CHF'
                     }
                 }
             }

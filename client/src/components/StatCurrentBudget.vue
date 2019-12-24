@@ -8,7 +8,7 @@
       <div class="AvgSpendingWeek">
         <p class="text-2xl italic font-bold leading-none text-lunchPink-600">58.20<span class="text-xl not-italic font-bold text-white"> CHF</span></p>
         <p class="text-xs italic font-bold leading-none text-lunchPurple-200">AVERAGE SPENDING</p>
-        <p class="text-xs italic font-bold leading-none text-lunchPurple-200">PER WEEK</p>
+        <p class="text-xs italic font-bold leading-none text-lunchPurple-200">PER 10 DAYS</p>
       </div>
     </div>
     <div class="flex items-center w-full mt-3">
@@ -32,21 +32,29 @@
     <div class="flex items-center justify-center h-40 mx-4 mt-2 SpendingProgress bg-lunchPurple-500 rounded-lunch">
       <spending-progression :width="240" :height="130" :data="spendingProgressionGraphData"></spending-progression>
     </div>
+    <p class="mt-4 mr-6 text-xs italic font-bold leading-none text-right text-lunchPurple-200">AVERAGE SPENDING FOR EACH DAY</p>
+    <div class="flex items-center justify-center h-40 mx-4 mt-2 SpendingProgress bg-lunchPurple-500 rounded-lunch">
+      <expenses-by-days :width="240" :height="130" :data="expensesByDaysGraphData"></expenses-by-days>
+    </div>
   </div>
 </template>
 <script>
 import CategoriesGraph from '.././components/graphs/CategoriesGraph'
 import SpendingProgression from '.././components/graphs/SpendingProgression'
+import ExpensesByDays from '.././components/graphs/ExpensesByDays'
+
 
 export default {
   components: {
     CategoriesGraph,
-    SpendingProgression
+    SpendingProgression,
+    ExpensesByDays
   },
   data() {
     return {
       categoriesGraphData: {},
-      spendingProgressionGraphData: {}
+      spendingProgressionGraphData: {},
+      expensesByDaysGraphData: {}
     }
   },
 }
