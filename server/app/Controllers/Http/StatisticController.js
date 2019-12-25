@@ -57,9 +57,9 @@ class StatisticController {
 
         categories.forEach(category => {
             if (groupedExpense.get(category) !== undefined) {
-                arrayNumberOfExpensesByCategories.push({ name: category, number: groupedExpense.get(category).length })
+                arrayNumberOfExpensesByCategories.push(groupedExpense.get(category).length)
             } else {
-                arrayNumberOfExpensesByCategories.push({ name: category, number: 0 })
+                arrayNumberOfExpensesByCategories.push(0)
             }
         })
 
@@ -70,9 +70,9 @@ class StatisticController {
                 const reducer = groupedExpense.get(category).reduce((accumulator, expense) => {
                     return accumulator += parseFloat(expense.price)
                 }, 0)
-                arrayPercentageCostByCategories.push({ name: category, cost: (parseFloat(reducer) / parseFloat(expensesTotal) * 100).toFixed(1) })
+                arrayPercentageCostByCategories.push(parseFloat((parseFloat(reducer) / parseFloat(expensesTotal) * 100).toFixed(1)))
             } else {
-                arrayPercentageCostByCategories.push({ name: category, cost: 0 })
+                arrayPercentageCostByCategories.push(0)
             }
         })
 

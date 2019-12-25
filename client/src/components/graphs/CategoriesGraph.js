@@ -3,10 +3,18 @@ import { Doughnut } from 'vue-chartjs'
 export default {
     extends: Doughnut,
     props: ['numberCategory', 'percentCostCategory'],
+    data() {
+        return {
+            maxPrice: 0
+        }
+    },
+    methods: {
+
+    },
     mounted() {
         this.renderChart({
             datasets: [{
-                data: [10, 2, 4, 3, 4, 10, 1, 5],
+                data: this.percentCostCategory,
                 borderColor: '#12012F',
                 backgroundColor: [
                     '#9E0D2B',
@@ -20,7 +28,7 @@ export default {
                 ],
             },
             {
-                data: [20, 4, 5, 12, 2, 8, 16, 18],
+                data: this.numberCategory,
                 borderColor: '#12012F',
                 backgroundColor: [
                     '#9E0D2B',
