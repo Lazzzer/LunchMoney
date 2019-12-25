@@ -2,13 +2,51 @@ import { Line } from 'vue-chartjs'
 
 export default {
     extends: Line,
-    props: ['spendingProgression', 'expensesTotal'],
+    props: ['spendingProgression', 'expensesTotal', 'budgetLimit'],
+    data() {
+        return {
+            totalSpendingData: [],
+            arraySpendings: [],
+            arrayProjection: [],
+            arrayLabels: []
+        }
+    },
+    methods: {
+        prepareData() {
+            this.arraySpendings.push(...this.spendingProgression.map(period => period.totalSpending))
+            this.arrayLabels.push(...this.spendingProgression.map((period) => {
+                let date = new Date(period.date)
+                return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'numeric', year: '2-digit' })
+            }))
+
+            const dates = this.spendingProgression.map(period => period.date)
+            const today = new Date(Date.now())
+            const lastDate = new Date(dates[dates.length - 1])
+
+            if (today.getDate() === lastDate.getDate()) {
+                this.arrayProjection = []
+            }
+            else if (today.getDate() < lastDate.getDate() && today.getDate() >= 21) {
+                console.log((this.arraySpendings[3] + this.arraySpendings[2] / 2))
+                this.arrayProjection = [0, this.arraySpendings[1], this.arraySpendings[2], Math.ceil((this.arraySpendings[3] + this.arraySpendings[2] + this.arraySpendings[1] / 3))]
+                this.arraySpendings = this.arraySpendings.slice(0, -1)
+            }
+            else if (today.getDate() < 21 && today.getDate() >= 11) {
+                this.arrayProjection = [0, this.arraySpendings[1], this.arraySpendings[1] + this.arraySpendings[1], this.arraySpendings[1] + this.arraySpendings[1] + this.arraySpendings[1]]
+                this.arraySpendings = this.arraySpendings.slice(0, 2)
+            } else {
+                this.arrayProjection = [0, this.arraySpendings[1], this.arraySpendings[1] + this.arraySpendings[1], this.arraySpendings[1] + this.arraySpendings[1] + this.arraySpendings[1]]
+                this.arraySpendings = []
+            }
+        }
+    },
     mounted() {
+        this.prepareData()
         this.renderChart({
-            labels: ['01.11.19', '10.11.19', '20.11.19', '30.11.19'],
+            labels: this.arrayLabels,
             datasets: [{
                 label: 'Current Budget',
-                data: [0, 50.3, 174.8, 348.2],
+                data: this.arraySpendings,
                 fill: false,
                 borderColor: '#F71140',
                 backgroundColor: '#F71140',
@@ -20,7 +58,7 @@ export default {
 
             }, {
                 label: 'Projection',
-                data: [0, 50.3, 174.8, 287.35],
+                data: this.arrayProjection,
                 fill: false,
                 borderWidth: 1,
                 borderColor: '#BAAED0',
@@ -58,7 +96,7 @@ export default {
                     },
                     ticks: {
                         beginAtZero: true,
-                        max: 400,
+                        max: Number(this.budgetLimit),
                         min: 0,
                         maxTicksLimit: 8,
                         stepSize: 100,

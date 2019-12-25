@@ -3,14 +3,6 @@ import { Doughnut } from 'vue-chartjs'
 export default {
     extends: Doughnut,
     props: ['numberCategory', 'percentCostCategory'],
-    data() {
-        return {
-            maxPrice: 0
-        }
-    },
-    methods: {
-
-    },
     mounted() {
         this.renderChart({
             datasets: [{

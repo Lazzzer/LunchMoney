@@ -30,7 +30,7 @@
     </div>
     <p class="mt-4 ml-6 text-xs italic font-bold leading-none text-lunchPurple-200">SPENDING PROGRESSION EACH 10 DAYS</p>
     <div class="flex items-center justify-center h-40 mx-4 mt-2 SpendingProgress bg-lunchPurple-500 rounded-lunch">
-      <spending-progression :width="240" :height="130" :spending-progression="spendingProgressData" :expenses-total="expensesTotal"></spending-progression>
+      <spending-progression :width="240" :height="130" :spending-progression="spendingProgressData" :expenses-total="expensesTotal" :budget-limit="budgetLimit"></spending-progression>
     </div>
     <p class="mt-4 mr-6 text-xs italic font-bold leading-none text-right text-lunchPurple-200">TOTAL SPENDING FOR EACH DAY</p>
     <div class="flex items-center justify-center h-40 mx-4 mt-2 SpendingProgress bg-lunchPurple-500 rounded-lunch">
