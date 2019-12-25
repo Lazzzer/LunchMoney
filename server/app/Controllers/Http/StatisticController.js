@@ -18,15 +18,26 @@ class StatisticController {
 
         const queryJSON = query.toJSON();
 
+        const firstDayOfBudget = new Date(queryJSON.created_at)
+
+        if (firstDayOfBudget.getDate() != 1 || !auth.user.defaultBudget) {
+            return response.forbidden()
+        }
+
         //Percentage budget spent
         const budgetLimit = queryJSON.limit
         const expensesTotal = queryJSON.expenses.reduce((accumulator, expense) => {
             return accumulator += parseFloat(expense.price)
         }, 0)
+
+        if (expensesTotal === 0) {
+            return response.forbidden()
+        }
+
         const budgetSpentPercentage = (parseFloat(expensesTotal) / parseFloat(budgetLimit) * 100).toFixed(0)
 
         //Spending progression by 10 days & Average spending by 10 days
-        const firstDayOfBudget = new Date(queryJSON.created_at)
+
         const lastDayOfBudget = new Date(new Date(queryJSON.created_at).getFullYear(), new Date(queryJSON.created_at).getMonth() + 1, 0)
 
         let arrayExpensesBy10Days = [{ totalSpending: 0, progression: 0, date: new Date(queryJSON.created_at) }]

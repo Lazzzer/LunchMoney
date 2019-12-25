@@ -2,7 +2,7 @@ import { Line } from 'vue-chartjs'
 
 export default {
     extends: Line,
-    props: ['spendingProgression', 'expensesTotal', 'budgetLimit'],
+    props: ['spendingProgression', 'expensesTotal', 'budgetLimit', 'currency'],
     data() {
         return {
             totalSpendingData: [],
@@ -110,11 +110,11 @@ export default {
             maintainAspectRatio: false,
             tooltips: {
                 callbacks: {
-                    label: function (tooltipItem, data) {
+                    label: (tooltipItem, data) => {
                         if (tooltipItem.datasetIndex === 0) {
-                            return data['datasets'][0]['label'] + ': ' + data['datasets'][0]['data'][tooltipItem['index']] + ' CHF'
+                            return data['datasets'][0]['label'] + ': ' + data['datasets'][0]['data'][tooltipItem['index']] + ' ' + this.currency
                         } else {
-                            return data['datasets'][1]['label'] + ': ' + data['datasets'][1]['data'][tooltipItem['index']] + ' CHF'
+                            return data['datasets'][1]['label'] + ': ' + data['datasets'][1]['data'][tooltipItem['index']] + ' ' + this.currency
                         }
                     }
                 }
