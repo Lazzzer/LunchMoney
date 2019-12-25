@@ -6,7 +6,7 @@
         <p class="text-xs italic font-bold leading-none text-lunchPurple-200">OF BUDGET SPENT</p>
       </div>
       <div class="AvgSpendingWeek">
-        <p class="text-2xl italic font-bold leading-none text-lunchPink-600">58.20<span class="text-xl not-italic font-bold text-white"> {{ currency }}</span></p>
+        <p class="text-2xl italic font-bold leading-none text-lunchPink-600">{{ getSpendingAverage() }}<span class="text-xl not-italic font-bold text-white"> {{ currency }}</span></p>
         <p class="text-xs italic font-bold leading-none text-lunchPurple-200">AVERAGE SPENDING</p>
         <p class="text-xs italic font-bold leading-none text-lunchPurple-200">PER 10 DAYS</p>
       </div>
@@ -42,7 +42,6 @@
 import CategoriesGraph from '.././components/graphs/CategoriesGraph'
 import SpendingProgression from '.././components/graphs/SpendingProgression'
 import ExpensesByDays from '.././components/graphs/ExpensesByDays'
-
 
 export default {
   components: {
@@ -88,6 +87,19 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    getSpendingAverage() {
+      const today = new Date(Date.now())
+      const lastDay = new Date(new Date(today.getFullYear(), today.getMonth() + 1, 0)).getDate()
+      if (today.getDate() === lastDay) {
+        return (this.expensesTotal / 4).toFixed(1)
+      } else if (today.getDate() > 21 && today.getDate() < lastDay) {
+        return (this.expensesTotal / 3).toFixed(1)
+      } else if (today.getDate() <= 21 && today.getDate() > 11) {
+        return (this.expensesTotal / 2).toFixed(1)
+      } else {
+        return (this.expensesTotal).toFixed(1)
+      }
     }
   },
 }

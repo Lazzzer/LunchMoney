@@ -27,7 +27,6 @@ export default {
                 this.arrayProjection = []
             }
             else if (today.getDate() < lastDate.getDate() && today.getDate() >= 21) {
-                console.log((this.arraySpendings[3] + this.arraySpendings[2] / 2))
                 this.arrayProjection = [0, this.arraySpendings[1], this.arraySpendings[2], Math.ceil((this.arraySpendings[3] + this.arraySpendings[2] + this.arraySpendings[1] / 3))]
                 this.arraySpendings = this.arraySpendings.slice(0, -1)
             }
