@@ -18,8 +18,6 @@ class StatisticController {
 
         const queryJSON = query.toJSON();
 
-        //Have to query currency too
-
         //Percentage budget spent
         const budgetLimit = queryJSON.limit
         const expensesTotal = queryJSON.expenses.reduce((accumulator, expense) => {
@@ -65,26 +63,40 @@ class StatisticController {
             }
         })
 
-        let arrayTotalExpensesByCategories = []
+        let arrayPercentageCostByCategories = []
 
         categories.forEach(category => {
             if (groupedExpense.get(category) !== undefined) {
                 const reducer = groupedExpense.get(category).reduce((accumulator, expense) => {
                     return accumulator += parseFloat(expense.price)
                 }, 0)
-                arrayTotalExpensesByCategories.push({ name: category, totalPrice: reducer })
+                arrayPercentageCostByCategories.push({ name: category, cost: (parseFloat(reducer) / parseFloat(expensesTotal) * 100).toFixed(1) })
             } else {
-                arrayTotalExpensesByCategories.push({ name: category, totalPrice: 0 })
+                arrayPercentageCostByCategories.push({ name: category, cost: 0 })
             }
         })
 
-        //return response.accepted(arrayTotalExpensesByCategories)
+        //Average spending for each day
+        const averageSpending = queryJSON.expenses.map((expense) => {
+            return { day: new Date(expense.created_at).getDay() - 1, price: expense.price }
+        })
+
+        let arrayTotalSpendingPerDay = [0, 0, 0, 0, 0, 0, 0]
+
+        averageSpending.forEach(expense => {
+            arrayTotalSpendingPerDay[expense.day] += parseFloat(expense.price)
+        })
+
+
         return response.accepted({
+            currency: auth.user.currency,
             expensesTotal: expensesTotal,
+            budgetLimit: budgetLimit,
             budgetSpentPercentage: budgetSpentPercentage,
             arrayExpensesBy10Days: arrayExpensesBy10Days,
             arrayNumberOfExpensesByCategories: arrayNumberOfExpensesByCategories,
-            arrayTotalExpensesByCategories: arrayTotalExpensesByCategories
+            arrayPercentageCostByCategories: arrayPercentageCostByCategories,
+            arrayTotalSpendingPerDay: arrayTotalSpendingPerDay
         })
     }
 

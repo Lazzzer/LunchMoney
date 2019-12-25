@@ -2,7 +2,7 @@ import { Doughnut } from 'vue-chartjs'
 
 export default {
     extends: Doughnut,
-    props: ['data'],
+    props: ['numberCategory', 'percentCostCategory'],
     mounted() {
         this.renderChart({
             datasets: [{

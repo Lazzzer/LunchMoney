@@ -2,13 +2,24 @@ import { Bar } from 'vue-chartjs'
 
 export default {
     extends: Bar,
-    props: ['data'],
+    props: ['data', 'budgetLimit', 'currency'],
+    data() {
+        return {
+            maxPrice: 0
+        }
+    },
+    methods: {
+        setMaxPrice() {
+            this.maxPrice = Math.ceil(Math.max(...this.data) / 10) * 10
+        }
+    },
     mounted() {
+        this.setMaxPrice()
         this.renderChart({
             labels: ['Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.', 'Sun.'],
             datasets: [{
                 label: 'Spendings by day',
-                data: [20, 50, 103, 40, 3, 30, 10],
+                data: this.data,
                 backgroundColor: [
                     '#9E0D2B',
                     '#F71140',
@@ -18,8 +29,7 @@ export default {
                     '#949FB1',
                     '#4D5360',
                 ]
-            }
-            ]
+            }]
         }, {
             title: {
                 display: false,
@@ -48,10 +58,10 @@ export default {
                     },
                     ticks: {
                         beginAtZero: true,
-                        max: 125,
+                        max: this.maxPrice,
                         min: 0,
                         maxTicksLimit: 8,
-                        stepSize: 25,
+                        stepSize: 10,
                         fontSize: 8,
                         fontColor: '#BAAED0',
                         fontFamily: 'Open Sans',
@@ -63,8 +73,8 @@ export default {
             maintainAspectRatio: false,
             tooltips: {
                 callbacks: {
-                    label: function (tooltipItem, data) {
-                        return 'Average: ' + data['datasets'][0]['data'][tooltipItem['index']] + ' CHF'
+                    label: (tooltipItem, data) => {
+                        return 'Total: ' + data['datasets'][0]['data'][tooltipItem['index']] + ' ' + this.currency
                     }
                 }
             }

@@ -2,7 +2,7 @@ import { Line } from 'vue-chartjs'
 
 export default {
     extends: Line,
-    props: ['data'],
+    props: ['spendingProgression', 'expensesTotal'],
     mounted() {
         this.renderChart({
             labels: ['01.11.19', '10.11.19', '20.11.19', '30.11.19'],
@@ -11,6 +11,7 @@ export default {
                 data: [0, 50.3, 174.8, 348.2],
                 fill: false,
                 borderColor: '#F71140',
+                backgroundColor: '#F71140',
                 borderWidth: 2,
                 pointBorderWidth: 2,
                 pointRadius: 3,
@@ -23,6 +24,7 @@ export default {
                 fill: false,
                 borderWidth: 1,
                 borderColor: '#BAAED0',
+                backgroundColor: '#BAAED0',
                 pointBorderWidth: 2,
                 pointRadius: 3,
                 pointHitRadius: 15,
