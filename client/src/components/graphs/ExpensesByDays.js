@@ -74,7 +74,7 @@ export default {
             tooltips: {
                 callbacks: {
                     label: (tooltipItem, data) => {
-                        return 'Total: ' + data['datasets'][0]['data'][tooltipItem['index']] + ' ' + this.currency
+                        return 'Total: ' + (data['datasets'][0]['data'][tooltipItem['index']]).toFixed(2) + ' ' + this.currency
                     }
                 }
             }

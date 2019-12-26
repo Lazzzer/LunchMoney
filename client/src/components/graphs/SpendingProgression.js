@@ -112,9 +112,9 @@ export default {
                 callbacks: {
                     label: (tooltipItem, data) => {
                         if (tooltipItem.datasetIndex === 0) {
-                            return data['datasets'][0]['label'] + ': ' + data['datasets'][0]['data'][tooltipItem['index']] + ' ' + this.currency
+                            return data['datasets'][0]['label'] + ': ' + (data['datasets'][0]['data'][tooltipItem['index']]).toFixed(2) + ' ' + this.currency
                         } else {
-                            return data['datasets'][1]['label'] + ': ' + data['datasets'][1]['data'][tooltipItem['index']] + ' ' + this.currency
+                            return data['datasets'][1]['label'] + ': ' + (data['datasets'][1]['data'][tooltipItem['index']]).toFixed(2) + ' ' + this.currency
                         }
                     }
                 }
