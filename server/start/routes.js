@@ -47,3 +47,6 @@ Route.get('/expense/show/:id', 'ExpenseController.show').middleware(['auth'])
 Route.post('/expense/create', 'ExpenseController.create').middleware(['auth'])
 Route.put('/expense/edit/:id', 'ExpenseController.edit').middleware(['auth'])
 Route.delete('/expense/delete/:id', 'ExpenseController.delete').middleware(['auth'])
+
+//Statistic Routes
+Route.get('/stats/current', 'StatisticController.current').middleware(['auth'])

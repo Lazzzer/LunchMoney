@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="android w-full h-screen bg-lunchPurple-700 font-sans mx-auto" style="max-width:650px;">
+  <div id="app" class="w-full h-screen mx-auto font-sans android bg-lunchPurple-700" style="max-width:650px;">
     <router-view />
   </div>
 </template>
@@ -10,7 +10,7 @@ export default {
   created() {
     this.$axios.interceptors.request.use(config => {
       // Do something before request is sent
-      if (config.url.includes('dashboard') || config.url.includes('settings') || config.url.includes('refresh') || config.url.includes('user') || config.url.includes('logout') || config.url.includes('budget') || config.url.includes('expense')) {
+      if (config.url.includes('dashboard') || config.url.includes('settings') || config.url.includes('refresh') || config.url.includes('user') || config.url.includes('logout') || config.url.includes('budget') || config.url.includes('expense') || config.url.includes('stats')) {
         if (this.$cookies.isKey('refresh-token')) {
           config.headers.Authorization = 'bearer ' + this.$cookies.get('token')
           config.headers.common['refresh-token'] = this.$cookies.get('refresh-token')
