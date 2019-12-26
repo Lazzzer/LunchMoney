@@ -1,8 +1,6 @@
 'use strict'
 
 const Budget = use('App/Models/Budget')
-const Expense = use('App/Models/Expense')
-const ObjectID = require("mongodb").ObjectID
 
 class StatisticController {
 
@@ -24,8 +22,8 @@ class StatisticController {
             return response.forbidden()
         }
 
-        //Percentage budget spent
         const budgetLimit = queryJSON.limit
+
         const expensesTotal = queryJSON.expenses.reduce((accumulator, expense) => {
             return accumulator += parseFloat(expense.price)
         }, 0)
@@ -34,18 +32,41 @@ class StatisticController {
             return response.forbidden()
         }
 
+        /// Percentage budget spent ///
         const budgetSpentPercentage = (parseFloat(expensesTotal) / parseFloat(budgetLimit) * 100).toFixed(0)
 
-        //Spending progression by 10 days & Average spending by 10 days
+        /// Spending progression by 10 days ///
+        const arrayExpensesBy10Days = this.getSpendingProgression(queryJSON, firstDayOfBudget, expensesTotal)
+
+        /// Percentage of cost by categories and number of expenses by categories ///
+        const arrayNumberOfExpensesByCategories = this.getCategoriesData(queryJSON, expensesTotal)[0]
+        const arrayPercentageCostByCategories = this.getCategoriesData(queryJSON, expensesTotal)[1]
+
+        /// Average spending for each day ///
+        const arrayTotalSpendingPerDay = this.getTotalSpending(queryJSON)
+
+        return response.accepted({
+            currency: auth.user.currency,
+            expensesTotal: expensesTotal,
+            budgetLimit: budgetLimit,
+            budgetSpentPercentage: budgetSpentPercentage,
+            arrayExpensesBy10Days: arrayExpensesBy10Days,
+            arrayNumberOfExpensesByCategories: arrayNumberOfExpensesByCategories,
+            arrayPercentageCostByCategories: arrayPercentageCostByCategories,
+            arrayTotalSpendingPerDay: arrayTotalSpendingPerDay
+        })
+    }
+
+    getSpendingProgression(queryJSON, firstDayOfBudget, expensesTotal) {
 
         const lastDayOfBudget = new Date(new Date(queryJSON.created_at).getFullYear(), new Date(queryJSON.created_at).getMonth() + 1, 0)
 
         let arrayExpensesBy10Days = [{ totalSpending: 0, progression: 0, date: new Date(queryJSON.created_at) }]
         let progression = 0
         let spending = 0
+
         for (let i = 10; i <= 21; i += 10) {
             const deadline = new Date(firstDayOfBudget.setDate(firstDayOfBudget.getDate() + 10))
-
             const expensesBy10Days = queryJSON.expenses.reduce((accumulator, expense) => {
                 if (new Date(expense.created_at).getDate() < deadline.getDate()) {
                     return accumulator += parseFloat(expense.price)
@@ -60,7 +81,10 @@ class StatisticController {
         }
         arrayExpensesBy10Days.push({ totalSpending: expensesTotal, progression: expensesTotal - spending, date: lastDayOfBudget })
 
-        //Percentage of cost by categories and number of expenses by categories
+        return arrayExpensesBy10Days
+    }
+
+    getCategoriesData(queryJSON, expensesTotal) {
         const categories = ['Food', 'Fast Food', 'Restaurant', 'Soft Drink', 'Alcohol', 'Shopping', 'Travel', 'Other']
 
         let arrayNumberOfExpensesByCategories = []
@@ -84,27 +108,21 @@ class StatisticController {
             }
         })
 
-        //Average spending for each day
-        const averageSpending = queryJSON.expenses.map((expense) => {
+        return [arrayNumberOfExpensesByCategories, arrayPercentageCostByCategories]
+    }
+
+    getTotalSpending(queryJSON) {
+        const totalSpending = queryJSON.expenses.map((expense) => {
             return { day: new Date(expense.created_at).getDay() - 1, price: expense.price }
         })
 
         let arrayTotalSpendingPerDay = [0, 0, 0, 0, 0, 0, 0]
 
-        averageSpending.forEach(expense => {
+        totalSpending.forEach(expense => {
             arrayTotalSpendingPerDay[expense.day] += parseFloat(expense.price)
         })
 
-        return response.accepted({
-            currency: auth.user.currency,
-            expensesTotal: expensesTotal,
-            budgetLimit: budgetLimit,
-            budgetSpentPercentage: budgetSpentPercentage,
-            arrayExpensesBy10Days: arrayExpensesBy10Days,
-            arrayNumberOfExpensesByCategories: arrayNumberOfExpensesByCategories,
-            arrayPercentageCostByCategories: arrayPercentageCostByCategories,
-            arrayTotalSpendingPerDay: arrayTotalSpendingPerDay
-        })
+        return arrayTotalSpendingPerDay
     }
 }
 

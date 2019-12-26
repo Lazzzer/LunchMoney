@@ -44,7 +44,7 @@
           <path d="M88 105.469C88 113.481 81.4953 120 73.5 120C65.5047 120 59 113.481 59 105.469C59 97.4562 65.5047 90.9375 73.5 90.9375C81.4953 90.9375 88 97.4562 88 105.469ZM60.6784 31.5772L63.1434 80.9834C63.2592 83.3035 65.1699 85.125 67.4879 85.125H79.5121C81.8301 85.125 83.7408 83.3035 83.8566 80.9834L86.3216 31.5772C86.4458 29.0871 84.4649 27 81.9771 27H65.0229C62.5351 27 60.5542 29.0871 60.6784 31.5772Z" fill="#F56565" />
           <circle cx="73.5" cy="73.5" r="70.5" stroke="#F56565" stroke-width="6" />
         </svg>
-        <h3 class="mx-10 mt-4 text-xs italic text-lunchPurple-100">The statistics work only with budgets created automatically with at least one expense.</h3>
+        <h3 class="mx-10 mt-4 text-xs italic text-lunchPurple-100">The statistics work only for current budgets created automatically with at least one expense.</h3>
         <h3 class="mx-10 mt-4 text-xs italic text-lunchPurple-100">You can enable default budgets in the settings.</h3>
 
       </div>

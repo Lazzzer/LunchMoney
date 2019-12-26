@@ -52,7 +52,7 @@ export default {
                 borderWidth: 2,
                 pointBorderWidth: 2,
                 pointRadius: 3,
-                pointHitRadius: 15,
+                pointHitRadius: 30,
                 lineTension: 0
 
             }, {
@@ -64,7 +64,7 @@ export default {
                 backgroundColor: '#BAAED0',
                 pointBorderWidth: 2,
                 pointRadius: 3,
-                pointHitRadius: 15,
+                pointHitRadius: 30,
                 lineTension: 0
             }
             ]
