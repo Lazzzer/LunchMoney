@@ -14,7 +14,7 @@ class StatisticController {
             .where('user_id', auth.user._id)
             .first()
 
-        if (query === null) return response.noContent()
+        if (query === null) return response.forbidden()
 
         const queryJSON = query.toJSON();
 
@@ -61,24 +61,21 @@ class StatisticController {
         arrayExpensesBy10Days.push({ totalSpending: expensesTotal, progression: expensesTotal - spending, date: lastDayOfBudget })
 
         //Percentage of cost by categories and number of expenses by categories
-        const groupedExpense = this.groupBy(queryJSON.expenses, expense => expense.type);
         const categories = ['Food', 'Fast Food', 'Restaurant', 'Soft Drink', 'Alcohol', 'Shopping', 'Travel', 'Other']
 
         let arrayNumberOfExpensesByCategories = []
 
         categories.forEach(category => {
-            if (groupedExpense.get(category) !== undefined) {
-                arrayNumberOfExpensesByCategories.push(groupedExpense.get(category).length)
-            } else {
-                arrayNumberOfExpensesByCategories.push(0)
-            }
+            const arrayOfExpenses = queryJSON.expenses.filter(expense => expense.type === category)
+            arrayOfExpenses.length === 0 ? arrayNumberOfExpensesByCategories.push(0) : arrayNumberOfExpensesByCategories.push(arrayOfExpenses.length)
         })
 
         let arrayPercentageCostByCategories = []
 
         categories.forEach(category => {
-            if (groupedExpense.get(category) !== undefined) {
-                const reducer = groupedExpense.get(category).reduce((accumulator, expense) => {
+            const arrayOfExpenses = queryJSON.expenses.filter(expense => expense.type === category)
+            if (arrayOfExpenses.length > 0) {
+                const reducer = arrayOfExpenses.reduce((accumulator, expense) => {
                     return accumulator += parseFloat(expense.price)
                 }, 0)
                 arrayPercentageCostByCategories.push(parseFloat((parseFloat(reducer) / parseFloat(expensesTotal) * 100).toFixed(1)))
@@ -98,7 +95,6 @@ class StatisticController {
             arrayTotalSpendingPerDay[expense.day] += parseFloat(expense.price)
         })
 
-
         return response.accepted({
             currency: auth.user.currency,
             expensesTotal: expensesTotal,
@@ -109,20 +105,6 @@ class StatisticController {
             arrayPercentageCostByCategories: arrayPercentageCostByCategories,
             arrayTotalSpendingPerDay: arrayTotalSpendingPerDay
         })
-    }
-
-    groupBy(list, keyGetter) {
-        const map = new Map();
-        list.forEach((item) => {
-            const key = keyGetter(item);
-            const collection = map.get(key);
-            if (!collection) {
-                map.set(key, [item]);
-            } else {
-                collection.push(item);
-            }
-        });
-        return map;
     }
 }
 
