@@ -119,7 +119,11 @@ class StatisticController {
         let arrayTotalSpendingPerDay = [0, 0, 0, 0, 0, 0, 0]
 
         totalSpending.forEach(expense => {
-            arrayTotalSpendingPerDay[expense.day] += parseFloat(expense.price)
+            if (expense.day === -1) {
+                arrayTotalSpendingPerDay[arrayTotalSpendingPerDay.length - 1] += parseFloat(expense.price)
+            } else {
+                arrayTotalSpendingPerDay[expense.day] += parseFloat(expense.price)
+            }
         })
 
         return arrayTotalSpendingPerDay
