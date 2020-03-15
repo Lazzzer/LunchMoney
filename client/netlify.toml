@@ -1,4 +1,10 @@
 [[redirects]]
+  from = "https://lunch-money.netlify.com/*"
+  to = "https://demo--lunch-money.netlify.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/*"
   to = "/"
   status = 200
