@@ -22,10 +22,10 @@
           <svg class="inline-block w-4 h-auto mr-2" width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10.1146 0L12 3.4375H9.89375L8.45208 0H10.1146ZM7.44792 0L8.88958 3.4375H3.11042L4.55208 0H7.44792ZM1.88542 0H3.54792L2.10625 3.4375H0L1.88542 0ZM0 4.125H2.09792L4.66042 9.53262C4.69167 9.59922 4.60417 9.65938 4.55625 9.60352L0 4.125ZM3.0875 4.125H8.9125L6.05833 10.9613C6.0375 11.0129 5.96458 11.0129 5.94375 10.9613L3.0875 4.125ZM7.33958 9.53262L9.90208 4.125H12L7.44375 9.60137C7.39583 9.65938 7.30833 9.59922 7.33958 9.53262Z" fill="#E2E8F0" />
           </svg>
-          <span>{{ parseFloat(currentBalance).toFixed(2) }}</span>
+          <span>{{ 200 }}</span>
           <span class="text-2xl italic font-bold text-lunchPurple-100">/</span>
           <span class="text-lunchPink-600">{{ parseFloat(limit).toFixed(2) }}</span>
-          <span class="mt-1 ml-1 text-base not-italic">{{ this.$store.state.currentCurrency }}</span>
+          <span class="mt-1 ml-1 text-base not-italic">{{ 'USD' }}</span>
         </div>
       </div>
       <div class="flex items-center justify-center mt-4 ">
@@ -96,7 +96,9 @@
     <div v-else-if="validParams = false" class="w-full text-center">
       <h1 class="mt-10 text-xl font-black text-white">ACCES DENIED</h1>
     </div>
-  </div></template>
+  </div>
+  
+</template>
 
 <script>
 import ModalEditBudget from '../components/ModalEditBudget.vue'
@@ -118,7 +120,7 @@ export default {
   data() {
     return {
       validParams: null,
-      budgetID: this.$route.params.id,
+      budgetID: '1',
       limit: null,
       month: '',
       expenses: [],
@@ -153,7 +155,7 @@ export default {
   methods: {
     swipe(param) {
       return (direction, event) => {
-        console.log(direction, param)
+        console.log(direction, param, event)
         if (direction === 'right') {
           let expenseDiv = document.getElementById(param)
           expenseDiv.className += ' swipe-right-delete'
@@ -175,22 +177,73 @@ export default {
       }
     },
     getBudget() {
-      this.$axios.get(`/budget/expenses/${this.budgetID}`)
-        .then(res => {
-          console.log(res)
-          if (res.status === 202) {
-            this.isCurrentBudget = res.data.current
-            this.limit = res.data.limit
-            this.month = this.fullDate(res.data.created_at)
-            this.expenses = res.data.expenses
-            this.currentBalance = this.getCurrentBalance()
-            this.validParams = true
-          }
-          else {
-            this.validParams = false
-          }
-        })
-        .catch()
+      this.isCurrentBudget = false
+      this.limit = '300'
+      this.month = this.fullDate('2020-03-01T00:00:00.050Z')
+      this.expenses = [
+        {
+          _id: '4',
+          user_id: '1',
+          budget_id: '1',
+          type: 'Alcohol',
+          price: '20',
+          description: 'Beers!',
+          created_at: '2020-03-01T11:34:11.408Z',
+          updated_at: '2020-03-01T11:34:11.408Z',
+          user: '1',
+        },
+        {
+          _id: '3',
+          user_id: '1',
+          budget_id: '1',
+          type: 'Soft Drink',
+          price: '1.40',
+          description: 'Ice Tea',
+          created_at: '2020-03-02T11:34:11.408Z',
+          updated_at: '2020-03-02T11:34:11.408Z',
+          user: '1',
+        },
+        {
+          _id: '2',
+          user_id: '1',
+          budget_id: '1',
+          type: 'Fast Food',
+          price: '40',
+          description: 'Holy Cow Burger',
+          created_at: '2020-03-03T11:34:11.408Z',
+          updated_at: '2020-03-03T11:34:11.408Z',
+          user: '1',
+        },
+        {
+          _id: '1',
+          user_id: '1',
+          budget_id: '1',
+          type: 'Food',
+          price: '60.5',
+          description: 'Groceries',
+          created_at: '2020-03-10T11:34:11.408Z',
+          updated_at: '2020-03-10T11:34:11.408Z',
+          user: '1',
+        },
+      ]
+      this.validParams = true
+
+      // this.$axios.get(`/budget/expenses/${this.budgetID}`)
+      //   .then(res => {
+      //     console.log(res)
+      //     if (res.status === 202) {
+      //       this.isCurrentBudget = res.data.current
+      //       this.limit = res.data.limit
+      //       this.month = this.fullDate(res.data.created_at)
+      //       this.expenses = res.data.expenses
+      //       this.currentBalance = this.getCurrentBalance()
+      //       this.validParams = true
+      //     }
+      //     else {
+      //       this.validParams = false
+      //     }
+      //   })
+      //   .catch()
     },
     fullDate: (dateToParse) => {
       let date = new Date(dateToParse)

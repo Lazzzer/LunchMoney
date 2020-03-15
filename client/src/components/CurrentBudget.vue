@@ -112,40 +112,52 @@ export default {
       }, 0)
     },
     createBudget() {
-      this.$axios.post('/budget/create', {
-        limit: this.newLimit
-      })
-        .then((res) => {
-          console.log(res)
-          if (res.status === 201) {
-            this.budgetCreated = true
-            this.getCurrentBudget()
-          }
-        }).catch((err) => {
-          console.log(err)
-          this.hasError = true
-          this.errorArray = err.response.data
-          this.errorLimit = this.hadError('limit')
-        })
+
+      this.budgetCreated = true
+      setTimeout(() => {
+        this.budgetCreated = false
+      }, 2000)
+
+      // this.$axios.post('/budget/create', {
+      //   limit: this.newLimit
+      // })
+      //   .then((res) => {
+      //     console.log(res)
+      //     if (res.status === 201) {
+      //       this.budgetCreated = true
+      //       this.getCurrentBudget()
+      //     }
+      //   }).catch((err) => {
+      //     console.log(err)
+      //     this.hasError = true
+      //     this.errorArray = err.response.data
+      //     this.errorLimit = this.hadError('limit')
+      //})
     },
     getCurrentBudget() {
-      this.$axios.get('/budget/current')
-        .then(res => {
-          console.log(res)
-          if (res.data !== '') {
-            this.id = res.data._id
-            this.limit = res.data.limit
-            this.expenses = res.data.expenses
-            this.currentBalance = this.getCurrentBalance()
-            this.month = this.fullDate(res.data.created_at)
-            this.noCurrentBudget = false
-          } else {
-            this.noCurrentBudget = true
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      this.id = 1
+      this.limit = 300
+      this.expenses = []
+      this.currentBalance = 200
+      this.month = this.fullDate('2020-03-01T00:00:00.050Z')
+      this.noCurrentBudget = false
+      // this.$axios.get('/budget/current')
+      //   .then(res => {
+      //     console.log(res)
+      //     if (res.data !== '') {
+      //       this.id = res.data._id
+      //       this.limit = res.data.limit
+      //       this.expenses = res.data.expenses
+      //       this.currentBalance = this.getCurrentBalance()
+      //       this.month = this.fullDate(res.data.created_at)
+      //       this.noCurrentBudget = false
+      //     } else {
+      //       this.noCurrentBudget = true
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
     },
     hadError(field) {
       let value = this.errorArray.find(obj => {

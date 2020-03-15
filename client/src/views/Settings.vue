@@ -144,21 +144,30 @@ export default {
     }
   },
   beforeCreate() {
-    this.$axios.get('/user')
-      .then(res => {
-        console.log(res)
-        this.name = res.data[0]
-        this.email = res.data[1]
-        this.currency = res.data[2]
-        this.newCurrency = this.currency
-        this.defaultBudget = res.data[3]
-        this.newDefaultBudget = this.defaultBudget
-        this.defaultValue = res.data[4]
-        this.newDefaultValue = this.defaultValue
-      })
-      .catch()
+
+    // this.$axios.get('/user')
+    //   .then(res => {
+    //     console.log(res)
+    //     this.name = res.data[0]
+    //     this.email = res.data[1]
+    //     this.currency = res.data[2]
+    //     this.newCurrency = this.currency
+    //     this.defaultBudget = res.data[3]
+    //     this.newDefaultBudget = this.defaultBudget
+    //     this.defaultValue = res.data[4]
+    //     this.newDefaultValue = this.defaultValue
+    //   })
+    //   .catch()
   },
   created() {
+    this.name = 'JohnDoe'
+    this.email = 'johndoe@demo.com'
+    this.currency = 'USD'
+    this.newCurrency = this.currency
+    this.defaultBudget = true
+    this.newDefaultBudget = this.defaultBudget
+    this.defaultValue = '300'
+    this.newDefaultValue = this.defaultValue
     EventBus.$on('user-deleted', () => {
       this.deletedPage = true
       console.log('erasing cookies...')
@@ -168,36 +177,42 @@ export default {
   },
   methods: {
     editUser() {
-      if (this.newCurrency !== this.currency || this.newDefaultBudget !== this.defaultBudget || this.newDefaultValue !== this.defaultValue) {
-        this.newDefaultBudget === false ? this.newDefaultValue = 1 : null
-        this.$axios.put('/user', {
-          currency: this.newCurrency,
-          defaultBudget: this.newDefaultBudget,
-          defaultValue: this.newDefaultValue
-        })
-          .then(res => {
-            if (res.status === 202) {
-              console.log(res)
-              this.hasError = false
-              this.errorDefaultValue = false
-              this.errorCurrency = false
-              this.userEdited = true
-              this.currency = this.newCurrency
-              this.defaultBudget = this.newDefaultBudget
-              this.defaultValue = this.newDefaultValue
-              setTimeout(() => {
-                this.userEdited = false
-              }, 2000)
-            }
-          })
-          .catch(err => {
-            console.log(err)
-            this.errorArray = err.response.data
-            this.errorDefaultValue = this.hadError('defaultValue')
-            this.errorCurrency = this.hadError('currency')
-            this.hasError = true
-          })
-      }
+
+      this.userEdited = true
+      setTimeout(() => {
+        this.userEdited = false
+      }, 2000)
+
+      // if (this.newCurrency !== this.currency || this.newDefaultBudget !== this.defaultBudget || this.newDefaultValue !== this.defaultValue) {
+      //   this.newDefaultBudget === false ? this.newDefaultValue = 1 : null
+      //   this.$axios.put('/user', {
+      //     currency: this.newCurrency,
+      //     defaultBudget: this.newDefaultBudget,
+      //     defaultValue: this.newDefaultValue
+      //   })
+      //     .then(res => {
+      //       if (res.status === 202) {
+      //         console.log(res)
+      //         this.hasError = false
+      //         this.errorDefaultValue = false
+      //         this.errorCurrency = false
+      //         this.userEdited = true
+      //         this.currency = this.newCurrency
+      //         this.defaultBudget = this.newDefaultBudget
+      //         this.defaultValue = this.newDefaultValue
+      //         setTimeout(() => {
+      //           this.userEdited = false
+      //         }, 2000)
+      //       }
+      //     })
+      //     .catch(err => {
+      //       console.log(err)
+      //       this.errorArray = err.response.data
+      //       this.errorDefaultValue = this.hadError('defaultValue')
+      //       this.errorCurrency = this.hadError('currency')
+      //       this.hasError = true
+      //     })
+      // }
     },
     hadError(field) {
       let value = this.errorArray.find(obj => {

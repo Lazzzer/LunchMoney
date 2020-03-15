@@ -30,7 +30,36 @@ export default {
   data() {
     return {
       noBudget: null,
-      budgets: [],
+      budgets: [
+        {
+          _id: '1',
+          limit: '300',
+          created_at: '2020-02-01T00:00:00.037Z',
+          user: '5db28370b814585f196d4f08',
+          expenses: [{ price: 300 }, { price: 2 }, { price: 30 }, { price: 30 }],
+        },
+        {
+          _id: '1',
+          limit: '400',
+          created_at: '2020-01-01T00:00:00.037Z',
+          user: '5db28370b814585f196d4f08',
+          expenses: [{ price: 210 }, { price: 2 }, { price: 30 }, { price: 30 }],
+        },
+        {
+          _id: '1',
+          limit: '2000',
+          created_at: '2019-12-01T00:00:00.037Z',
+          user: '5db28370b814585f196d4f08',
+          expenses: [{ price: 533 }, { price: 2 }, { price: 30 }, { price: 30 }],
+        },
+        {
+          _id: '1',
+          limit: '105',
+          created_at: '2019-11-01T00:00:00.037Z',
+          user: '5db28370b814585f196d4f08',
+          expenses: [{ price: 100 }, { price: 2 }, { price: 2 }, { price: 1 }],
+        },
+      ],
       currency: this.$store.state.currentCurrency
     }
   },
@@ -51,19 +80,20 @@ export default {
       return parseFloat(limit) - parseFloat(currentBalance) > 0 ? '+' + (parseFloat(limit) - parseFloat(currentBalance)).toFixed(2) : (parseFloat(limit) - parseFloat(currentBalance)).toFixed(2)
     },
     getAllBudget() {
-      this.$axios.get('/budget/all')
-        .then(res => {
-          console.log(res)
-          if (res.data[0] !== undefined) {
-            this.budgets = res.data
-            this.noBudget = false
-          } else {
-            this.noBudget = true
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      this.noBudget = false
+      // this.$axios.get('/budget/all')
+      //   .then(res => {
+      //     console.log(res)
+      //     if (res.data[0] !== undefined) {
+      //       this.budgets = res.data
+      //       this.noBudget = false
+      //     } else {
+      //       this.noBudget = true
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
     }
   },
 }

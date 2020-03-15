@@ -64,37 +64,43 @@ export default {
   },
   data() {
     return {
-      authorized: false,
+      authorized: true,
       optionToggled: false,
       currentTab: 1
     }
   },
   beforeCreate() {
-    this.$axios.get('/user')
-      .then(res => {
-        console.log(res)
-        this.$store.commit('setName', res.data[0])
-        this.$store.commit('setEmail', res.data[1])
-        this.$store.commit('setCurrency', res.data[2])
-        this.$store.commit('setDefaultBudget', res.data[3])
-        this.$store.commit('setDefaultValue', res.data[4])
-        this.authorized = true
-      })
-      .catch()
+    this.$store.commit('setName', 'JohnDoe')
+    this.$store.commit('setEmail', 'johndoe@demo.com')
+    this.$store.commit('setCurrency', 'USD')
+    this.$store.commit('setDefaultBudget', true)
+    this.$store.commit('setDefaultValue', '300')
+    // this.$axios.get('/user')
+    //   .then(res => {
+    //     console.log(res)
+    //     this.$store.commit('setName', res.data[0])
+    //     this.$store.commit('setEmail', res.data[1])
+    //     this.$store.commit('setCurrency', res.data[2])
+    //     this.$store.commit('setDefaultBudget', res.data[3])
+    //     this.$store.commit('setDefaultValue', res.data[4])
+    //     this.authorized = true
+    //   })
+    //   .catch()
   },
   methods: {
     logout() {
-      this.$axios.post('/logout')
-        .then(res => {
-          console.log(res)
-          res.status === 202 ? this.authorized = false : ''
-          this.$cookies.isKey('refresh-token') ? this.$cookies.remove('refresh-token') : null
-          this.$cookies.isKey('token') ? this.$cookies.remove('token') : null
-          this.$router.push('/login')
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      this.$router.push('login')
+      // this.$axios.post('/logout')
+      //   .then(res => {
+      //     console.log(res)
+      //     res.status === 202 ? this.authorized = false : ''
+      //     this.$cookies.isKey('refresh-token') ? this.$cookies.remove('refresh-token') : null
+      //     this.$cookies.isKey('token') ? this.$cookies.remove('token') : null
+      //     this.$router.push('/login')
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
     }
   }
 }

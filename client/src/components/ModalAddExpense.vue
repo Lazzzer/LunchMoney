@@ -80,28 +80,33 @@ export default {
   },
   methods: {
     createExpense() {
-      this.$axios.post('/expense/create', {
-        price: this.price,
-        type: this.type,
-        description: this.description
-      })
-        .then(res => {
-          if (res.status === 201) {
-            this.emitGlobalCreationEvent()
-            this.expenseCreated = true
-          }
-        })
-        .catch(err => {
-          if (err.response.status === 404) {
-            this.noBudget = true
-          }
-          if (err.response.status === 400) {
-            this.hasError = true
-            this.errorArray = err.response.data
-            this.errorPrice = this.hadError('price')
-            this.errorType = this.hadError('type')
-          }
-        })
+      this.expenseCreated = true
+      setTimeout(() => {
+        this.expenseCreated = false
+      }, 2000)
+
+      // this.$axios.post('/expense/create', {
+      //   price: this.price,
+      //   type: this.type,
+      //   description: this.description
+      // })
+      //   .then(res => {
+      //     if (res.status === 201) {
+      //       this.emitGlobalCreationEvent()
+      //       this.expenseCreated = true
+      //     }
+      //   })
+      //   .catch(err => {
+      //     if (err.response.status === 404) {
+      //       this.noBudget = true
+      //     }
+      //     if (err.response.status === 400) {
+      //       this.hasError = true
+      //       this.errorArray = err.response.data
+      //       this.errorPrice = this.hadError('price')
+      //       this.errorType = this.hadError('type')
+      //     }
+      //   })
     },
     hadError(field) {
       let value = this.errorArray.find(obj => {

@@ -32,7 +32,7 @@
         </svg>
         <div class="w-3/4 ml-2">
           <div class="flex justify-between">
-            <h4 class="text-sm font-bold text-white"><span class="overflow-x-hidden text-base font-bold text-lunchPink-600">-{{ parseFloat(expense.price).toFixed(2) }}</span> {{ $store.state.currentCurrency }}</h4>
+            <h4 class="text-sm font-bold text-white"><span class="overflow-x-hidden text-base font-bold text-lunchPink-600">-{{ parseFloat(expense.price).toFixed(2) }}</span> {{ 'USD' }}</h4>
             <span class="text-xs italic font-bold text-lunchPink-600">{{ formatDate(expense.created_at) }}</span>
           </div>
           <p v-if="expense.description === null" class="-mt-1 text-xs text-lunchPurple-100">No description</p>
@@ -65,7 +65,53 @@ export default {
   },
   data() {
     return {
-      expenses: [],
+      expenses: [
+        {
+          _id: '1',
+          user_id: '1',
+          budget_id: '1',
+          type: 'Food',
+          price: '60.5',
+          description: 'Groceries',
+          created_at: '2020-03-10T11:34:11.408Z',
+          updated_at: '2020-03-10T11:34:11.408Z',
+          user: '1',
+        },
+        {
+          _id: '2',
+          user_id: '1',
+          budget_id: '1',
+          type: 'Fast Food',
+          price: '40',
+          description: 'Holy Cow Burger',
+          created_at: '2020-03-03T11:34:11.408Z',
+          updated_at: '2020-03-03T11:34:11.408Z',
+          user: '1',
+        },
+        {
+          _id: '3',
+          user_id: '1',
+          budget_id: '1',
+          type: 'Soft Drink',
+          price: '1.40',
+          description: 'Ice Tea',
+          created_at: '2020-03-02T11:34:11.408Z',
+          updated_at: '2020-03-02T11:34:11.408Z',
+          user: '1',
+        },
+        {
+          _id: '4',
+          user_id: '1',
+          budget_id: '1',
+          type: 'Alcohol',
+          price: '20',
+          description: 'Beers!',
+          created_at: '2020-03-01T11:34:11.408Z',
+          updated_at: '2020-03-01T11:34:11.408Z',
+          user: '1',
+        },
+
+      ],
       noExpenses: null,
       counter: 1,
       currentPage: null,
@@ -92,7 +138,7 @@ export default {
   methods: {
     swipe(param) {
       return (direction, event) => {
-        console.log(direction, param)
+        console.log(direction, param, event)
         if (direction === 'right') {
           let expenseDiv = document.getElementById(param)
           expenseDiv.className += ' swipe-right-delete'
@@ -114,34 +160,34 @@ export default {
       }
     },
     getExpenses() {
-      this.$axios.get(`/expense/all/${this.counter}`)
-        .then(res => {
-          console.log(res)
+      // this.$axios.get(`/expense/all/${this.counter}`)
+      //   .then(res => {
+      //     console.log(res)
 
-          if (res.status === 204) {
-            this.noExpenses = true
-          }
-          else {
-            if (this.counter > 1) {
-              this.expenses.push(...res.data.data)
-            } else {
-              this.expenses = res.data.data
-              this.noExpenses = false
-            }
-            this.currentPage = res.data.page
-            this.lastPage = res.data.lastPage
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      //     if (res.status === 204) {
+      //       this.noExpenses = true
+      //     }
+      //     else {
+      //       if (this.counter > 1) {
+      //         this.expenses.push(...res.data.data)
+      //       } else {
+      //         this.expenses = res.data.data
+      //         this.noExpenses = false
+      //       }
+      //       this.currentPage = res.data.page
+      //       this.lastPage = res.data.lastPage
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
     },
     fetchMoreExpenses() {
-      if (this.counter < this.lastPage) {
-        this.counter++
-        this.getExpenses()
-        this.expenses.push()
-      }
+      // if (this.counter < this.lastPage) {
+      //   this.counter++
+      //   this.getExpenses()
+      //   this.expenses.push()
+      // }
     },
     truncateDesc(str, num) {
       return str.length <= num ? str : str.slice(0, num) + '...'

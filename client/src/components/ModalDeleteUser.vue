@@ -20,16 +20,18 @@ import { EventBus } from './../eventBus.js'
 export default {
   methods: {
     deleteUser() {
-      this.$axios.delete('/user')
-        .then(res => {
-          if (res.status === 202) {
-            this.emitGlobalCreationEvent()
-            this.$emit('closing-modal')
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      this.emitGlobalCreationEvent()
+      this.$emit('closing-modal')
+      // this.$axios.delete('/user')
+      //   .then(res => {
+      //     if (res.status === 202) {
+      //       this.emitGlobalCreationEvent()
+      //       this.$emit('closing-modal')
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
     },
     emitGlobalCreationEvent() {
       EventBus.$emit('user-deleted')

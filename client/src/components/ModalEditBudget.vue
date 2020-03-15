@@ -32,7 +32,7 @@
                    type="number" name="number" placeholder="Limit" required
             >
             <span v-if="hasError && errorLimit" class="text-red-400 text-xs bottom-2 left-0 absolute mt-2">{{ errorLimit.message }}</span>            
-            <span class="text-lg font-bold text-lunchPink-600 absolute top-0 left-0 mt-3 mr-2">{{ this.$store.state.currentCurrency }}</span>
+            <span class="text-lg font-bold text-lunchPink-600 absolute top-0 left-0 mt-3 mr-2">{{ 'USD' }}</span>
           </div>
           <div @click="editBudget" class="no-highlight-color cursor-pointer w-5/6 mx-auto mt-16 block py-3 px-3 rounded-full bg-lunchPink-600 text-lunchPurple-700 text-center font-black uppercase text-lg focus:outline-none">SAVE CHANGE</div>
         </div>
@@ -60,25 +60,30 @@ export default {
   },
   methods: {
     editBudget() {
-      if (this.newLimit !== this.oldLimit) {
-        this.$axios.put(`/budget/edit/${this.budgetId}`, {
-          limit: this.newLimit
-        })
-          .then(res => {
-            if (res.status === 202) {
-              this.emitGlobalCreationEvent()
-              this.budgetEdited = true
-            }
-          })
-          .catch(err => {
-            console.log(err)
-            this.errorArray = err.response.data
-            this.errorLimit = this.hadError('limit')
-            this.hasError = true
-          })
-      } else {
-        this.sameBudget = true
-      }
+
+      this.budgetEdited = true
+      setTimeout(() => {
+        this.budgetEdited = false
+      }, 2000)
+      // if (this.newLimit !== this.oldLimit) {
+      //   this.$axios.put(`/budget/edit/${this.budgetId}`, {
+      //     limit: this.newLimit
+      //   })
+      //     .then(res => {
+      //       if (res.status === 202) {
+      //         this.emitGlobalCreationEvent()
+      //         this.budgetEdited = true
+      //       }
+      //     })
+      //     .catch(err => {
+      //       console.log(err)
+      //       this.errorArray = err.response.data
+      //       this.errorLimit = this.hadError('limit')
+      //       this.hasError = true
+      //     })
+      // } else {
+      //   this.sameBudget = true
+      // }
 
     },
     emitGlobalCreationEvent() {

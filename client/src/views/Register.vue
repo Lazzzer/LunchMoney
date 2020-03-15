@@ -90,25 +90,25 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$axios.post('/register', {
-        name: this.name.toLowerCase().trim(),
-        email: this.email.toLowerCase().trim(),
-        password: this.password,
-        currency: this.currency
-      })
-        .then(res => {
-          console.log(res)
-          res.status === 201 ? this.userCreated = true : this.hasError = true
-        })
-        .catch(err => {
-          this.errorArray = err.response.data
-          this.errorName = this.hadError('name')
-          this.errorEmail = this.hadError('email')
-          this.errorPassword = this.hadError('password')
-          this.errorCurrency = this.hadError('currency')
-          this.hasError = true
-
-        })
+      this.$router.push('dashboard')
+      // this.$axios.post('/register', {
+      //   name: this.name.toLowerCase().trim(),
+      //   email: this.email.toLowerCase().trim(),
+      //   password: this.password,
+      //   currency: this.currency
+      // })
+      //   .then(res => {
+      //     console.log(res)
+      //     res.status === 201 ? this.userCreated = true : this.hasError = true
+      //   })
+      //   .catch(err => {
+      //     this.errorArray = err.response.data
+      //     this.errorName = this.hadError('name')
+      //     this.errorEmail = this.hadError('email')
+      //     this.errorPassword = this.hadError('password')
+      //     this.errorCurrency = this.hadError('currency')
+      //     this.hasError = true
+      //   })
     },
     hadError(field) {
       let value = this.errorArray.find(obj => {

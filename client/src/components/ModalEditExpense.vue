@@ -87,28 +87,32 @@ export default {
   },
   methods: {
     editExpense() {
-      if (this.newPrice !== this.oldPrice || this.newType !== this.oldType || this.newDescription !== this.oldDescription) {
-        this.$axios.put(`/expense/edit/${this.expense._id}`, {
-          price: this.newPrice,
-          type: this.newType,
-          description: this.newDescription
-        })
-          .then(res => {
-            if (res.status === 202) {
-              this.emitGlobalCreationEvent()
-              this.expenseEdited = true
-            }
-          })
-          .catch(err => {
-            console.log(err)
-            this.hasError = true
-            this.errorArray = err.response.data
-            this.errorPrice = this.hadError('price')
-            this.errorType = this.hadError('type')
-          })
-      } else {
-        this.sameExpense = true
-      }
+      this.expenseEdited = true
+      setTimeout(() => {
+        this.expenseEdited = false
+      }, 2000)
+      // if (this.newPrice !== this.oldPrice || this.newType !== this.oldType || this.newDescription !== this.oldDescription) {
+      //   this.$axios.put(`/expense/edit/${this.expense._id}`, {
+      //     price: this.newPrice,
+      //     type: this.newType,
+      //     description: this.newDescription
+      //   })
+      //     .then(res => {
+      //       if (res.status === 202) {
+      //         this.emitGlobalCreationEvent()
+      //         this.expenseEdited = true
+      //       }
+      //     })
+      //     .catch(err => {
+      //       console.log(err)
+      //       this.hasError = true
+      //       this.errorArray = err.response.data
+      //       this.errorPrice = this.hadError('price')
+      //       this.errorType = this.hadError('type')
+      //     })
+      // } else {
+      //   this.sameExpense = true
+      // }
     },
     hadError(field) {
       let value = this.errorArray.find(obj => {

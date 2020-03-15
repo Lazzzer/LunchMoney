@@ -14,6 +14,8 @@
       <h2 class="mb-2 -mt-1 font-bold text-lunchPink-600">Disclaimer</h2>
       <p class="text-sm text-white">Lunch Money isn't optimized for landscape mode or desktop.</p>
       <p class="text-sm text-white">Please download the web app on your mobile for the best experience.</p>
+      <br>
+      <p class="text-sm text-white">Also this site is a demo, all the CRUD actions are simulated or deactivated.</p>
     </div>
     <div class="flex flex-col items-center mt-10 text-center">
       <h3 class="text-sm italic text-white">Check the project on Github</h3>

@@ -39,16 +39,21 @@ export default {
   },
   methods: {
     deleteBudget() {
-      this.$axios.delete(`/expense/delete/${this.expenseId}`)
-        .then(res => {
-          if (res.status === 202) {
-            this.emitGlobalCreationEvent()
-            this.expenseDeleted = true
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+
+      this.expenseDeleted = true
+      setTimeout(() => {
+        this.expenseDeleted = false
+      }, 2000)
+      // this.$axios.delete(`/expense/delete/${this.expenseId}`)
+      //   .then(res => {
+      //     if (res.status === 202) {
+      //       this.emitGlobalCreationEvent()
+      //       this.expenseDeleted = true
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
     },
     goToDashboard() {
       this.$router.push('/dashboard')

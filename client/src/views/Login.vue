@@ -47,26 +47,27 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$axios.post('/login', {
-        name: this.name.toLowerCase().trim(),
-        password: this.password
-      })
-        .then((res) => {
-          console.log(res)
-          if (res.status === 202) {
-            this.$cookies.set('refresh-token', res.data.token.refreshToken)
-            this.$cookies.set('token', res.data.token.token)
-            this.$router.push('dashboard')
-          } else {
-            this.hasError = true
-          }
-        }).catch((err) => {
-          console.log(err.response)
-          this.errorArray = err.response.data
-          this.errorName = this.hadError('name')
-          this.errorPassword = this.hadError('password')
-          this.hasError = true
-        })
+      this.$router.push('dashboard')
+      // this.$axios.post('/login', {
+      //   name: this.name.toLowerCase().trim(),
+      //   password: this.password
+      // })
+      //   .then((res) => {
+      //     console.log(res)
+      //     if (res.status === 202) {
+      //       this.$cookies.set('refresh-token', res.data.token.refreshToken)
+      //       this.$cookies.set('token', res.data.token.token)
+      //       this.$router.push('dashboard')
+      //     } else {
+      //       this.hasError = true
+      //     }
+      //   }).catch((err) => {
+      //     console.log(err.response)
+      //     this.errorArray = err.response.data
+      //     this.errorName = this.hadError('name')
+      //     this.errorPassword = this.hadError('password')
+      //     this.hasError = true
+      //   })
     },
     hadError(field) {
       let value = this.errorArray.find(obj => {

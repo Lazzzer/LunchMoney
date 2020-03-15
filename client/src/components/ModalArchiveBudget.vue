@@ -40,16 +40,21 @@ export default {
   },
   methods: {
     archiveBudget() {
-      this.$axios.put(`/budget/archive/${this.budgetId}`)
-        .then(res => {
-          if (res.status === 202) {
-            this.emitGlobalCreationEvent()
-            this.budgetArchived = true
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      this.budgetArchived = true
+      setTimeout(() => {
+        this.budgetArchived = false
+      }, 2000)
+
+      // this.$axios.put(`/budget/archive/${this.budgetId}`)
+      //   .then(res => {
+      //     if (res.status === 202) {
+      //       this.emitGlobalCreationEvent()
+      //       this.budgetArchived = true
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
 
     },
     emitGlobalCreationEvent() {

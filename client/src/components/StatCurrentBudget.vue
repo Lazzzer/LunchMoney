@@ -82,29 +82,53 @@ export default {
   },
   methods: {
     getStatistics() {
-      this.$axios.get('/stats/current')
-        .then(res => {
-          console.log(res)
-          if (res.status === 204) {
-            this.noStatistics = true
-          } else {
-            this.currency = res.data.currency
-            this.expensesTotal = res.data.expensesTotal
-            this.budgetLimit = res.data.budgetLimit
-            this.percentBudgetSpent = res.data.budgetSpentPercentage
-            this.numberCategoryData = res.data.arrayNumberOfExpensesByCategories
-            this.percentCostCategoryData = res.data.arrayPercentageCostByCategories
-            this.spendingProgressData = res.data.arrayExpensesBy10Days
-            this.totalSpendingDayData = res.data.arrayTotalSpendingPerDay
-            this.noStatistics = false
-          }
-        })
-        .catch(err => {
-          if (err.response.status === 403) {
-            this.noStatistics = true
-            this.badBudget = true
-          }
-        })
+
+      this.currency = 'USD'
+      this.expensesTotal = 60.65
+      this.budgetLimit = '400'
+      this.percentBudgetSpent = '15'
+      this.numberCategoryData = [4, 1, 0, 2, 0, 0, 0, 1]
+      this.percentCostCategoryData = [48.8, 24.6, 0, 5.4, 0, 0, 0, 21.3]
+      this.spendingProgressData = [
+        {
+          totalSpending: 0,
+          progression: 0,
+          date: '2020-03-01T00:00:00.050Z'
+        },
+        {
+          totalSpending: 60.65,
+          progression: 0,
+          date: '2020-03-11T00:00:00.050Z'
+        },
+        {
+          totalSpending: 60.65,
+          progression: 0,
+          date: '2020-03-21T00:00:00.050Z'
+        },
+        {
+          totalSpending: 60.65,
+          progression: 0,
+          date: '2020-03-31T00:00:00.050Z'
+        },
+      ]
+      this.totalSpendingDayData = [12, 10.1, 0.95, 27.8, 9.8, 0, 0]
+      this.noStatistics = false
+
+      // this.$axios.get('/stats/current')
+      //   .then(res => {
+      //     console.log(res)
+      //     if (res.status === 204) {
+      //       this.noStatistics = true
+      //     } else {
+
+      //     }
+      //   })
+      //   .catch(err => {
+      //     if (err.response.status === 403) {
+      //       this.noStatistics = true
+      //       this.badBudget = true
+      //     }
+      //   })
     },
     getSpendingAverage() {
       const today = new Date(Date.now())

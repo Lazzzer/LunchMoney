@@ -12,13 +12,13 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
-      beforeEnter: (to, from, next) => {
-        if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
-          next('dashboard')
-        } else {
-          next()
-        }
-      }
+      // beforeEnter: (to, from, next) => {
+      //   if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
+      //     next('dashboard')
+      //   } else {
+      //     next()
+      //   }
+      // }
     },
     {
       path: '/register',
@@ -28,65 +28,65 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "register" */ './views/Register.vue'),
-      beforeEnter: (to, from, next) => {
-        if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
-          next('dashboard')
-        } else {
-          next()
-        }
-      }
+      // beforeEnter: (to, from, next) => {
+      //   if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
+      //     next('dashboard')
+      //   } else {
+      //     next()
+      //   }
+      // }
     },
     {
       path: '/login',
       name: 'login',
       component: () =>
         import(/* webpackChunkName: "login" */ './views/Login.vue'),
-      beforeEnter: (to, from, next) => {
-        if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
-          next('dashboard')
-        } else {
-          next()
-        }
-      }
+      // beforeEnter: (to, from, next) => {
+      //   if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
+      //     next('dashboard')
+      //   } else {
+      //     next()
+      //   }
+      // }
     },
     {
       path: '/dashboard',
       name: 'dashboard',
       component: () =>
         import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue'),
-      beforeEnter: (to, from, next) => {
-        if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
-          next()
-        } else {
-          next('login')
-        }
-      }
+      // beforeEnter: (to, from, next) => {
+      //   if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
+      //     next()
+      //   } else {
+      //     next('login')
+      //   }
+      // }
     },
     {
       path: '/settings',
       name: 'settings',
       component: () =>
         import(/* webpackChunkName: "settings" */ './views/Settings.vue'),
-      beforeEnter: (to, from, next) => {
-        if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
-          next()
-        } else {
-          next('login')
-        }
-      }
+      // beforeEnter: (to, from, next) => {
+      //   if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
+      //     next()
+      //   } else {
+      //     next('login')
+      //   }
+      // }
     },
     {
       path: '/budget/:id',
       name: 'budget',
       component: () =>
         import(/* webpackChunkName: "budget" */ './views/Budget.vue'),
-      beforeEnter: (to, from, next) => {
-        if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
-          next()
-        } else {
-          next('login')
-        }
-      }
+      // beforeEnter: (to, from, next) => {
+      //   if (window.$cookies.isKey('refresh-token') && window.$cookies.isKey('token')) {
+      //     next()
+      //   } else {
+      //     next('login')
+      //   }
+      // }
     },
     {
       path: '*',
